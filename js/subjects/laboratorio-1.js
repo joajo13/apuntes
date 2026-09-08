@@ -11,6 +11,8 @@
  *   'paradigmas'  Lenguajes imperativos y declarativos y sus derivaciones
  *   'jvm'         Funcionamiento de la JVM y el JRE
  *   'jdk'         Herramientas de la Java Development Kit (javac, java, javadoc, jar, JConsole)
+ *   'diseno-avanzado' Conceptos avanzados de diseño en Java (herencia avanzada, contratos,
+ *                 clases abstractas, interfaces, principios de diseño y patrones)
  *   'actividades' Actividades prácticas (programar un auto y sus partes; modelar y hacer funcionar una PC)
  *
  * Quiz (V/F + MC + MS) y flashcards por sección. Las capturas del tutorial de
@@ -33,6 +35,7 @@ export default {
     'paradigmas': 'Lenguajes imperativos y declarativos',
     'jvm': 'Funcionamiento de la JVM y el JRE',
     'jdk': 'Herramientas del JDK',
+    'diseno-avanzado': 'Conceptos avanzados de diseño en Java',
     'actividades': 'Actividades prácticas',
   },
   sections: [
@@ -6468,6 +6471,2337 @@ export default {
         { id: 'fc-27-7', front: 'Ejercicio 3: encender y apagar', back: 'Al encender la computadora se encienden su procesador y su disco rígido. Hay que agregar los atributos y comportamientos necesarios para preguntarle a la computadora y a sus componentes si están encendidos, e implementar de forma similar "apagar".' },
       ],
     },
+    {
+      id: '35',
+      unit: 'diseno-avanzado',
+      title: 'Herencia, dynamic binding y polimorfismo',
+      criollo: 'Acá el apunte sube un escalón. Ya sabías que la herencia sirve para no repetir código; ahora te cuenta qué pasa realmente cuando escribís Perro d = new Doberman(). La referencia es de un tipo, el objeto es de otro, y quien decide qué método corre es la JVM en tiempo de ejecución. Eso es dynamic binding, y de ahí sale el polimorfismo: el mismo Perro ladra distinto según qué le hayas atado del otro lado.',
+      blocks: [
+        {
+          type: 'callout',
+          tone: 'info',
+          text: '<strong>Antes de empezar.</strong> Si querés probar las porciones de código del apunte, acordate de que <strong>cada clase, cada clase abstracta y cada interface va en su propio archivo <code>.java</code></strong>. Y cada vez que hagas un <code>main</code> para probar algo, se recomienda hacerlo también en una clase separada.',
+        },
+        {
+          type: 'h3',
+          text: 'Repaso: qué nos daba la herencia',
+          criollo: 'Reutilizar código y, de yapa, un protocolo común para hablarle a toda la familia de clases.',
+        },
+        {
+          type: 'p',
+          text: 'La principal ventaja de la herencia es <strong>reutilizar código</strong>. Se puede eliminar código duplicado "generalizando" o "abstrayendo" atributos y comportamiento en una clase más general, la <strong>clase padre</strong> o <strong>superclase</strong>. De esta manera, si hay que modificar el código, el cambio será en un solo lado y <strong>todas las subclases verán reflejada la modificación</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Mediante la herencia puedo garantizar que todas las clases "hijas" de una superclase tendrán todo el comportamiento <strong>no privado</strong> disponible. Es decir, al tener una superclase y subclases definimos <strong>"un protocolo común"</strong> para comunicarse (mediante mensajes, llamándole métodos) con la superclase y todas sus hijas. Ese protocolo se denomina <strong>"interfaz pública"</strong>. Por ejemplo: una clase <code>Animal</code> establece un protocolo común para todos los animales que yo defina (Perros, Gatos, Conejos... que son un Animal).',
+        },
+        {
+          type: 'p',
+          text: 'Todo comportamiento heredado puede "redefinirse", haciendo <strong>sobreescritura</strong> del método: reemplazando su comportamiento o alterándolo, reutilizando el heredado del padre.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'No confundir sobreescritura con <strong>sobrecarga</strong>: la sobrecarga es un mecanismo mediante el cual podemos definir <strong>"variantes" de un método, manteniendo su nombre pero alterando su firma</strong>. La sobreescritura respeta la firma y reemplaza el comportamiento.',
+        },
+        {
+          type: 'h3',
+          text: 'Empleados, ejecutivos y el ES-UN a lo largo de la jerarquía',
+          criollo: 'Tres niveles: Persona, Empleado y Ejecutivo. Y como el ES-UN es transitivo, un Ejecutivo es una Persona.',
+        },
+        {
+          type: 'p',
+          text: 'Supongamos una empresa en la que hay <strong>Empleados</strong>, algunos rasos y otros <strong>Ejecutivos</strong>. Empleados y ejecutivos realizan básicamente las mismas operaciones, solo que los ejecutivos tienen algunos beneficios: por ejemplo, tienen un <strong>50 % más de vacaciones</strong> que los empleados rasos. Además tienen algunas operaciones extra, como <strong>cobrar un bono anual</strong> y, cerca de retirarse, <strong>elegir trabajar menos horas por día</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Dado que tanto empleados como ejecutivos tienen datos en común (nombre, DNI, edad), podemos poner una clase <strong>Persona</strong> por encima de Empleado y hacerlos disponibles a su clase "hija" Empleado y, por tanto, a su clase "nieta" Ejecutivo.',
+        },
+        {
+          type: 'p',
+          text: 'Dado que los objetos en una herencia se relacionan de forma <strong>ES UN</strong> (a diferencia de <strong>TIENE UN</strong>, como ocurre con la composición), es posible escribir el siguiente código:',
+        },
+        {
+          type: 'code',
+          code: 'Persona p = new Ejecutivo();',
+        },
+        {
+          type: 'p',
+          text: '¿Por qué? Porque Ejecutivo ES UN Empleado y Empleado ES UNA Persona, entonces <strong>Ejecutivo ES UNA Persona</strong>. ¿Y puedo hacerlo al revés? Dado que no todas las personas llegan a ser ejecutivos, yo tengo que <strong>asegurar</strong> que x es un ejecutivo. Para eso está el <strong>casting</strong> o casteo:',
+        },
+        {
+          type: 'code',
+          code: 'Persona x = new Persona();\nPersona y = new Ejecutivo();\n\nEjecutivo e = x;            // no compila\n\n// compila, pero no anda:\n// x no es una instancia de Ejecutivo\nEjecutivo e = (Ejecutivo)x;\n\nEjecutivo e = (Ejecutivo)y; // compila y funciona correctamente',
+        },
+        {
+          type: 'p',
+          text: 'Para asegurarme de que puedo "castear" puedo utilizar el operador <code>instanceof</code>.',
+        },
+        {
+          type: 'h3',
+          text: 'Dynamic Binding',
+          criollo: 'El binding es la "atadura" entre una declaración y su tipo. Si se resuelve al compilar es estático; si se resuelve mientras el programa corre, es dinámico. Por eso podés mentirle al compilador con un casteo y que igual te explote en runtime.',
+        },
+        {
+          type: 'p',
+          text: 'El binding es un tema que escapa al alcance de la materia, pero conviene tener una noción básica. En Java, como en muchos lenguajes, hay <strong>dos formas de "atar" una declaración con su tipo</strong>. El <strong>Static Binding</strong> ocurre en tiempo de compilación: es estático en el sentido de que se analiza la atadura sin ejecutar el programa. El <strong>Dynamic Binding</strong> se realiza <strong>durante la ejecución</strong> del programa.',
+        },
+        {
+          type: 'p',
+          text: 'Por eso en algunos casos del casteo vimos que podemos "mentirle" al compilador, pero cuando se ejecuta el programa puede fallar; para eso tenemos <code>instanceof</code>. Si <code>instanceof</code> se utiliza para analizar <strong>instancias</strong>, podemos afirmar que es algo que ocurre <strong>durante la ejecución</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Entonces, ¿qué implica ejecutar la siguiente instrucción?',
+        },
+        {
+          type: 'code',
+          code: 'Perro p = new Perro();\n(1)     (3)  (2)',
+        },
+        {
+          type: 'ol',
+          items: [
+            '<strong>Se declara una referencia</strong>: es una variable. Todavía no se ha creado ningún objeto. Solo se le indica a la JVM que reserve el lugar para una referencia que, eventualmente, apuntará a un objeto Perro.',
+            '<strong>Se crea un objeto</strong>: se le indica a la JVM que reserve espacio para guardar un objeto Perro en la memoria.',
+            '<strong>Asignación</strong>: se "ata" (bind) la referencia al objeto; hago que la referencia "apunte" a un objeto Perro.',
+          ],
+        },
+        {
+          type: 'p',
+          text: 'Acá tanto la referencia como el objeto referenciado son del mismo tipo (Perro). Pero, como vimos con personas y ejecutivos, es posible que <strong>la referencia y el objeto referenciado sean de distinto tipo</strong>. Cualquier objeto que pase la prueba ES UN respecto de la referencia puede ser apuntado por esta: <strong>todo lo que extienda del tipo de la referencia puede ser asignado a esta</strong>. Todo lo que extienda de lo que está en (1) puede aparecer en (2).',
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'Lo interesante ocurre en tiempo de ejecución: <strong>solo cuando el programa corre, la JVM llamará al método del objeto referenciado</strong>. La referencia dice qué métodos podés llamar; el objeto dice cómo se ejecutan.',
+        },
+        {
+          type: 'h3',
+          text: 'Polimorfismo',
+          criollo: 'Un mismo Perro que ladra como dóberman, como cocker o como beagle según qué le hayas atado. Toma varias formas: poli-morfismo.',
+        },
+        {
+          type: 'code',
+          code: 'Perro d = new Doberman();\nd.ladrar(); // ladra como un doberman\n\nd = new Cocker();\nd.ladrar(); // ladra como un cocker\n\nd = new Beagle();\nd.ladrar(); // ladra como un beagle',
+        },
+        {
+          type: 'p',
+          text: 'El polimorfismo es <strong>la capacidad de un mismo objeto de comportarse como otro</strong>, o la capacidad de un objeto de funcionar de diversas formas. En el caso anterior, un Perro se puede comportar como un Doberman, como un Cocker o como un Beagle <strong>porque estos SON Perros</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Sucede lo mismo si el objeto polimórfico es el recibido por un método como <strong>parámetro</strong>:',
+        },
+        {
+          type: 'code',
+          code: 'public class Nene {\n\n    molestarPerro(Perro p) {\n        System.out.println("Voy a molestar al perro");\n        System.out.println(p.ladrar());\n    }\n\n}',
+        },
+        {
+          type: 'code',
+          code: 'Nene n = new Nene();\nPerro d = new Doberman();\nPerro c = new Cocker();\nc.molestarPerro(d); // se escuchara el ladrido de un doberman\nc.molestarPerro(c); // se escuchara el ladrido de un cocker',
+        },
+        {
+          type: 'p',
+          text: 'Si usamos <strong>código polimórfico</strong>, podemos estar seguros de que modificaciones futuras que agreguen nuevas subclases <strong>no deberían afectar el código que ya se está utilizando</strong> ni su funcionamiento. Es decir: agregar subclases <strong>no "rompe"</strong> el diseño ni el código existente. Si el código usa Perros (cualquier objeto que ES UN Perro), siempre que las nuevas razas introducidas al sistema extiendan de Perro, funcionarán correctamente.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-35-1', q: 'La sobrecarga mantiene el nombre del método pero altera su firma.', a: true, explain: 'Es la definición del apunte: la sobrecarga define "variantes" de un método manteniendo su nombre pero alterando su firma. No hay que confundirla con la sobreescritura.' },
+          { id: 'tf-35-2', q: 'El Static Binding se resuelve mientras el programa se está ejecutando.', a: false, explain: 'Al revés: el Static Binding ocurre en tiempo de compilación, sin ejecutar el programa. El que se resuelve durante la ejecución es el Dynamic Binding.' },
+          { id: 'tf-35-3', q: 'En Persona p = new Ejecutivo(), la referencia y el objeto referenciado son de distinto tipo y eso es válido.', a: true, explain: 'Cualquier objeto que pase la prueba ES UN respecto de la referencia puede ser apuntado por esta: Ejecutivo ES UNA Persona.' },
+          { id: 'tf-35-4', q: 'La herencia relaciona objetos con un TIENE UN, mientras que la composición usa el ES UN.', a: false, explain: 'Es exactamente al revés: en la herencia los objetos se relacionan de forma ES UN, a diferencia del TIENE UN de la composición.' },
+          { id: 'tf-35-5', q: 'Agregar nuevas subclases a un diseño polimórfico no debería romper el código existente.', a: true, explain: 'Si el código usa Perros, cualquier raza nueva que extienda de Perro funcionará correctamente sin tocar lo que ya estaba.' },
+        ],
+        mc: [
+          {
+            id: 'mc-35-1',
+            q: '¿Qué beneficio extra tienen los ejecutivos respecto de los empleados rasos, según el apunte?',
+            options: [
+              'Un 50 % más de vacaciones',
+              'Un 50 % más de sueldo base',
+              'El doble de días de licencia por estudio',
+              'Un 25 % más de vacaciones',
+            ],
+            correctIndex: 0,
+            explain: 'El apunte dice textual: tienen un 50 % más de vacaciones que los empleados rasos, además de cobrar un bono anual y poder trabajar menos horas cerca del retiro.',
+          },
+          {
+            id: 'mc-35-2',
+            q: 'En Perro p = new Perro(), ¿qué ocurre en el paso de la declaración de la referencia?',
+            options: [
+              'Se reserva espacio para guardar el objeto en memoria',
+              'Se ata la referencia al objeto creado',
+              'Se le indica a la JVM que reserve el lugar para una referencia; todavía no hay objeto',
+              'Se ejecuta el constructor de la clase Perro',
+            ],
+            correctIndex: 2,
+            explain: 'Declarar la referencia solo reserva el lugar para una variable que eventualmente apuntará a un objeto Perro. Todavía no se ha creado ningún objeto.',
+          },
+          {
+            id: 'mc-35-3',
+            q: '¿Qué operador usa el apunte para asegurarse de que un casteo es válido?',
+            options: [
+              'equals',
+              'instanceof',
+              'getClass',
+              'typeof',
+            ],
+            correctIndex: 1,
+            explain: 'Para asegurarme de que puedo "castear" puedo utilizar el operador instanceof, que analiza instancias durante la ejecución.',
+          },
+          {
+            id: 'mc-35-4',
+            q: 'Según el apunte, el polimorfismo es...',
+            options: [
+              'La posibilidad de que una clase tenga varios constructores',
+              'La capacidad de un mismo objeto de comportarse como otro o de funcionar de diversas formas',
+              'La técnica de declarar todos los atributos como privados',
+              'La capacidad de heredar de más de una superclase a la vez',
+            ],
+            correctIndex: 1,
+            explain: 'Es la definición textual: la capacidad de un mismo objeto de comportarse como otro, o de funcionar de diversas formas.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-35-1',
+            q: '¿Cuáles de estas líneas menciona el apunte como problemáticas en el ejemplo de Persona y Ejecutivo?',
+            options: [
+              'Ejecutivo e = x; con x declarada y creada como Persona',
+              'Ejecutivo e = (Ejecutivo)x; con x creada como Persona',
+              'Persona p = new Ejecutivo();',
+              'Ejecutivo e = (Ejecutivo)y; con y creada como Ejecutivo',
+              'Persona x = new Persona();',
+            ],
+            correctIndexes: [0, 1],
+            explain: 'La primera no compila. La segunda compila pero no anda, porque x no es una instancia de Ejecutivo. Las otras tres son correctas.',
+          },
+          {
+            id: 'ms-35-2',
+            q: '¿Qué pasos identifica el apunte al ejecutar Perro p = new Perro()?',
+            options: [
+              'Declaración de una referencia',
+              'Creación de un objeto en memoria',
+              'Asignación o "atadura" de la referencia al objeto',
+              'Liberación de la memoria del objeto anterior',
+              'Compilación del método ladrar()',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'El apunte numera exactamente tres pasos: (1) declarar la referencia, (2) crear el objeto y (3) atar la referencia al objeto.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-35-1', front: 'Principal ventaja de la herencia', back: 'Reutilizar código: se elimina código duplicado generalizando atributos y comportamiento en una superclase. El cambio se hace en un solo lado y todas las subclases lo ven reflejado.' },
+        { id: 'fc-35-2', front: 'Protocolo común / interfaz pública', back: 'El conjunto de comportamiento no privado que la superclase garantiza a todas sus hijas, y con el que se les habla mediante mensajes.' },
+        { id: 'fc-35-3', front: 'Sobreescritura vs. sobrecarga', back: 'Sobreescritura: redefinir un método heredado respetando su firma. Sobrecarga: definir variantes de un método manteniendo el nombre pero alterando la firma.' },
+        { id: 'fc-35-4', front: 'ES UN vs. TIENE UN', back: 'La herencia relaciona objetos con un ES UN. La composición los relaciona con un TIENE UN.' },
+        { id: 'fc-35-5', front: 'Static Binding', back: 'La atadura entre una declaración y su tipo que ocurre en tiempo de compilación, sin ejecutar el programa.' },
+        { id: 'fc-35-6', front: 'Dynamic Binding', back: 'La atadura que se resuelve durante la ejecución del programa. Por eso la JVM llama al método del objeto referenciado recién cuando el programa corre.' },
+        { id: 'fc-35-7', front: 'Los tres pasos de Perro p = new Perro()', back: '(1) Se declara la referencia (variable, sin objeto todavía); (2) se crea el objeto reservando memoria; (3) se ata la referencia al objeto.' },
+        { id: 'fc-35-8', front: 'Regla de qué puede apuntar una referencia', back: 'Todo lo que extienda del tipo de la referencia puede ser asignado a esta: cualquier objeto que pase la prueba ES UN.' },
+        { id: 'fc-35-9', front: 'Polimorfismo', back: 'La capacidad de un mismo objeto de comportarse como otro, o de funcionar de diversas formas. Vale también cuando el objeto polimórfico llega como parámetro de un método.' },
+      ],
+    },
+    {
+      id: '36',
+      unit: 'diseno-avanzado',
+      title: 'Contratos y clases abstractas',
+      criollo: 'El polimorfismo hasta acá dependía de la buena conducta del programador: que pise los métodos correctos, con las firmas correctas. Y la buena conducta no se puede compilar. Entonces el lenguaje necesita un mecanismo que obligue: si no cumplís el contrato, no compila. Ese mecanismo son las clases abstractas (y las interfaces, que vienen después).',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'El problema: depender de la buena conducta del programador',
+          criollo: 'Podés escribir la documentación más linda del mundo, pero nada obliga a nadie a leerla.',
+        },
+        {
+          type: 'p',
+          text: 'Con lo visto hasta ahora, para ver en acción el polimorfismo dependemos de <strong>"la buena conducta" del programador</strong>: quien escriba el código sabe exactamente qué métodos debe pisar y cómo pisarlos, conoce sus firmas, cómo funcionan, etc.',
+        },
+        {
+          type: 'p',
+          text: 'Si quien debe sobrescribir los métodos <strong>no conociera qué métodos pisar</strong>, sus firmas, etc., podría heredar de Perro pero no necesariamente sobrescribir los métodos correctos. Quizás decida agregar algunos, quizás decida sobrecargar los heredados, o quizás en un golpe de suerte justo pise los correctos. En ese caso <strong>no necesariamente podríamos hacer uso del polimorfismo</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Una forma de darle al programador información sobre los métodos a sobrescribir sería mediante la <strong>documentación</strong>: usar <code>javadoc</code> o entregar instrucciones específicas. Aun así, <strong>no hay nada que obligue al programador a seguir esas reglas</strong>. Podemos incluir sanciones (¿descontarle algo de sueldo?), pero aun así eso rompería el sistema, posiblemente en tiempo de ejecución.',
+        },
+        {
+          type: 'h3',
+          text: 'Qué es un contrato',
+          criollo: 'Un mecanismo tan estricto que, si no lo cumplís, el código ni siquiera compila. Mucho menos llega a ejecutarse.',
+        },
+        {
+          type: 'p',
+          text: 'Debería existir algún mecanismo que <strong>obligue al programador</strong> (que es el "usuario" de los métodos heredados) a sobrescribir ciertos métodos específicos, respetando sus firmas, sin depender de tantos factores externos. Este mecanismo debería ser <strong>tan estricto que, si no se cumplen las reglas, el código ni siquiera debería compilar</strong>. Esa obligación será dada por los <strong>contratos</strong>.',
+        },
+        {
+          type: 'p',
+          text: '¿Cómo se garantiza que el polimorfismo funcione? En nuestras subclases respetaremos ese "protocolo común": si pisamos los métodos con sobreescritura, lo hacemos <strong>respetando la firma</strong>. Si respetamos la firma, respetamos el comportamiento tal cual está, respetamos <strong>el "contrato" de un objeto</strong>. Entonces, <strong>el polimorfismo es posible solo respetando los contratos</strong>.',
+        },
+        {
+          type: 'p',
+          text: '¿Cómo nos aseguramos de respetarlos? Podemos <strong>definir el comportamiento abstracto</strong> en una clase para asegurarnos de que cada subclase respete el contrato implementando "su manera" de llevar a cabo ese comportamiento. Así se garantiza que las hijas de cierta clase realicen, sí o sí, ciertas acciones, solo que pueden hacerlo "a su manera". En Java definimos contratos mediante <strong>clases abstractas</strong> y mediante <strong>interfaces</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Clases abstractas',
+          criollo: 'La clase abstracta dice QUÉ hay que hacer; las hijas concretas dicen CÓMO. Y no se puede instanciar: solo se instancian las hijas.',
+        },
+        {
+          type: 'p',
+          text: 'Con las clases abstractas podemos <strong>"declarar" solo comportamiento</strong> para asegurar un contrato entre clases y así hacer uso del polimorfismo. La intención de una clase abstracta es <strong>únicamente declarar comportamiento</strong>. De esta manera, <strong>la clase abstracta no se puede instanciar</strong>: solo las hijas de esa clase serán las que puedan instanciarse. Llamaremos <strong>clase concreta</strong> a toda clase que no es abstracta.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Las <strong>clases abstractas dictan "qué hay que hacer"</strong>; las <strong>clases hijas concretas dirán "cómo hay que hacerlo"</strong>. Así podemos usar como referencia la clase abstracta, atándole una instancia de una clase concreta, y hacer uso efectivo del polimorfismo.',
+        },
+        {
+          type: 'p',
+          text: 'Definimos las clases abstractas y el comportamiento en abstracto con la palabra clave <code>abstract</code>. Como el comportamiento es abstracto (solo decimos qué hacer), <strong>los métodos abstractos no tienen código asociado, no tienen "cuerpo"</strong>:',
+        },
+        {
+          type: 'code',
+          code: 'public abstract class Perro {\n\n    public abstract String ladrar();\n\n}\n\npublic Doberman extends Perro {\n\n}',
+        },
+        {
+          type: 'p',
+          text: 'En este caso, la clase <code>Doberman</code> <strong>arrojará un error de compilación</strong>, porque no respeta el contrato de la clase Perro. Si Perro dice qué se debe hacer, la hija Doberman debe "explicar" cómo hacerlo. A esta operación la llamaremos <strong>"implementar"</strong> el método <code>ladrar()</code>. Si Doberman quiere SER UN Perro, debe implementar un método que se llame ladrar, que devuelva un String y que no reciba parámetros: en pocas palabras, <strong>debe sobrescribir todos los métodos abstractos definidos en Perro</strong>.',
+        },
+        {
+          type: 'code',
+          code: 'public Doberman extends Perro {\n\n    public String ladrar() {\n        return "ladro como doberman";\n    }\n\n}\n\npublic Labrador extends Perro {\n\n    public String ladrar() {\n        return "ladro como labrador";\n    }\n\n}',
+        },
+        {
+          type: 'p',
+          text: 'Cuando implementamos los métodos, <strong>estos dejan de ser abstractos</strong>: por eso en Doberman ya no usamos la palabra clave <code>abstract</code>. Las reglas para la implementación son <strong>las de la sobreescritura</strong> (de hecho es lo que estamos haciendo), así que aplican las mismas reglas: <strong>respetar tipo, cantidad y orden de los parámetros</strong>. Si no lo hacemos, no respetamos el contrato, y si no respetamos el contrato la clase arrojará un error de compilación.',
+        },
+        {
+          type: 'h3',
+          text: 'Atributos, métodos concretos y constructores en una clase abstracta',
+          criollo: 'Una clase abstracta es una clase como cualquier otra: puede tener atributos, métodos con cuerpo y hasta constructores. Lo único especial es que no la podés instanciar.',
+        },
+        {
+          type: 'p',
+          text: 'Una clase abstracta es una clase como cualquier otra y, por tanto, <strong>puede tener atributos y puede tener métodos concretos</strong>. Aun así, hay que tener en cuenta que <strong>solo los abstractos definen el contrato</strong>.',
+        },
+        {
+          type: 'code',
+          code: 'public abstract class Perro {\n    private String nombre;\n\n    public void setNombre(String nombre) {\n        this.nombre = nombre;\n    }\n\n    public String getNombre() {\n        return this.nombre;\n    }\n\n    public abstract String ladrar();\n\n}',
+        },
+        {
+          type: 'p',
+          text: '¿Por qué tener métodos concretos en una clase que no se puede instanciar? Porque <strong>estos métodos son susceptibles de ser reutilizados</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Por otro lado, que una clase abstracta no se pueda instanciar <strong>no significa que no pueda tener constructores</strong>. El objetivo es el mismo: <strong>puedo definir constructores para reutilizar código</strong>. Es importante recordar las reglas acerca de los constructores y su uso en herencia, junto con los posibles efectos secundarios de definir constructores adicionales al constructor por default.',
+        },
+        {
+          type: 'p',
+          text: 'Las clases abstractas son como cualquier otra clase en el sentido de que las podemos usar como veníamos haciendo hasta ahora:',
+        },
+        {
+          type: 'code',
+          code: 'Perro p = new Doberman();\nSystem.out.println(p.ladrar());\n\np = new Labrador();\nSystem.out.println(p.ladrar());',
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'Esto último es la respuesta a la pregunta clásica de parcial: <strong>¿para qué una clase abstracta define constructores si no se puede instanciar?</strong> Porque los constructores de la madre igual corren cuando instanciás a la hija, y sirven para inicializar los atributos comunes en un solo lugar en vez de repetir el código en cada subclase.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-36-1', q: 'Documentar con javadoc alcanza para obligar al programador a sobrescribir los métodos correctos.', a: false, explain: 'La documentación informa, pero no hay nada que obligue al programador a seguir esas reglas. Por eso hacen falta los contratos.' },
+          { id: 'tf-36-2', q: 'Una clase abstracta no se puede instanciar: solo se instancian sus hijas.', a: true, explain: 'Es la definición del apunte. A toda clase que no es abstracta la llamamos clase concreta.' },
+          { id: 'tf-36-3', q: 'Los métodos abstractos tienen cuerpo, pero ese cuerpo es ignorado por el compilador.', a: false, explain: 'Los métodos abstractos no tienen código asociado, no tienen "cuerpo": solo declaran qué hacer.' },
+          { id: 'tf-36-4', q: 'Una clase abstracta puede tener atributos y métodos concretos.', a: true, explain: 'Es una clase como cualquier otra. Lo que define el contrato son únicamente los métodos abstractos; los concretos están para ser reutilizados.' },
+          { id: 'tf-36-5', q: 'Una clase abstracta no puede definir constructores porque nunca se instancia.', a: false, explain: 'Sí puede: el objetivo es el mismo de siempre, reutilizar código. Que no se pueda instanciar no impide definir constructores.' },
+        ],
+        mc: [
+          {
+            id: 'mc-36-1',
+            q: '¿Qué le falta al mecanismo de documentación para garantizar el polimorfismo?',
+            options: [
+              'Ser más detallada sobre las firmas de los métodos',
+              'Obligar al programador, de modo que si no cumple el código no compile',
+              'Generarse automáticamente con javadoc en cada build',
+              'Incluir ejemplos de uso de cada método heredado',
+            ],
+            correctIndex: 1,
+            explain: 'El mecanismo debería ser tan estricto que, si no se cumplen las reglas, el código ni siquiera debería compilar, mucho menos ejecutarse. Esa obligación la dan los contratos.',
+          },
+          {
+            id: 'mc-36-2',
+            q: 'Las clases abstractas y las clases hijas concretas se reparten el trabajo así:',
+            options: [
+              'La abstracta dice qué hay que hacer y la concreta dice cómo hay que hacerlo',
+              'La abstracta dice cómo hay que hacerlo y la concreta decide si lo hace',
+              'Ambas dicen qué hacer, pero solo la concreta se documenta',
+              'La abstracta implementa todo y la concreta solo la instancia',
+            ],
+            correctIndex: 0,
+            explain: 'Es la frase textual del apunte: las clases abstractas dictan "qué hay que hacer", las clases hijas concretas dirán "cómo hay que hacerlo".',
+          },
+          {
+            id: 'mc-36-3',
+            q: 'Si Doberman extiende de la clase abstracta Perro y no implementa ladrar(), ¿qué pasa?',
+            options: [
+              'Compila y ladrar() devuelve null en tiempo de ejecución',
+              'Compila pero lanza una excepción al llamar a ladrar()',
+              'Arroja un error de compilación porque no respeta el contrato',
+              'Compila y hereda una implementación vacía por defecto',
+            ],
+            correctIndex: 2,
+            explain: 'La clase arroja un error de compilación: si Doberman quiere SER UN Perro debe sobrescribir todos los métodos abstractos definidos en Perro.',
+          },
+          {
+            id: 'mc-36-4',
+            q: '¿Qué reglas rigen la implementación de un método abstracto?',
+            options: [
+              'Las de la sobrecarga: se puede cambiar la firma libremente',
+              'Las de la sobreescritura: respetar tipo, cantidad y orden de los parámetros',
+              'Las del casting: hay que castear el valor de retorno',
+              'Ninguna en particular, basta con que el nombre coincida',
+            ],
+            correctIndex: 1,
+            explain: 'Implementar un método abstracto es sobrescribir comportamiento abstracto, así que aplican las reglas de la sobreescritura.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-36-1',
+            q: 'Según el apunte, ¿qué puede contener una clase abstracta?',
+            options: [
+              'Atributos',
+              'Métodos concretos',
+              'Constructores',
+              'Métodos abstractos',
+              'Instancias de sí misma creadas con new',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Puede tener todo eso. Lo único que no puede es instanciarse: solo sus hijas concretas pueden.',
+          },
+          {
+            id: 'ms-36-2',
+            q: '¿Qué mecanismos nombra el apunte para definir contratos en Java?',
+            options: [
+              'Clases abstractas',
+              'Interfaces',
+              'Comentarios javadoc',
+              'El operador instanceof',
+              'Sanciones al programador',
+            ],
+            correctIndexes: [0, 1],
+            explain: 'En Java definimos contratos mediante clases abstractas y mediante interfaces. El javadoc informa pero no obliga.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-36-1', front: '¿Por qué no alcanza la documentación para garantizar el polimorfismo?', back: 'Porque informa qué métodos pisar, pero no hay nada que obligue al programador a seguir esas reglas. Hace falta un mecanismo que impida compilar si no se cumple.' },
+        { id: 'fc-36-2', front: 'Contrato', back: 'La obligación de sobrescribir ciertos métodos específicos respetando sus firmas. Es tan estricta que, si no se cumple, el código ni siquiera compila.' },
+        { id: 'fc-36-3', front: '¿Cuándo es posible el polimorfismo?', back: 'Solo respetando los contratos: si se pisan los métodos respetando la firma, se respeta el comportamiento tal cual está.' },
+        { id: 'fc-36-4', front: 'Clase abstracta', back: 'Clase cuya intención es únicamente declarar comportamiento. No se puede instanciar: solo sus hijas. Se declara con la palabra clave abstract.' },
+        { id: 'fc-36-5', front: 'Clase concreta', back: 'Toda clase que no es abstracta, es decir, la que sí se puede instanciar y la que explica cómo hacer lo que la abstracta declaró.' },
+        { id: 'fc-36-6', front: '¿Qué dice la abstracta y qué dicen las hijas?', back: 'Las clases abstractas dictan qué hay que hacer; las clases hijas concretas dicen cómo hay que hacerlo.' },
+        { id: 'fc-36-7', front: 'Método abstracto', back: 'Método declarado con abstract, sin código asociado ni cuerpo. Solo declara qué hacer; la subclase concreta lo implementa.' },
+        { id: 'fc-36-8', front: '¿Para qué sirven los métodos concretos dentro de una clase abstracta?', back: 'Porque son susceptibles de ser reutilizados por las subclases, aunque la clase que los contiene nunca se instancie.' },
+        { id: 'fc-36-9', front: '¿Para qué puede una clase abstracta definir constructores?', back: 'Para reutilizar código, igual que cualquier otra clase. Que no se pueda instanciar no impide definir constructores; hay que recordar las reglas de constructores en herencia.' },
+      ],
+    },
+    {
+      id: '37',
+      unit: 'diseno-avanzado',
+      title: 'Métodos abstractos, sus reglas y la aparición de las interfaces',
+      criollo: 'Las clases abstractas resuelven el contrato, pero te dejan el comportamiento atrapado adentro de una jerarquía. ¿Y si querés declarar algo que no le corresponde ni a Perro, ni a Animal, ni a SerVivo? Ahí aparecen las interfaces: comportamiento puro que se enchufa de costado, sin depender del árbol genealógico.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'Reglas de abstract',
+          criollo: 'Un método abstracto obliga a que la clase sea abstracta. Pero una clase abstracta no está obligada a tener métodos abstractos.',
+        },
+        {
+          type: 'p',
+          text: 'Las clases abstractas definen comportamiento abstracto mediante métodos abstractos. <strong>Si la clase tiene al menos un método abstracto, debe ser declarada como abstracta</strong>. PERO <strong>si la clase es abstracta no es necesario definir un método abstracto</strong>: a veces interesa tener una clase abstracta con el solo hecho de contener métodos para ser reutilizados, pero no interesa tener instancias de esa clase, solo de las hijas.',
+        },
+        {
+          type: 'p',
+          text: 'A su vez, una clase abstracta puede definir <strong>algunos métodos abstractos y otros concretos</strong>, definiendo un comportamiento con "una implementación por default". <strong>La primera subclase concreta en la jerarquía deberá implementar todos los métodos abstractos.</strong> Sin embargo, si una subclase es abstracta puede <strong>diferir la implementación de algunos e implementar otros</strong>, dejando a su primera subclase concreta la implementación de todos los abstractos que resten.',
+        },
+        {
+          type: 'table',
+          caption: 'Reglas de abstract, resumidas',
+          headers: ['Situación', 'Qué exige Java'],
+          rows: [
+            ['La clase tiene al menos un método abstracto', 'La clase debe declararse abstract'],
+            ['La clase es abstracta', 'No está obligada a tener ningún método abstracto'],
+            ['Subclase concreta', 'Debe implementar todos los métodos abstractos pendientes'],
+            ['Subclase abstracta', 'Puede implementar algunos y diferir el resto a su primera subclase concreta'],
+          ],
+        },
+        {
+          type: 'h3',
+          text: 'El problema: el comportamiento queda atrapado en la jerarquía',
+          criollo: 'El caso vestir(): a algunos perros les ponen ropa y a otros no. ¿Dónde metés ese método sin ensuciar a toda la familia?',
+        },
+        {
+          type: 'p',
+          text: 'Definir comportamiento abstracto mediante clases abstractas es correcto, pero <strong>quita flexibilidad al dejar el comportamiento "atrapado" en una jerarquía</strong>. ¿Qué ocurriría si quisiera definir comportamiento abstracto pero <strong>fuera</strong> de una jerarquía? ¿Qué pasaría si quisiera definir comportamiento tan abstracto que <strong>no es parte de Perro, ni de Animal, ni siquiera de SerVivo</strong>? Por ejemplo, <code>vestir()</code>: la gente le compra ropa a sus perros.',
+        },
+        {
+          type: 'ul',
+          items: [
+            '<strong>Meter <code>vestir()</code> en la clase Perro</strong>: entonces todas las subclases de perro tendrían el comportamiento "vestir"... y no a todos los perros los visten.',
+            '<strong>Hacer <code>vestir()</code> abstracto</strong> e implementarlo donde corresponda: cuando llegue a la última clase concreta de la jerarquía me voy a ver obligado a implementar un método que a lo mejor un perro no debe llevar a cabo.',
+            '<strong>Dejar la implementación vacía</strong>: no es lo que corresponde. <strong>Si una clase tiene una operación que no hace nada, no debería tenerla siquiera.</strong>',
+            '<strong>Colocar el método solo donde corresponda</strong>: se corre el riesgo de duplicar código y, dependiendo de si se lo coloca en todos o en algunos, <strong>se pierde la ventaja del polimorfismo</strong>.',
+          ],
+        },
+        {
+          type: 'p',
+          text: 'Para complicar las cosas un poco más: ¿qué ocurriría si tenemos <strong>DOS superclases</strong>? Una sería Perro y la otra Mascota; Mascota podría tener el método <code>vestir()</code> y Perro los otros. <strong>Para evitar complejidades de la herencia múltiple, los creadores de Java hicieron que solo soporte la herencia simple.</strong>',
+        },
+        {
+          type: 'h3',
+          text: 'La solución: las interfaces',
+          criollo: 'Igual que una clase abstracta, pero con todos los métodos abstractos y sin ocupar el único cupo de herencia que te da Java. Se enchufa de costado.',
+        },
+        {
+          type: 'p',
+          text: 'Las interfaces son muy similares a las clases abstractas: se definen con la palabra clave <code>interface</code> en vez de <code>class</code>. <strong>Todos sus métodos son abstractos</strong>, por lo cual no es necesaria la palabra <code>abstract</code> y, al igual que en las clases abstractas, los métodos no definen un cuerpo. Para utilizar las interfaces se usa la palabra clave <code>implements</code> en lugar de <code>extends</code>.',
+        },
+        {
+          type: 'code',
+          code: 'public interface Perro {\n    String ladrar();\n}\n\n// implements me va a obligar a cumplir el contrato\npublic Doberman implements Perro {\n    public String ladrar() {\n        return "ladro como doberman";\n    }\n}',
+        },
+        {
+          type: 'code',
+          code: 'Perro p = new Doberman();\nSystem.out.println(p.ladrar());',
+        },
+        {
+          type: 'p',
+          text: 'Los <strong>métodos de una interfaz son siempre públicos y abstractos</strong>: no es necesario poner <code>public</code> ni <code>abstract</code> en la definición.',
+        },
+        {
+          type: 'p',
+          text: 'Lo que permiten las interfaces es <strong>independizarse de una jerarquía</strong>: permiten agregar comportamiento a una clase que no se obtenga desde un nivel superior en la jerarquía, se <strong>"enchufa" lateralmente</strong>. Incluso podríamos mezclar ambos mecanismos:',
+        },
+        {
+          type: 'code',
+          code: 'public Doberman extends Animal implements Perro {\n    public String ladrar() {\n        return "ladro como doberman";\n    }\n}',
+        },
+        {
+          type: 'h3',
+          text: 'Polimorfismo en Java',
+          criollo: 'La conclusión del apunte es fuerte y conviene tenerla clara para el parcial: como la clase abstracta puede mezclar comportamiento abstracto con métodos concretos, no garantiza el contrato completo. Por eso la cátedra dice que en Java solo hay polimorfismo con interfaces.',
+        },
+        {
+          type: 'p',
+          text: 'Según lo visto, <strong>las clases abstractas pueden definir un contrato</strong> y por tanto se utilizan para el polimorfismo. <strong>Las interfaces representan comportamiento puro</strong>: solo definen qué hacer, incluso sin depender de ninguna jerarquía.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'Conclusión textual del apunte: dado que en una clase abstracta podemos mezclar comportamiento abstracto con métodos concretos, <strong>no se puede garantizar la definición completa de un contrato</strong>. Es por eso que, en Java, <strong>solo hay polimorfismo si utilizamos interfaces</strong>.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-37-1', q: 'Si una clase tiene al menos un método abstracto, debe declararse como abstracta.', a: true, explain: 'Es la regla del apunte. La implicación inversa no vale: una clase abstracta puede no tener ningún método abstracto.' },
+          { id: 'tf-37-2', q: 'Toda clase abstracta está obligada a definir al menos un método abstracto.', a: false, explain: 'No: a veces interesa tener una clase abstracta solo para contener métodos reutilizables y para que no se puedan crear instancias de ella.' },
+          { id: 'tf-37-3', q: 'Una subclase abstracta puede implementar algunos métodos abstractos y diferir el resto.', a: true, explain: 'Puede diferir la implementación de algunos e implementar otros, dejando a su primera subclase concreta la implementación de los que resten.' },
+          { id: 'tf-37-4', q: 'Java soporta herencia múltiple de clases.', a: false, explain: 'Para evitar complejidades de la herencia múltiple, los creadores de Java hicieron que solo soporte la herencia simple.' },
+          { id: 'tf-37-5', q: 'Los métodos de una interfaz hay que declararlos explícitamente como public abstract.', a: false, explain: 'Son siempre públicos y abstractos por definición: no es necesario poner public ni abstract.' },
+        ],
+        mc: [
+          {
+            id: 'mc-37-1',
+            q: 'Según el apunte, si una clase tiene una operación que no hace nada...',
+            options: [
+              'Conviene documentarla como no implementada',
+              'Debería lanzar una excepción para avisar',
+              'No debería tenerla siquiera',
+              'Está bien mientras la herede de una clase abstracta',
+            ],
+            correctIndex: 2,
+            explain: 'El apunte descarta la implementación vacía con esa frase: si una clase tiene una operación que no hace nada, no debería tenerla siquiera.',
+          },
+          {
+            id: 'mc-37-2',
+            q: '¿Cuál es el problema del método vestir() en la jerarquía de Perro?',
+            options: [
+              'Es un comportamiento que no le corresponde a toda la jerarquía y queda atrapado en ella',
+              'Es un comportamiento que requiere devolver un tipo primitivo',
+              'Es un comportamiento que ya existe en la clase SerVivo',
+              'Es un comportamiento que solo puede implementarse con sobrecarga',
+            ],
+            correctIndex: 0,
+            explain: 'Es tan abstracto que no es parte de Perro, ni de Animal, ni de SerVivo. Ponerlo en la jerarquía contamina clases que no deberían tenerlo.',
+          },
+          {
+            id: 'mc-37-3',
+            q: '¿Qué palabra clave se usa para que una clase adopte una interfaz?',
+            options: [
+              'extends',
+              'abstract',
+              'instanceof',
+              'implements',
+            ],
+            correctIndex: 3,
+            explain: 'Para utilizar las interfaces se usa implements en lugar de extends. Incluso se pueden combinar: extends Animal implements Perro.',
+          },
+          {
+            id: 'mc-37-4',
+            q: '¿Por qué el apunte concluye que en Java solo hay polimorfismo si usamos interfaces?',
+            options: [
+              'Porque las clases abstractas no admiten constructores',
+              'Porque las clases abstractas pueden mezclar métodos abstractos y concretos, y no garantizan el contrato completo',
+              'Porque las clases abstractas no pueden usarse como tipo de una referencia',
+              'Porque solo las interfaces admiten herencia simple',
+            ],
+            correctIndex: 1,
+            explain: 'Al mezclar comportamiento abstracto con métodos concretos, la clase abstracta no puede garantizar la definición completa de un contrato. Las interfaces son comportamiento puro.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-37-1',
+            q: '¿Qué alternativas evalúa y descarta el apunte para ubicar el método vestir()?',
+            options: [
+              'Incluirlo en la clase Perro',
+              'Hacerlo abstracto e implementarlo donde corresponda',
+              'Dejar la implementación vacía en las clases que no lo usan',
+              'Colocarlo solo en las clases donde corresponda',
+              'Declararlo como static en la clase SerVivo',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'El apunte evalúa esas cuatro alternativas y las descarta. La opción static no aparece en el texto.',
+          },
+          {
+            id: 'ms-37-2',
+            q: '¿Qué características tienen las interfaces según el apunte?',
+            options: [
+              'Se definen con la palabra clave interface',
+              'Todos sus métodos son abstractos',
+              'Sus métodos no definen un cuerpo',
+              'Sus métodos son siempre públicos',
+              'Pueden declarar atributos de instancia privados con estado',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Las cuatro primeras están textuales en el apunte. El apunte no habla de atributos de instancia con estado en interfaces.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-37-1', front: 'Regla: método abstracto y clase abstracta', back: 'Si la clase tiene al menos un método abstracto, debe declararse abstracta. Pero si la clase es abstracta, no es necesario que defina ningún método abstracto.' },
+        { id: 'fc-37-2', front: '¿Quién implementa los métodos abstractos pendientes?', back: 'La primera subclase concreta de la jerarquía. Una subclase abstracta puede implementar algunos y diferir el resto.' },
+        { id: 'fc-37-3', front: 'Desventaja de las clases abstractas', back: 'Quitan flexibilidad al dejar el comportamiento "atrapado" en una jerarquía: no permiten declarar comportamiento que no pertenece a ese árbol.' },
+        { id: 'fc-37-4', front: 'El caso vestir()', back: 'Comportamiento tan abstracto que no es parte de Perro, ni de Animal, ni de SerVivo. Ponerlo en la jerarquía contamina clases que no lo necesitan; dejarlo vacío es peor.' },
+        { id: 'fc-37-5', front: '¿Por qué Java tiene solo herencia simple?', back: 'Para evitar las complejidades de la herencia múltiple, los creadores de Java decidieron que el lenguaje solo soporte herencia simple.' },
+        { id: 'fc-37-6', front: 'Interfaz', back: 'Se define con interface en vez de class. Todos sus métodos son abstractos, públicos y sin cuerpo. Se adopta con implements en lugar de extends.' },
+        { id: 'fc-37-7', front: '¿Qué permiten las interfaces?', back: 'Independizarse de una jerarquía: agregar comportamiento que no se obtiene desde un nivel superior. Se enchufan lateralmente y se pueden combinar con extends.' },
+        { id: 'fc-37-8', front: 'Polimorfismo en Java, según el apunte', back: 'Como la clase abstracta mezcla comportamiento abstracto con métodos concretos, no garantiza el contrato completo. Por eso, en Java solo hay polimorfismo si utilizamos interfaces.' },
+      ],
+    },
+    {
+      id: '38',
+      unit: 'diseno-avanzado',
+      title: 'Caso Zoo virtual: el ornitorrinco rompe la jerarquía',
+      criollo: 'El caso práctico más lindo del apunte. Armás un zoológico virtual con una jerarquía prolija de mamíferos y ovíparos, y de golpe entra el ornitorrinco: es mamífero, pero pone huevos y después amamanta. Java no tiene herencia múltiple, así que la jerarquía sola no te salva. La salida son las interfaces.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'Planteo del problema',
+          criollo: 'Un zoo virtual con mamíferos, ovíparos, peces, reptiles e insectos. Y un bicho raro que rompe todo.',
+        },
+        {
+          type: 'p',
+          text: 'Se quiere modelar un <strong>zoológico virtual</strong>. Como todo zoológico, se quiere simular todo tipo de animales. <strong>Cada animal tendrá un identificador, un nombre y una fecha de ingreso al sistema (edad)</strong>. Se deberá poder representar animales <strong>mamíferos</strong>, otros <strong>ovíparos</strong>, habrá <strong>peces de agua salada y dulce</strong>, <strong>reptiles</strong> e <strong>insectos</strong>.',
+        },
+        {
+          type: 'ul',
+          items: [
+            '<strong>Mamíferos</strong>: por ahora hay felinos (un león, un tigre y un puma), caninos (una manada de lobos, una pareja de zorros y una pareja de todas las razas de perros del mundo), un par de elefantes, una pareja de hipopótamos y tres jirafas. Todos los mamíferos deben <strong>guardar la cantidad de crías posible</strong> y ser capaces de <strong>parir</strong> y de <strong>amamantar</strong>.',
+            '<strong>Ovíparos</strong>: principalmente aves. Se esperan tortugas de mar virtuales (el equipo todavía está testeando el código) y los dragones de Cómodo están en etapa de análisis. Todas las aves, además de <strong>volar</strong>, como todos los ovíparos deben poder <strong>poner huevos</strong> y <strong>romper el cascarón</strong> al nacer.',
+            '<strong>Acuario</strong>: todavía no está en condiciones de recibir peces, pero sí está listo el tanque transparente más grande con dos delfines.',
+            '<strong>El animal exótico</strong>: el <strong>ornitorrinco</strong>. Si bien es un mamífero, la hembra <strong>pone huevos</strong> y luego, cuando salen las crías del cascarón, <strong>las amamanta</strong>.',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Es muy importante que nuestro zoo virtual <strong>pueda soportar animales tan extraños como los ornitorrincos</strong>. Ese es el requerimiento que va a tirar abajo la primera solución.',
+        },
+        {
+          type: 'h3',
+          text: 'Una primera aproximación: la jerarquía',
+          criollo: 'Lo primero que te sale con lo que sabés hasta acá: un árbol de herencia. Y funciona... hasta que llega el bicho raro.',
+        },
+        {
+          type: 'p',
+          text: 'Habiendo visto el concepto de herencia, lo primero que podemos hacer es generar una <strong>jerarquía de animales virtuales</strong> con el objetivo de reutilizar código. Mamíferos, ovíparos, etc., todos <strong>respiran, comen y se mueven</strong> de forma similar. Podemos hacer una jerarquía con métodos en común y <strong>sobrescribir las operaciones que necesitemos</strong> en cada caso.',
+        },
+        {
+          type: 'p',
+          text: 'Hasta este punto todo parece encajar; el problema será <strong>incorporar al ornitorrinco</strong>, sabiendo que debe poder <strong>poner huevos</strong> y también <strong>amamantar</strong> a sus crías (algo similar ocurre con <code>romperCascaron()</code>).',
+        },
+        {
+          type: 'p',
+          text: 'Podríamos incluir la clase Ornitorrinco en el esquema actual con todas las operaciones necesarias, pero <strong>perderíamos todo el código que tenemos para todos los animales, mamíferos, ovíparos, etc.</strong> Además tenemos la restricción de Java: <strong>no hay herencia múltiple</strong>. Por eso deberíamos resolver el problema de alguna otra manera.',
+        },
+        {
+          type: 'h3',
+          text: 'Una solución posible: herencia (y por qué no cierra)',
+          criollo: 'Subir amamantar() a Ovíparo para que el ornitorrinco lo herede. Total, son cinco especies en el mundo... el tema es que te quedan todos los loros con un método amamantar que no hace nada.',
+        },
+        {
+          type: 'p',
+          text: 'Podríamos pasar el método <code>amamantar()</code> a la clase Ovíparo, que tendría cierto sentido sabiendo que hay algunos ovíparos que amamantan (muy pocos: la familia de los <strong>monotremas</strong>, 1 especie de ornitorrinco y 4 especies de equidnas). Pero eso daría lugar a que <code>amamantar()</code> deba permanecer <strong>"sin implementar"</strong> en las clases hijas de Ovíparo, dejando la implementación vacía o tirando algún error cuando se quieran ejecutar.',
+        },
+        {
+          type: 'p',
+          text: 'No es tan grave, pero de alguna forma estamos <strong>"contaminando" todas las aves</strong> con un comportamiento que en realidad no deberían tener. Pasaría algo similar si ponemos <code>ponerHuevos()</code> del lado de los mamíferos: <strong>por solo 5 especies en el mundo estamos agregando a todos los mamíferos una operación que sabemos que no realizan</strong>.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'La solución <strong>no siempre es poner en algún nivel "común" una operación</strong> que solucione "algunos" de los casos necesarios (y así complique otros).',
+        },
+        {
+          type: 'p',
+          text: 'Si lo que queremos es tener comportamiento polimórfico entre mamíferos, ovíparos y "raros", de forma tal que podamos hacer:',
+        },
+        {
+          type: 'code',
+          code: 'Oviparo o = new Ornitorrinco();\no.comer();      // todos los oviparos comen\n\n// bien: los oviparos que son ornitorrincos amamantan\no.amamantar();\n...\no = new Loro();\no.comer();      // todos los oviparos comen, loros u ornitorrincos\no.amamantar();  // algunos oviparos amamantan, pero un Loro no',
+        },
+        {
+          type: 'p',
+          text: 'Podríamos usar <code>instanceof</code> y estaría bien, pero <strong>estamos limitando seriamente el polimorfismo</strong>: no solo dependemos de ciertas instancias, sino que estamos agregando una condición.',
+        },
+        {
+          type: 'code',
+          code: 'if (o instanceof Ornitorrinco) {\n    ((Ornitorrinco)o).amamantar();\n}',
+        },
+        {
+          type: 'p',
+          text: 'Esto implica que si luego agregamos otra especie de monotrema <strong>tenemos que agregar otro <code>if</code></strong>. Y si luego hay que sacarlo, tendríamos que volver a modificar el código. Eso <strong>atenta directamente contra el propósito del polimorfismo</strong>, la reutilización de código y el diseño modular. <strong>Agregar o quitar especies no debería implicar tocar código</strong>, mucho menos lógica, que requeriría tests para comprobar si es correcta.',
+        },
+        {
+          type: 'h3',
+          text: 'Una solución mejorada: interfaces',
+          criollo: 'Si Ovíparo y Mamífero son interfaces en vez de clases, el ornitorrinco puede ser las dos cosas a la vez. Y el loro no queda con un amamantar() colgado.',
+        },
+        {
+          type: 'p',
+          text: 'Si bien no tenemos herencia múltiple, ¿qué mecanismo podríamos usar para que un ornitorrinco sea <strong>mamífero y ovíparo al mismo tiempo</strong>? <strong>Las interfaces.</strong>',
+        },
+        {
+          type: 'p',
+          text: 'Si tuviéramos una <strong>interfaz Ovíparo</strong> y una <strong>interfaz Mamífero</strong>, podríamos dar los comportamientos de <code>amamantar()</code>, <code>ponerHuevos()</code>, <code>romperCascaron()</code> y <code>parir()</code> en estas interfaces y de esa manera <strong>dar selectivamente estos comportamientos a las clases que lo necesiten</strong>. Entonces, no necesariamente todos los animales son ovíparos o mamíferos, y no tendremos mamíferos que ponen huevos ni ovíparos que amamantan como en el caso anterior.',
+        },
+        {
+          type: 'code',
+          code: 'Oviparo o = new Ornitorrinco();\no.comer();      // todos los oviparos comen\n\n// bien: los oviparos que son ornitorrincos amamantan\n((Mamifero)o).amamantar();\n...\no = new Loro();\no.comer();      // todos los oviparos comen, loros u ornitorrincos\n// esto ya no es valido:\n// o.amamantar();  // un Loro no da de amamantar',
+        },
+        {
+          type: 'p',
+          text: 'Si revisamos el código veremos una <strong>operación de casteo</strong>. La mejora respecto del caso anterior es que, si bien vamos a tener que castear y preguntar <code>instanceof</code>, <strong>ya no hay que hacerlo para cada especie en particular</strong>:',
+        },
+        {
+          type: 'code',
+          code: 'if (o instanceof Mamifero) {\n    ((Ornitorrinco)o).amamantar();\n}',
+        },
+        {
+          type: 'p',
+          text: 'Si luego agregamos otra especie de monotrema <strong>ya no tenemos que agregar otro <code>if</code></strong>, porque esta será mamífera (y ovípara). Si luego hay que sacarla, no habrá que modificar el código. <strong>Mantuvimos el polimorfismo entre los mamíferos y entre los ovíparos.</strong>',
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'El propio apunte lo aclara: esta <strong>no es la solución ideal</strong>, es una solución <strong>mucho mejor</strong> que la primera. La ideal llega después, con los principios de diseño y los patrones.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-38-1', q: 'Cada animal del zoo virtual tiene identificador, nombre y fecha de ingreso al sistema.', a: true, explain: 'Es el enunciado del caso: identificador, nombre y fecha de ingreso al sistema (edad).' },
+          { id: 'tf-38-2', q: 'El ornitorrinco es un ovíparo que además amamanta a sus crías.', a: true, explain: 'El apunte lo describe así: si bien es un mamífero, la hembra pone huevos y luego amamanta a las crías cuando salen del cascarón.' },
+          { id: 'tf-38-3', q: 'Poner amamantar() en la clase Ovíparo resuelve el problema sin efectos colaterales.', a: false, explain: 'Contamina a todas las aves con un comportamiento que no deberían tener, y las obliga a dejar la implementación vacía o a tirar un error.' },
+          { id: 'tf-38-4', q: 'Con interfaces se elimina por completo la necesidad de castear en el caso del ornitorrinco.', a: false, explain: 'Sigue habiendo casteo y sigue haciendo falta preguntar instanceof, pero ya no hay que hacerlo para cada especie en particular.' },
+          { id: 'tf-38-5', q: 'El apunte presenta la solución con interfaces como la solución ideal y definitiva del problema.', a: false, explain: 'Aclara que no es la mejor de las soluciones, sino una mucho mejor. Deja para un apunte posterior las formas ideales de resolverlo.' },
+        ],
+        mc: [
+          {
+            id: 'mc-38-1',
+            q: '¿Qué animales ya están listos en el acuario del zoo virtual?',
+            options: [
+              'Los peces de agua salada',
+              'Las tortugas de mar',
+              'Dos delfines en el tanque transparente más grande',
+              'Los dragones de Cómodo',
+            ],
+            correctIndex: 2,
+            explain: 'La zona del acuario todavía no puede recibir peces, pero sí está listo el tanque transparente más grande con dos delfines.',
+          },
+          {
+            id: 'mc-38-2',
+            q: '¿Cuántas especies de monotremas menciona el apunte?',
+            options: [
+              '1 de ornitorrinco y 4 de equidnas',
+              '4 de ornitorrinco y 1 de equidnas',
+              '2 de ornitorrinco y 3 de equidnas',
+              '5 de ornitorrinco solamente',
+            ],
+            correctIndex: 0,
+            explain: 'Muy, muy pocos: la familia de monotremas tiene 1 especie de ornitorrinco y 4 especies de equidnas. En total, 5 especies en el mundo.',
+          },
+          {
+            id: 'mc-38-3',
+            q: '¿Cuál es el problema de resolver el caso del ornitorrinco con un if (o instanceof Ornitorrinco)?',
+            options: [
+              'Que instanceof no funciona con clases abstractas',
+              'Que cada especie nueva obliga a agregar otro if y tocar el código',
+              'Que el casteo hace que el programa no compile',
+              'Que obliga a duplicar los atributos en cada subclase',
+            ],
+            correctIndex: 1,
+            explain: 'Agregar o quitar especies no debería implicar tocar código, mucho menos lógica. Eso atenta contra el propósito del polimorfismo.',
+          },
+          {
+            id: 'mc-38-4',
+            q: '¿Qué gana el diseño al convertir Ovíparo y Mamífero en interfaces?',
+            options: [
+              'Que ya no hace falta implementar los métodos en cada clase',
+              'Que Java pasa a soportar herencia múltiple de clases',
+              'Que los comportamientos se dan selectivamente solo a las clases que los necesitan',
+              'Que desaparece la necesidad de la clase Animal',
+            ],
+            correctIndex: 2,
+            explain: 'Con interfaces se dan selectivamente amamantar(), ponerHuevos(), parir() y romperCascaron() a las clases que lo necesiten: no hay mamíferos que pongan huevos ni ovíparos que amamanten de más.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-38-1',
+            q: '¿Qué comportamientos exige el enunciado para los mamíferos del zoo?',
+            options: [
+              'Guardar la cantidad de crías posible',
+              'Parir',
+              'Amamantar',
+              'Romper el cascarón al nacer',
+              'Volar',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'Romper el cascarón y poner huevos son de los ovíparos; volar es de las aves.',
+          },
+          {
+            id: 'ms-38-2',
+            q: '¿Qué comportamientos irían en las interfaces Ovíparo y Mamífero según la solución mejorada?',
+            options: [
+              'amamantar()',
+              'ponerHuevos()',
+              'romperCascaron()',
+              'parir()',
+              'comer()',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'comer() queda en la jerarquía de animales, porque todos comen. Los otros cuatro son los que se dan selectivamente por interfaz.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-38-1', front: 'Datos comunes a todo animal del zoo virtual', back: 'Un identificador, un nombre y una fecha de ingreso al sistema (edad).' },
+        { id: 'fc-38-2', front: '¿Por qué el ornitorrinco rompe la jerarquía?', back: 'Porque es mamífero pero pone huevos, y cuando las crías salen del cascarón las amamanta. Necesitaría ser mamífero y ovíparo a la vez, y Java no tiene herencia múltiple.' },
+        { id: 'fc-38-3', front: 'Monotremas', back: 'La familia de ovíparos que amamantan: 1 especie de ornitorrinco y 4 especies de equidnas. Cinco especies en todo el mundo.' },
+        { id: 'fc-38-4', front: '¿Qué pasa si subís amamantar() a la clase Ovíparo?', back: 'Todas las aves quedan "contaminadas" con un comportamiento que no deberían tener, y el método queda sin implementar (vacío o tirando error) en las hijas.' },
+        { id: 'fc-38-5', front: 'Problema del if (o instanceof Ornitorrinco)', back: 'Cada especie nueva de monotrema obliga a agregar otro if, y sacarla obliga a modificar código. Agregar o quitar especies no debería implicar tocar código ni lógica.' },
+        { id: 'fc-38-6', front: 'La solución con interfaces en el zoo', back: 'Convertir Ovíparo y Mamífero en interfaces permite dar selectivamente amamantar(), ponerHuevos(), parir() y romperCascaron() solo a las clases que los necesitan.' },
+        { id: 'fc-38-7', front: '¿Qué mejora aporta el if (o instanceof Mamifero)?', back: 'Que ya no hay que preguntar por cada especie en particular: cualquier monotrema nuevo será Mamífero (y Ovíparo), así que no hay que agregar ni sacar ifs.' },
+        { id: 'fc-38-8', front: '¿Es ideal la solución con interfaces del zoo?', back: 'No. El apunte aclara que no es la mejor de las soluciones, pero es mucho mejor que la anterior; deja las formas ideales para un apunte posterior.' },
+      ],
+    },
+    {
+      id: '39',
+      unit: 'diseno-avanzado',
+      title: 'Batalla del futuro: los límites de la herencia y de las interfaces',
+      criollo: 'Ahora el caso es un juego mobile de guerra en tiempo real. Ponés volar() en SistemaArmas y te queda un tanque volador. Lo sobrescribís vacío y multiplicás implementaciones vacías por todos lados. Pasás a interfaces y arreglás una cosa pero perdés la reutilización de código. Conclusión del apunte: ni la herencia ni las interfaces solas alcanzan.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'Presentación del caso',
+          criollo: 'Un juego de estrategia en tiempo real donde cada actualización que liberás obliga a los usuarios a bajarse una versión nueva. Minimizar el impacto en el código no es un capricho: es plata.',
+        },
+        {
+          type: 'p',
+          text: 'Supongamos que hay que modelar un <strong>juego mobile de guerra/estrategia en tiempo real: "Batalla del futuro"</strong>. Entre las clases del juego tendremos los diferentes tipos y sus características. El primer paso es definir un <strong>robot</strong> con sus operaciones básicas.',
+        },
+        {
+          type: 'p',
+          text: 'Lo primero que podemos hacer es crear una clase <strong>SistemaArmas</strong> con las operaciones comunes: <code>atacar()</code>, <code>defender()</code> y <code>mostrarse()</code> (en pantalla, con sus datos). Supongamos que una próxima actualización del juego introducirá <strong>sistemas de armas voladores</strong>. Sería importante que se mantengan las actualizaciones de la app al mínimo y que se detenga lo menos posible el sistema.',
+        },
+        {
+          type: 'h3',
+          text: 'El tanque volador',
+          criollo: 'Agregás volar() en la clase padre y de repente el tanque vuela. Un cambio local con efecto colateral generalizado.',
+        },
+        {
+          type: 'p',
+          text: 'Normalmente se incluiría la operación <code>volar()</code> en la clase SistemaArmas. Pero ¿qué pasa si entre los sistemas de armas que quiero incluir hay un <strong>tanque</strong>? ¡Los tanques no vuelan!',
+        },
+        {
+          type: 'p',
+          text: 'A simple vista, un sistema de armas puede ser un robot, un tanque, un bombardero... entonces, <strong>agregando el método <code>volar()</code> se rompe el diseño</strong>, porque de existir una clase hija tanque tendríamos un tanque volador. <strong>No todos los vehículos deberían volar</strong>: no es un buen diseño. Ni siquiera el diseño original era bueno, dado que <strong>un cambio local a una clase generó un efecto colateral generalizado</strong>.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'En lo que a mantenimiento respecta, <strong>la herencia no siempre es la mejor opción</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Planteo de soluciones: sobrescribir con implementaciones vacías',
+          criollo: 'Volvemos al problema del zoo virtual, pero peor: acá aparece el VehiculoSeñuelo, que no vuela, no ataca y no se defiende. Tres métodos vacíos de una.',
+        },
+        {
+          type: 'p',
+          text: '¿Qué tal si sobrescribimos la operación <code>volar()</code> y la dejamos <strong>"vacía" (sin implementación)</strong> en todas aquellas clases que no deban volar (tanque, submarino, etc.)?',
+        },
+        {
+          type: 'p',
+          text: 'Si sobrescribimos <code>volar()</code> para dejarle una implementación vacía, ¿qué pasa si agrego un nuevo tipo de vehículo, por ejemplo un <strong>portaaviones</strong>? Un barco no debería volar: otra vez tengo que dejar una implementación vacía.',
+        },
+        {
+          type: 'p',
+          text: 'Para empeorar las cosas, ¿qué pasa si agrego un <strong>VehiculoSeñuelo</strong>? Ese tampoco debería volar, y <strong>tampoco debería atacar ni defenderse</strong>. No se puede empezar a dejar implementaciones vacías por todos lados: además <strong>estaríamos duplicando el código</strong> y dejamos un software susceptible a errores.',
+        },
+        {
+          type: 'p',
+          text: 'Podríamos hacer <strong>clases abstractas</strong> en las cuales tengamos implementaciones vacías por defecto. Aunque, si necesitamos una clase que tenga <strong>diferentes combinaciones</strong> de <code>atacar()</code>, <code>defender()</code>, <code>volar()</code>, <code>sumergirse()</code>, etc., <strong>perderíamos mucho en lo que a polimorfismo respecta</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Los problemas de las soluciones planteadas',
+          criollo: 'Las tres desventajas que el apunte le cuelga a la herencia para este caso. Aprendételas: son la bisagra hacia los principios de diseño.',
+        },
+        {
+          type: 'ul',
+          items: [
+            'Se <strong>duplica código</strong> en las hijas.',
+            'Un <strong>cambio sencillo podría afectar todo el modelo</strong>.',
+            '<strong>Cambiar el comportamiento de los vehículos en runtime es casi imposible.</strong>',
+          ],
+        },
+        {
+          type: 'h3',
+          text: 'Y las interfaces tampoco alcanzan',
+          criollo: 'Con interfaces te sacás de encima el tanque volador, pero si querés cambiar cómo vuelan 30 sistemas de armas tenés que ir método por método. Mejorás una cosa, empeorás otra.',
+        },
+        {
+          type: 'p',
+          text: 'Con interfaces solucionamos <strong>parte</strong> del problema, como habíamos hecho con el zoo virtual. Pero si en algún momento quisiéramos <strong>cambiar la forma en que vuela cada sistema de armas volador</strong>, habría que revisar cada uno de los métodos y hacerle los cambios necesarios. ¿Qué pasaría si hubiera 20 o 30 sistemas de armas diferentes?',
+        },
+        {
+          type: 'p',
+          text: 'Entonces, hasta aquí las interfaces solo resolvieron una parte: <strong>ya no habrá tanques voladores</strong> (ni señuelos que ataquen y se defiendan). Pero <strong>no podemos reutilizar código ni aprovechar al máximo el polimorfismo</strong>. De hecho, <strong>no podemos usar SistemaArmas como tipo de nuestros objetos</strong>: mejoramos una cosa, empeoramos otra.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'Conclusión del apunte: <strong>no siempre la herencia y/o las interfaces solucionan todos los problemas</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Herencia y sus desventajas',
+          criollo: 'El cierre del capítulo: en software el cambio es continuo, así que lo que cambia hay que encapsularlo y aislarlo de lo que es fijo.',
+        },
+        {
+          type: 'p',
+          text: 'Como el comportamiento de cada sistema de armas <strong>varía en cada subclase</strong> y algunos subsistemas <strong>ni siquiera deberían tener algunos comportamientos</strong>, podemos afirmar que <strong>la herencia no resuelve completamente el problema</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Usar interfaces tampoco lo resuelve, ya que, al menos en Java, <strong>las operaciones definidas en las interfaces no pueden llevar código</strong> (en las últimas versiones esto está cambiando, pero escapa al scope de la materia). Entonces <strong>no se puede reusar el comportamiento</strong> a través de todos los sistemas que tienen una misma manera de atacar o de volar.',
+        },
+        {
+          type: 'p',
+          text: 'En lo que a software se refiere, <strong>el cambio es continuo</strong>: siempre hay nuevos requerimientos, nuevas necesidades, nuevas regulaciones. Lo mejor para ahorrarse problemas a futuro es <strong>"encerrar" o "englobar" aquellos aspectos que cambien</strong>, para que al cambiar no afecten el resto del sistema. Conviene <strong>encapsular todo lo que cambie y aislarlo de lo que es fijo</strong> a lo largo del tiempo. Así se logra que los cambios no afecten de forma inesperada a otras partes del sistema y se logra <strong>mayor flexibilidad</strong>.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-39-1', q: 'La clase SistemaArmas arranca con las operaciones atacar, defender y mostrarse.', a: true, explain: 'Son las operaciones comunes con las que se crea la clase antes de que aparezca el requerimiento de los sistemas voladores.' },
+          { id: 'tf-39-2', q: 'Poner volar() en SistemaArmas es un buen diseño porque centraliza el comportamiento.', a: false, explain: 'Rompe el diseño: de existir una clase hija tanque tendríamos un tanque volador. Un cambio local generó un efecto colateral generalizado.' },
+          { id: 'tf-39-3', q: 'El VehiculoSeñuelo tampoco debería atacar ni defenderse.', a: true, explain: 'El apunte pide atención con ese caso en particular: no debe volar, pero tampoco atacar ni defenderse.' },
+          { id: 'tf-39-4', q: 'En Java, las operaciones definidas en las interfaces no pueden llevar código, al menos en el alcance de la materia.', a: true, explain: 'El apunte lo dice y aclara que en las últimas versiones esto está cambiando, pero escapa al scope de la materia.' },
+          { id: 'tf-39-5', q: 'Al pasar a interfaces se puede seguir usando SistemaArmas como tipo de los objetos.', a: false, explain: 'Justamente no: de hecho, no podemos usar SistemaArmas como tipo de nuestros objetos. Mejoramos una cosa, empeoramos otra.' },
+        ],
+        mc: [
+          {
+            id: 'mc-39-1',
+            q: '¿Qué género de juego es "Batalla del futuro"?',
+            options: [
+              'Un juego mobile de guerra y estrategia en tiempo real',
+              'Un juego de rol por turnos para consola',
+              'Un simulador de vuelo militar de escritorio',
+              'Un juego de cartas coleccionables online',
+            ],
+            correctIndex: 0,
+            explain: 'Es el enunciado del caso: un juego mobile de guerra/estrategia en tiempo real.',
+          },
+          {
+            id: 'mc-39-2',
+            q: '¿Por qué el apunte dice que ni siquiera el diseño original era bueno?',
+            options: [
+              'Porque usaba clases abstractas en vez de interfaces',
+              'Porque un cambio local a una clase generó un efecto colateral generalizado',
+              'Porque no separaba los atributos de las operaciones',
+              'Porque no permitía instanciar la clase SistemaArmas',
+            ],
+            correctIndex: 1,
+            explain: 'Esa es la crítica textual: el agregado de volar() en la superclase impactó en toda la jerarquía.',
+          },
+          {
+            id: 'mc-39-3',
+            q: '¿Qué pasa si dejamos implementaciones vacías por todos lados?',
+            options: [
+              'El compilador las optimiza y las elimina',
+              'Se pierde la posibilidad de usar instanceof',
+              'Se duplica código y queda un software susceptible a errores',
+              'Se rompe el encapsulamiento de los atributos',
+            ],
+            correctIndex: 2,
+            explain: 'El apunte advierte que además de no ser la solución correcta, estaríamos duplicando código por todos lados.',
+          },
+          {
+            id: 'mc-39-4',
+            q: 'Según el cierre del capítulo, ¿qué conviene hacer con lo que cambia en un sistema?',
+            options: [
+              'Documentarlo con javadoc y avisar en cada release',
+              'Encapsularlo y aislarlo de lo que es fijo a lo largo del tiempo',
+              'Moverlo siempre a la superclase para centralizarlo',
+              'Marcarlo como final para que nadie lo modifique',
+            ],
+            correctIndex: 1,
+            explain: 'Conviene encerrar o englobar los aspectos que cambian, para que al cambiar no afecten el resto del sistema.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-39-1',
+            q: '¿Qué desventajas de la herencia enumera el apunte para el caso de los sistemas de armas?',
+            options: [
+              'Se duplica código en las hijas',
+              'Un cambio sencillo podría afectar todo el modelo',
+              'Cambiar el comportamiento en runtime es casi imposible',
+              'Impide declarar atributos privados',
+              'Obliga a usar el operador instanceof en cada método',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'Son exactamente las tres desventajas listadas en "Los problemas de las soluciones planteadas".',
+          },
+          {
+            id: 'ms-39-2',
+            q: '¿Qué vehículos menciona el apunte como casos que no deberían volar?',
+            options: [
+              'Tanque',
+              'Submarino',
+              'Portaaviones',
+              'VehiculoSeñuelo',
+              'Bombardero',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'El bombardero sí vuela: es uno de los ejemplos de sistema de armas volador.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-39-1', front: 'Caso "Batalla del futuro"', back: 'Un juego mobile de guerra/estrategia en tiempo real. Se modela una clase SistemaArmas con atacar(), defender() y mostrarse(), y luego se quiere agregar sistemas voladores.' },
+        { id: 'fc-39-2', front: 'El problema del tanque volador', back: 'Si se agrega volar() a SistemaArmas, la clase hija tanque también vuela. Un cambio local a una clase generó un efecto colateral generalizado.' },
+        { id: 'fc-39-3', front: '¿Por qué no sirven las implementaciones vacías?', back: 'Cada vehículo nuevo que no vuela obliga a otra implementación vacía; se duplica código y queda un software susceptible a errores. Y el VehiculoSeñuelo necesitaría tres.' },
+        { id: 'fc-39-4', front: 'Tres desventajas de la herencia en este caso', back: 'Se duplica código en las hijas; un cambio sencillo puede afectar todo el modelo; cambiar el comportamiento en runtime es casi imposible.' },
+        { id: 'fc-39-5', front: '¿Por qué las interfaces solas tampoco alcanzan?', back: 'Porque en Java (dentro del scope de la materia) las operaciones de una interfaz no pueden llevar código, así que no se puede reusar el comportamiento entre sistemas que atacan o vuelan igual.' },
+        { id: 'fc-39-6', front: '¿Qué se pierde al pasar todo a interfaces en el caso de armas?', back: 'La reutilización de código y el aprovechamiento máximo del polimorfismo: ya no se puede usar SistemaArmas como tipo de los objetos.' },
+        { id: 'fc-39-7', front: 'Conclusión sobre herencia e interfaces', back: 'No siempre la herencia y/o las interfaces solucionan todos los problemas.' },
+        { id: 'fc-39-8', front: 'Qué hacer frente al cambio continuo del software', back: 'Encerrar o englobar los aspectos que cambian: encapsular todo lo que cambie y aislarlo de lo que es fijo, para lograr que los cambios no afecten de forma inesperada al resto y ganar flexibilidad.' },
+      ],
+    },
+    {
+      id: '40',
+      unit: 'diseno-avanzado',
+      title: 'Los tres principios de diseño',
+      criollo: 'Acá está el corazón de la unidad. Tres principios: encapsulá lo que varía, programá contra una interfaz y no contra una implementación, y favorecé la composición por sobre la herencia. Con esos tres el sistema de armas pasa a poder cambiar cómo vuela y cómo ataca en pleno runtime, sin tocar una línea de código.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'Principio de diseño 1: separar lo que varía de lo que queda fijo',
+          criollo: 'Agarrá las partes que cambian, metelas en una caja y dejalas afuera de lo que no cambia. Sobre eso se construyen casi todos los patrones.',
+        },
+        {
+          type: 'p',
+          text: 'Hay un principio de diseño de software que alienta a <strong>identificar los aspectos de nuestra aplicación que sean cambiantes y separarlos de aquello que queda siempre fijo</strong>. Otra forma de decirlo: hay que <strong>agarrar las partes de un sistema que varían y encapsularlas</strong> para que luego se puedan extender o cambiar <strong>sin afectar a las partes que no varían</strong>.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Este principio <strong>forma la base de casi todos los patrones de diseño</strong>: hacer que una parte del sistema varíe independientemente de las otras partes.',
+        },
+        {
+          type: 'p',
+          text: 'Volviendo a "Batalla del futuro": los comportamientos <code>atacar()</code> y <code>volar()</code> <strong>cambian</strong> de un SistemaDeArmas a otro, mientras que <code>mostrarse()</code> y <code>defender()</code> son <strong>siempre los mismos</strong> (uno muestra los datos en pantalla y el otro se interpone entre un enemigo y su objetivo). Entonces habría que hacer a un lado esos dos comportamientos variables y <strong>englobarlos en pequeñas "familias" de comportamientos similares</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Como el atributo <strong>energía</strong> y las operaciones <code>mostrarse()</code> y <code>defender()</code> están bien, dejaremos la clase SistemaArmas como está: <strong>solo sacaremos las operaciones <code>volar()</code> y <code>atacar()</code></strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Separar las familias de comportamientos',
+          criollo: 'La gracia de un juego es que las cosas cambien en vivo: si el usuario paga el pase premium, sus tanques deberían poder volar sin que vos liberes una versión nueva.',
+        },
+        {
+          type: 'p',
+          text: 'De tratarse de un juego de guerra, cada misión tendría diferentes objetivos, por lo que un sistema de armas tendría que poder <strong>cambiar su forma de atacar</strong> si el objetivo está en tierra, en el aire o en el mar. Es decir, tendríamos que poder <strong>"asignar" una forma de atacar</strong>. Otro posible cambio es <strong>cambiar la forma de atacar si el usuario paga un adicional</strong> o se suscribe al pago mensual.',
+        },
+        {
+          type: 'p',
+          text: 'Dado que se trata de una batalla del futuro, algunos sistemas de armas podrían <strong>"transformarse"</strong> y convertirse de un avión a un robot que ataca por tierra. Entonces estaría bueno poder cambiar el comportamiento de <code>atacar()</code> y <code>volar()</code> <strong>estando ya el sistema de armas instanciado y corriendo</strong>: asignarle la forma en <strong>runtime</strong>, sin parar el sistema, sin cambiar el código y sin liberar una nueva versión.',
+        },
+        {
+          type: 'p',
+          text: 'Hecho esto, cada forma de atacar o volar ya <strong>no vendrá dictada por el sistema de armas</strong>, sino que <strong>el sistema de armas TIENE una forma de atacar o volar</strong>. Si pusiéramos la forma concreta dentro del sistema estaríamos <strong>acoplando</strong> una "forma de" con un sistema de armas en particular. Por eso necesitamos <strong>introducir una interfaz que dictamine la "forma de" volar y atacar</strong>, para que ya sea un avión, un tanque o un robot, cuando se le ordene volar o atacar lo haga <strong>sin conocer los detalles de implementación</strong>. Así hemos <strong>ENCAPSULADO</strong> las formas de volar y atacar.',
+        },
+        {
+          type: 'h3',
+          text: 'Principio de diseño 2: programar contra una interfaz, no contra una implementación',
+          criollo: 'Del lado izquierdo del igual va siempre el tipo de la interfaz. Del derecho, la implementación que se te cante.',
+        },
+        {
+          type: 'p',
+          text: 'El segundo principio de diseño dice que <strong>debe programarse contra una interfaz y no contra una implementación</strong>. Es decir: <strong>del lado izquierdo del igual siempre debemos tener el tipo de la interfaz</strong>, y del lado derecho sí podremos usar la implementación que deseemos.',
+        },
+        {
+          type: 'p',
+          text: 'Desde este punto, la clase SistemaDeArmas <strong>ya no será quien implemente</strong> los comportamientos de <code>volar()</code> y <code>atacar()</code>. Habrá una serie de clases <strong>cuyo solo propósito sea implementar los diferentes comportamientos</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Antes, lo que hacíamos era <strong>heredar</strong> directamente el comportamiento desde la clase SistemaDeArmas o <strong>especificarlo en alguna de sus hijas</strong>: en ambos casos dependíamos de una implementación y no se podía alterar el comportamiento sin alterar el código. Ahora disponemos de <strong>una interfaz que define un comportamiento</strong> y serán las sucesivas y diferentes implementaciones de esta las que dicten cómo se lleva a cabo. <strong>A partir de ahora podemos alterar el comportamiento sin tocar código.</strong>',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: '<strong>Efecto secundario del approach:</strong> las clases que implementan los diferentes comportamientos <strong>pueden ser reutilizadas en otros escenarios</strong>. Si actualizáramos el juego para que las batallas sucedan también en el espacio, algunas "formas de atacar" podríamos usarlas nuevamente. Y se pueden agregar nuevas formas <strong>sin afectar el diseño ni el código existente</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Delegación: el sistema de armas ya no ataca, le pide a otro que ataque',
+          criollo: 'formaDeVolar y formaDeAtacar son atributos que apuntan a objetos que saben hacer eso. El sistema de armas solo los llama.',
+        },
+        {
+          type: 'p',
+          text: 'Las formas de atacar y volar son ahora <strong>referencias a clases que tendrán la responsabilidad de atacar y volar</strong> según corresponda. En vez de que el SistemaDeArmas sea quien maneje el ataque y el vuelo, estos comportamientos <strong>se delegan al objeto referenciado</strong> por el atributo <code>formaDeVolar</code>. No importa qué tipo de objeto sea: solo importa que ese objeto <strong>sabe cómo volar</strong> de la forma correspondiente. Pasa lo mismo con el ataque.',
+        },
+        {
+          type: 'p',
+          text: 'En tiempo de ejecución, cuando sobre un <code>RobotLiviano</code> se ejecute el método heredado <code>ejecutarAtaque()</code>, se mostrará por consola el mensaje "Lanzo rayos". Si llamo al setter de <code>formaDeAtaque</code> y cambio la forma por un <code>AtacarConMisiles</code>, <strong>el mensaje pasa a ser "Lanzo Misiles"</strong>.',
+        },
+        {
+          type: 'code',
+          code: 'public class Guerra {\n    public static void main(String[] args) {\n        SistemaDeArmas miRobot = new RobotLiviano();\n        miRobot.ejecutarVuelo();\n        miRobot.ejecutarAtaque();\n\n        miRobot.setFormaDeAtacar(new AtacarConMisiles());\n        miRobot.ejecutarAtaque();\n    }\n}',
+        },
+        {
+          type: 'h3',
+          text: 'Principio de diseño 3: favorecer la composición por sobre la herencia',
+          criollo: 'Heredar te encierra en comportamientos fijos. Componer te deja cambiarlos en vivo. Este es el principio que después se convierte en el patrón Strategy.',
+        },
+        {
+          type: 'p',
+          text: 'Si generalizamos el problema, podemos pensar en las diferentes <strong>"formas de"</strong> como diferentes <strong>"algoritmos"</strong> o <strong>"familias de algoritmos"</strong>. Es decir, cada "algoritmo" representa algo que un sistema de armas puede hacer.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Componer nos da mayor flexibilidad. Heredar nos "encerraba" en comportamientos fijos.</strong> Componer nos permite <strong>encapsular los comportamientos</strong>, permitiendo intercambiarlos sin afectar otras partes del sistema y, más aún, nos permite <strong>cambiar los comportamientos en RUNTIME</strong> (siempre que se respeten las interfaces). Esto da lugar a otro principio de diseño muy importante: <strong>favorecer la composición por sobre la herencia</strong>.',
+        },
+        {
+          type: 'table',
+          caption: 'Los tres principios de diseño del apunte',
+          headers: ['#', 'Principio', 'Qué resuelve'],
+          rows: [
+            ['1', 'Identificar lo que varía y separarlo de lo que queda fijo', 'Que un cambio local no genere un efecto colateral generalizado'],
+            ['2', 'Programar contra una interfaz y no contra una implementación', 'Poder alterar el comportamiento sin tocar código'],
+            ['3', 'Favorecer la composición por sobre la herencia', 'Poder intercambiar comportamientos, incluso en runtime'],
+          ],
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-40-1', q: 'El primer principio de diseño forma la base de casi todos los patrones de diseño.', a: true, explain: 'El apunte lo dice textual: hacer que una parte del sistema varíe independientemente de las otras partes es la base de casi todos los patrones.' },
+          { id: 'tf-40-2', q: 'En "Batalla del futuro", defender() y mostrarse() son los comportamientos que varían de un sistema de armas a otro.', a: false, explain: 'Al revés: los que cambian son atacar() y volar(). mostrarse() y defender() son siempre los mismos y por eso se quedan en SistemaArmas.' },
+          { id: 'tf-40-3', q: 'Programar contra una interfaz significa poner el tipo de la interfaz del lado izquierdo del igual.', a: true, explain: 'Del lado izquierdo va siempre el tipo de la interfaz; del lado derecho se puede usar la implementación que se desee.' },
+          { id: 'tf-40-4', q: 'Al delegar el vuelo a un objeto, el sistema de armas necesita conocer los detalles de implementación de ese comportamiento.', a: false, explain: 'No importa qué tipo de objeto sea: solo importa que ese objeto sabe cómo volar de la forma correspondiente.' },
+          { id: 'tf-40-5', q: 'La composición permite cambiar comportamientos en runtime siempre que se respeten las interfaces.', a: true, explain: 'Esa es la ventaja central frente a la herencia, que encerraba en comportamientos fijos.' },
+        ],
+        mc: [
+          {
+            id: 'mc-40-1',
+            q: '¿Cómo enuncia el apunte el primer principio de diseño?',
+            options: [
+              'Identificar los aspectos cambiantes y separarlos de aquello que queda siempre fijo',
+              'Declarar todos los atributos como privados y exponer getters',
+              'Preferir siempre las clases abstractas por sobre las interfaces',
+              'Centralizar todo el comportamiento común en la superclase',
+            ],
+            correctIndex: 0,
+            explain: 'También se enuncia como: agarrar las partes que varían y encapsularlas para poder extenderlas o cambiarlas sin afectar a las que no varían.',
+          },
+          {
+            id: 'mc-40-2',
+            q: '¿Qué atributo y qué operaciones se quedan en la clase SistemaArmas?',
+            options: [
+              'El atributo energía y las operaciones volar() y atacar()',
+              'El atributo energía y las operaciones mostrarse() y defender()',
+              'Los atributos formaDeVolar y formaDeAtacar solamente',
+              'Ningún atributo: la clase queda como interfaz pura',
+            ],
+            correctIndex: 1,
+            explain: 'El atributo energía y las operaciones mostrarse() y defender() están bien, así que la clase se deja como está; solo se sacan volar() y atacar().',
+          },
+          {
+            id: 'mc-40-3',
+            q: 'Después de llamar a miRobot.setFormaDeAtacar(new AtacarConMisiles()), ¿qué imprime ejecutarAtaque()?',
+            options: [
+              'Lanzo rayos',
+              'Lanzo misiles',
+              'Nada, porque el método quedó vacío',
+              'Un error de compilación por incompatibilidad de tipos',
+            ],
+            correctIndex: 1,
+            explain: 'El RobotLiviano imprimía "Lanzo rayos"; al cambiar la forma de atacar por AtacarConMisiles el mensaje pasa a ser "Lanzo Misiles".',
+          },
+          {
+            id: 'mc-40-4',
+            q: '¿Qué efecto secundario positivo tiene programar contra interfaces según el apunte?',
+            options: [
+              'Que el compilador optimiza mejor el bytecode',
+              'Que las clases de comportamiento pueden reutilizarse en otros escenarios',
+              'Que desaparece la necesidad de usar constructores',
+              'Que se puede usar herencia múltiple de clases',
+            ],
+            correctIndex: 1,
+            explain: 'Si el juego se actualizara para que las batallas sucedan en el espacio, algunas "formas de atacar" podrían reutilizarse tal cual.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-40-1',
+            q: '¿Cuáles son los tres principios de diseño que enuncia el apunte?',
+            options: [
+              'Identificar lo que varía y separarlo de lo fijo',
+              'Programar contra una interfaz y no contra una implementación',
+              'Favorecer la composición por sobre la herencia',
+              'Preferir la herencia por sobre la composición',
+              'Hacer todos los métodos final por defecto',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'Los otros dos son lo contrario o directamente no aparecen en el apunte.',
+          },
+          {
+            id: 'ms-40-2',
+            q: '¿Qué ventajas atribuye el apunte a componer en lugar de heredar?',
+            options: [
+              'Da mayor flexibilidad',
+              'Permite encapsular los comportamientos',
+              'Permite intercambiar comportamientos sin afectar otras partes del sistema',
+              'Permite cambiar los comportamientos en runtime',
+              'Elimina la necesidad de definir interfaces',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Justamente lo contrario de la última: la composición funciona siempre que se respeten las interfaces.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-40-1', front: 'Principio de diseño 1', back: 'Identificar los aspectos de la aplicación que sean cambiantes y separarlos de aquello que queda siempre fijo, encapsulándolos para poder extenderlos o cambiarlos sin afectar al resto.' },
+        { id: 'fc-40-2', front: '¿Por qué el principio 1 es tan importante?', back: 'Porque forma la base de casi todos los patrones de diseño: hacer que una parte del sistema varíe independientemente de las otras partes.' },
+        { id: 'fc-40-3', front: 'En Batalla del futuro, ¿qué varía y qué no?', back: 'Varían atacar() y volar(), que cambian de un sistema de armas a otro. No varían mostrarse() (muestra datos en pantalla) ni defender() (se interpone entre el enemigo y su objetivo).' },
+        { id: 'fc-40-4', front: 'Principio de diseño 2', back: 'Programar contra una interfaz y no contra una implementación: del lado izquierdo del igual siempre el tipo de la interfaz, del derecho la implementación que se desee.' },
+        { id: 'fc-40-5', front: 'Delegación de comportamiento', back: 'El SistemaDeArmas ya no ataca ni vuela: delega esos comportamientos al objeto referenciado por formaDeAtacar / formaDeVolar. Solo importa que ese objeto sabe hacerlo.' },
+        { id: 'fc-40-6', front: 'Principio de diseño 3', back: 'Favorecer la composición por sobre la herencia. Heredar encierra en comportamientos fijos; componer permite encapsularlos, intercambiarlos y cambiarlos en runtime.' },
+        { id: 'fc-40-7', front: '"Familias de algoritmos"', back: 'Generalización de las diferentes "formas de": cada algoritmo representa algo que un sistema de armas puede hacer, encapsulado en su propia clase.' },
+        { id: 'fc-40-8', front: 'Efecto secundario de programar contra interfaces', back: 'Las clases que implementan los comportamientos pueden reutilizarse en otros escenarios, y se pueden agregar formas nuevas sin afectar el diseño ni el código existente.' },
+      ],
+    },
+    {
+      id: '41',
+      unit: 'diseno-avanzado',
+      title: 'Patrones Strategy y Template Method',
+      criollo: 'Los dos primeros patrones del apunte. Strategy encapsula familias enteras de algoritmos para poder intercambiarlos; Template Method deja fijo el esqueleto de un algoritmo y cede a las hijas solo algunos pasos. Uno compone, el otro hereda. Y el detalle fino: el template method se marca final justo para que no se convierta en un Strategy.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'De los principios al patrón Strategy',
+          criollo: 'Si juntás "encapsulá lo que varía" + "programá contra interfaces" + "componé en vez de heredar", lo que te queda ya tiene nombre propio.',
+        },
+        {
+          type: 'p',
+          text: 'Anteriormente enumeramos algunos principios de diseño e introdujimos las ventajas de <strong>favorecer la composición por sobre la herencia</strong>. Esto, sumado al principio de <strong>programar contra interfaces</strong>, hizo que arribáramos a un diseño en el que <strong>separamos comportamientos en "familias"</strong> y que nos permite <strong>alternar estos comportamientos en tiempo de ejecución</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Si generalizamos el problema, podemos pensar en las diferentes "formas de" como diferentes <strong>algoritmos</strong> o <strong>familias de algoritmos</strong>: cada algoritmo representa algo que un sistema de armas puede hacer.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: '<strong>Patrón Strategy (enunciado).</strong> Strategy <strong>define una familia de algoritmos encapsulados de forma tal que puedan intercambiarse</strong>. El patrón Strategy permite <strong>variar entre diferentes algoritmos sin afectar a los clientes que los usan</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Template Method: el problema del código duplicado',
+          criollo: 'Un avión despega, va al objetivo, cumple la orden y aterriza. Un tanque sale, va al objetivo, cumple la orden y regresa. Poné los dos códigos lado a lado y la duplicación te salta a la cara.',
+        },
+        {
+          type: 'p',
+          text: 'Habiendo encapsulado algoritmos con Strategy, podemos pensar en <strong>encapsular las diferentes partes de un algoritmo complejo</strong>. De esta manera podemos proveer <strong>"hooks" (o "enganches")</strong> sobre las partes o los pasos del algoritmo, como para <strong>reemplazarlas o extenderlas sin alterar el algoritmo original</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Volviendo a los vehículos armados: cada vehículo puede ejecutar una misión de formas variadas <strong>pero similares entre sí</strong>. Un avión debería salir de la base (despegar), ir hasta el objetivo, cumplir la orden y regresar (aterrizar). Un tanque debería salir de la base, ir hasta el objetivo, cumplir la orden y regresar. Un barco, un robot... son todos bastante similares.',
+        },
+        {
+          type: 'code',
+          code: 'public class Avion {\n    ejecutarMision() {\n        despegar();\n        irAlObjetivo();\n        cumplirOrden();\n        aterrizar();\n    }\n\n    despegar() {\n        syso("Salgo del hangar");\n        syso("despego");\n    }\n    irAlObjetivo() { syso("voy al objetivo"); }\n    cumplirOrden()  { syso("cumplo orden"); }\n    aterrizar() {\n        syso("vuelvo volando");\n        syso("aterrizo");\n    }\n}',
+        },
+        {
+          type: 'code',
+          code: 'public class Tanque {\n    ejecutarMision() {\n        salir();\n        irAlObjetivo();\n        cumplirOrden();\n        regresar();\n    }\n\n    salir() { syso("Salgo de la base"); }\n    irAlObjetivo() { syso("voy al objetivo"); }\n    cumplirOrden()  { syso("cumplo orden"); }\n    regresar() { syso("me desplazo a la base"); }\n}',
+        },
+        {
+          type: 'p',
+          text: 'Viéndolo lado a lado, <strong>es evidente que se duplica código</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'La solución: abstraer el mecanismo, delegar los pasos',
+          criollo: 'Salir es a despegar lo que regresar es a aterrizar. Renombrás los pasos genéricos y el algoritmo queda uno solo.',
+        },
+        {
+          type: 'p',
+          text: 'El comportamiento <code>ejecutarMision()</code> es abstracto porque cada subclase lo llevará a cabo distinto, por lo que debe implementarse. En cambio, <code>despegar()</code>, <code>aterrizar()</code>, <code>salir()</code> y <code>regresar()</code> son <strong>específicos de cada uno</strong>. A simple vista se relacionan los conceptos "salir" con "despegar" y "aterrizar" con "regresar": el <strong>MECANISMO (algoritmo) de ejecutar una misión siempre tiene los mismos pasos</strong>.',
+        },
+        {
+          type: 'code',
+          code: 'ejecutarMision() {\n    comenzarMision();\n    irAlObjetivo();\n    cumplirOrden();\n    volverABase();\n}',
+        },
+        {
+          type: 'p',
+          text: 'Y se relega a las clases hijas <strong>la decisión de cómo llevar a cabo ciertos pasos</strong>: el salir y el regresar son las únicas partes que cambian del algoritmo (un avión despega, un tanque no; un avión aterriza, un tanque no).',
+        },
+        {
+          type: 'p',
+          text: 'El método <code>ejecutarMision</code> es lo que se conoce como <strong>Template Method</strong>. Como su nombre lo indica, presenta <strong>una plantilla para un algoritmo, indicando sus pasos</strong>. Uno o más de esos pasos pueden ser <strong>redefinidos por subclases</strong>; para hacer cumplir esto <strong>se marcan como abstractos</strong>.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'Redefinir <strong>todos</strong> los pasos sería como reemplazar por completo el método. Si se permitiera redefinir todo el método plantilla, <strong>estaríamos en presencia de un Strategy</strong>. Para evitar tal situación <strong>el template method se marca <code>final</code></strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Qué se logra aplicando Template Method',
+          criollo: 'El algoritmo queda en un solo lugar. Cualquier cambio se hace ahí y listo.',
+        },
+        {
+          type: 'ul',
+          items: [
+            'Queda <strong>encapsulado el algoritmo</strong>, mejorando su <strong>reusabilidad</strong>.',
+            '<strong>Cualquier cambio se hace en un solo lugar.</strong>',
+            'La clase con el Template Method <strong>concentra el conocimiento del algoritmo</strong>, dejando a las subclases la implementación concreta.',
+            'El TM brinda <strong>una plantilla, un framework</strong>, que cualquier "sistemaArmas" puede tomar para funcionar implementando <strong>algunos (no todos)</strong> de los métodos del algoritmo.',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: '<strong>Template Method (enunciado).</strong> Define <strong>el esqueleto, la plantilla de un algoritmo en un solo método</strong>, cediendo a las subclases las implementaciones de algunos pasos. Es decir: permite a las subclases <strong>redefinir algunos pasos de un algoritmo sin alterar la estructura de este</strong>.',
+        },
+        {
+          type: 'table',
+          caption: 'Strategy vs. Template Method',
+          headers: ['', 'Strategy', 'Template Method'],
+          rows: [
+            ['Qué encapsula', 'Una familia de algoritmos completos', 'Los pasos variables de un único algoritmo'],
+            ['Mecanismo', 'Composición: se le asigna un objeto "forma de"', 'Herencia: las subclases implementan los pasos abstractos'],
+            ['Cuánto se puede cambiar', 'El algoritmo entero, incluso en runtime', 'Solo los pasos marcados como abstractos'],
+            ['Marca clave', 'Interfaz para la familia de algoritmos', 'El método plantilla se marca final'],
+          ],
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-41-1', q: 'Strategy define una familia de algoritmos encapsulados de forma tal que puedan intercambiarse.', a: true, explain: 'Es el enunciado textual del patrón. Además permite variar entre algoritmos sin afectar a los clientes que los usan.' },
+          { id: 'tf-41-2', q: 'El Template Method encapsula un algoritmo completo para poder reemplazarlo entero.', a: false, explain: 'Encapsula el esqueleto y cede solo algunos pasos. Si se pudiera reemplazar todo el método, estaríamos en presencia de un Strategy.' },
+          { id: 'tf-41-3', q: 'Los pasos que las subclases deben redefinir en un Template Method se marcan como abstractos.', a: true, explain: 'Para hacer cumplir que uno o más pasos sean redefinidos por subclases, esos pasos se marcan como abstractos.' },
+          { id: 'tf-41-4', q: 'El método plantilla se marca final para evitar que se lo redefina por completo.', a: true, explain: 'Redefinir todos los pasos equivaldría a reemplazar el método; para evitarlo el template method se marca final.' },
+          { id: 'tf-41-5', q: 'En el ejemplo, irAlObjetivo() y cumplirOrden() son los pasos que cambian entre avión y tanque.', a: false, explain: 'Esos dos son iguales en ambos. Los que cambian son salir/despegar y regresar/aterrizar.' },
+        ],
+        mc: [
+          {
+            id: 'mc-41-1',
+            q: '¿Qué son los "hooks" o "enganches" de los que habla el apunte?',
+            options: [
+              'Los puntos del algoritmo que se pueden reemplazar o extender sin alterar el original',
+              'Los métodos que conectan la clase con la base de datos',
+              'Los listeners que se registran para eventos del juego',
+              'Los constructores adicionales al constructor por default',
+            ],
+            correctIndex: 0,
+            explain: 'Son enganches sobre las partes o pasos del algoritmo, para reemplazarlas o extenderlas sin alterar el algoritmo original.',
+          },
+          {
+            id: 'mc-41-2',
+            q: '¿Cuáles son los cuatro pasos del algoritmo genérico de ejecutar una misión?',
+            options: [
+              'despegar, irAlObjetivo, cumplirOrden, aterrizar',
+              'salir, irAlObjetivo, cumplirOrden, regresar',
+              'comenzarMision, irAlObjetivo, cumplirOrden, volverABase',
+              'iniciar, atacar, defender, finalizar',
+            ],
+            correctIndex: 2,
+            explain: 'El apunte generaliza salir/despegar en comenzarMision() y regresar/aterrizar en volverABase().',
+          },
+          {
+            id: 'mc-41-3',
+            q: '¿Qué logra el Template Method respecto del cambio?',
+            options: [
+              'Que cualquier cambio deba replicarse en cada subclase',
+              'Que cualquier cambio se haga en un solo lugar',
+              'Que el algoritmo se pueda cambiar en runtime sin recompilar',
+              'Que el algoritmo se documente automáticamente con javadoc',
+            ],
+            correctIndex: 1,
+            explain: 'La clase con el TM concentra el conocimiento del algoritmo; cualquier cambio se hace en un solo lugar.',
+          },
+          {
+            id: 'mc-41-4',
+            q: 'Según el apunte, ¿qué provee el Template Method a cualquier "sistemaArmas"?',
+            options: [
+              'Una plantilla o framework que se toma implementando algunos, no todos, los métodos',
+              'Una interfaz que obliga a implementar absolutamente todos los métodos',
+              'Un objeto que se le asigna por setter en tiempo de ejecución',
+              'Una clase concreta lista para instanciar sin modificaciones',
+            ],
+            correctIndex: 0,
+            explain: 'El TM brinda una plantilla, un framework, que cualquier sistemaArmas puede tomar para funcionar implementando algunos (no todos) de los métodos.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-41-1',
+            q: '¿Qué se logra aplicando Template Method, según el apunte?',
+            options: [
+              'Encapsular el algoritmo mejorando su reusabilidad',
+              'Concentrar el conocimiento del algoritmo en una sola clase',
+              'Que cualquier cambio se haga en un solo lugar',
+              'Brindar una plantilla que se completa implementando algunos métodos',
+              'Poder cambiar el algoritmo completo en tiempo de ejecución',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Cambiar el algoritmo completo en runtime es lo propio del Strategy, no del Template Method.',
+          },
+          {
+            id: 'ms-41-2',
+            q: '¿Qué principios de diseño confluyen en el patrón Strategy según el apunte?',
+            options: [
+              'Favorecer la composición por sobre la herencia',
+              'Programar contra interfaces',
+              'Separar los comportamientos en familias',
+              'Preferir siempre las clases abstractas',
+              'Marcar todos los métodos como final',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'La composición, el programar contra interfaces y la separación en familias de comportamientos son los tres que el apunte encadena para llegar al Strategy.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-41-1', front: 'Patrón Strategy (enunciado)', back: 'Define una familia de algoritmos encapsulados de forma tal que puedan intercambiarse. Permite variar entre diferentes algoritmos sin afectar a los clientes que los usan.' },
+        { id: 'fc-41-2', front: '"Familia de algoritmos"', back: 'Generalización de las diferentes "formas de" hacer algo: cada algoritmo representa algo que un objeto (por ejemplo, un sistema de armas) puede hacer.' },
+        { id: 'fc-41-3', front: 'Hooks o enganches', back: 'Puntos sobre las partes o pasos de un algoritmo que permiten reemplazarlas o extenderlas sin alterar el algoritmo original.' },
+        { id: 'fc-41-4', front: 'Template Method (enunciado)', back: 'Define el esqueleto o plantilla de un algoritmo en un solo método, cediendo a las subclases la implementación de algunos pasos, sin alterar la estructura del algoritmo.' },
+        { id: 'fc-41-5', front: 'El algoritmo genérico de ejecutar una misión', back: 'comenzarMision(), irAlObjetivo(), cumplirOrden(), volverABase(). Los pasos variables son el primero y el último (despegar/salir, aterrizar/regresar).' },
+        { id: 'fc-41-6', front: '¿Por qué el template method se marca final?', back: 'Porque redefinir todos los pasos equivaldría a reemplazar el método por completo, y ahí ya estaríamos en presencia de un Strategy.' },
+        { id: 'fc-41-7', front: '¿Cómo se marcan los pasos que deben redefinir las subclases?', back: 'Como abstractos, para hacer cumplir su implementación en las subclases.' },
+        { id: 'fc-41-8', front: 'Qué se logra con Template Method', back: 'Encapsular el algoritmo mejorando su reusabilidad, hacer cualquier cambio en un solo lugar, concentrar el conocimiento del algoritmo y ofrecer una plantilla que se completa implementando algunos métodos.' },
+      ],
+    },
+    {
+      id: '42',
+      unit: 'diseno-avanzado',
+      title: 'Patrón State',
+      criollo: 'El sistema de tiro de un tanque: armado, desarmado, con munición, sin munición. La primera idea es un atributo estado y un if-else gigante en cada método. Anda, pero cada estado nuevo te obliga a meter mano en la lógica. State dice: cada estado es una clase, y chau condicionales.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'El problema: estados y transiciones',
+          criollo: 'Un sistema de tiro cambia cada vez que alguien lo toca. Si le quedaba una bala y disparás, pasás a "sin munición".',
+        },
+        {
+          type: 'p',
+          text: 'Imaginemos uno de los sistemas de armas discutidos: un <strong>tanque</strong>. Simplificando la automatización del sistema de tiro podemos decir: <strong>se carga el arma, se dispara y vuelve a empezar</strong>. Un sistema así de simple puede pasar por diferentes situaciones: puede estar <strong>"armado"</strong> (listo para entrar en combate) o <strong>"desarmado"</strong> (en modo de espera o apagado), puede tener munición para disparar o no, puede tener la munición lista o estar sin municiones, etc.',
+        },
+        {
+          type: 'p',
+          text: 'A su vez, <strong>cada vez que alguien interactúa con el sistema de tiro, este cambia</strong>. Por ejemplo, si le quedara una sola bala, al dispararla el tanque queda vacío o "sin munición". Esta situación <strong>suena a estados y transiciones de estados</strong>: el tanque pasa por diferentes estados cada vez que "hace algo".',
+        },
+        {
+          type: 'p',
+          text: 'Si se modelara el sistema de armas como un objeto, este tendría <strong>estado interno</strong> y <strong>operaciones que invocarle para cambiar ese estado</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'El approach ingenuo: atributo estado + IF-ELSE',
+          criollo: 'No está mal per se. El problema aparece el día que agregás o sacás un estado.',
+        },
+        {
+          type: 'p',
+          text: 'El approach más sencillo sería tener un <strong>atributo "estado"</strong> y después un método para cada transición; dentro de ese método, un <strong>IF-ELSE</strong> para preguntar "si está en el estado A, B o C hago una cosa u otra, pero solo si está en el estado X paso al Y". <strong>No tiene nada de malo</strong>: estamos almacenando el estado interno y escribiendo código condicional que actúe según los diferentes estados.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'El problema aparece cuando <strong>agregamos un estado o quitamos uno</strong>: hay que cambiar el if-else o, lo que es peor, <strong>puede afectar toda la lógica</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Sería interesante que el sistema <strong>se comporte distinto según el estado en el que está</strong> y que eso dependa del estado en el que se encuentra en un determinado momento, <strong>ya no de una lógica centralizada</strong>. Es decir: quiero <strong>desacoplar el estado actual del comportamiento del sistema</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'La solución: encapsular los estados en clases',
+          criollo: 'Tres pasos y listo. El tercero es el más lindo: eliminar todo tipo de código condicional.',
+        },
+        {
+          type: 'p',
+          text: 'Lo que podemos hacer es <strong>encapsular los posibles estados en sus propias clases</strong> y posiblemente encapsular también a quien se encargue de cambiar los estados. Para ello:',
+        },
+        {
+          type: 'ol',
+          items: [
+            'Definir <strong>una interfaz que contenga cada transición de estado</strong>, es decir, cada operación que implique un cambio de estado.',
+            '<strong>Implementar cada uno de los estados posibles en una clase.</strong> Cada una tendrá la responsabilidad de actuar según el estado en que se encuentre la máquina (el problema).',
+            '<strong>Eliminar todo tipo de código condicional.</strong>',
+          ],
+        },
+        {
+          type: 'p',
+          text: 'Entonces, cada estado y cómo actuará la máquina en cada estado <strong>estará concentrado en clases y no disperso a través de varias sentencias IF-ELSE</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'El comportamiento del sistema de armas <strong>depende del estado en el que está</strong>, y ese comportamiento <strong>puede incluir una transición a otro estado</strong>. En algunos casos puede ser mejor que los cambios de estado los administre el propio sistema.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Poner la lógica de transiciones en cada uno de los "xyzState" <strong>aporta mayor flexibilidad</strong>, dado que cada uno conoce <strong>por qué cambia, cuándo lo hace y hacia qué otro estado va</strong>. Por otro lado, <strong>se acopla un poco</strong>, al tener que hacer que un "xyzState" conozca al menos a otro "xyzState".',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: '<strong>Patrón State (enunciado).</strong> El patrón State <strong>permite a un objeto alterar su comportamiento de acuerdo con su estado interno</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Conclusiones del patrón State',
+          criollo: 'Ventajas: se ve clarito en qué situación está la máquina y cuándo cambia. Desventaja: te llenás de clases.',
+        },
+        {
+          type: 'ul',
+          items: [
+            'Da una <strong>clara visión de qué hace la máquina en cada estado</strong>. Con constantes + IF/ELSE la lógica queda distribuida a lo largo de varios métodos, acoplando todo y siendo susceptible a errores; y complica a futuro si se quieren agregar o sacar estados.',
+            'Al estar los estados encapsulados <strong>se reduce la posibilidad de errores</strong> de codificación que dejen al contexto en un estado "inconsistente".',
+            'Da una <strong>clara visión de los cambios de estado</strong>. Usando constantes junto con IF/ELSE, el paso de estado <strong>se puede confundir con una asignación de valor a una variable</strong>.',
+            '<strong>Desventaja innegable:</strong> a medida que crece la cantidad de estados <strong>se incrementa la cantidad de clases</strong>, por lo que hay que escribir más código y resulta en más objetos, <strong>consumiendo más memoria</strong>.',
+          ],
+        },
+        {
+          type: 'h3',
+          text: 'Relación con Strategy',
+          criollo: 'Son iguales en forma pero distintos en intención. Esa frase entra en el parcial.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Con Strategy: son iguales en forma, pero se diferencian en intención.</strong>',
+        },
+        {
+          type: 'ul',
+          items: [
+            'En el <strong>State</strong>, el estado está encapsulado en objetos. Con los cambios de estado <strong>el contexto varía su comportamiento</strong>. El encapsulamiento hace que <strong>el cliente no conozca casi nada</strong> acerca de los objetos "xyzState".',
+            'En el <strong>Strategy</strong>, <strong>el cliente es quien especifica el objeto "xyzStrategy"</strong> que se va a utilizar en el contexto. Si bien se puede alterar la estrategia en runtime, normalmente <strong>hay una estrategia adecuada para cada problema</strong>.',
+            'Está bueno <strong>pensar al Strategy como una herencia</strong>: una vez elegida la estrategia queda fija hasta que termina el problema; para cambiarla hay que componer el contexto con un objeto diferente.',
+            'El <strong>State</strong> sirve para <strong>reemplazar varios condicionales</strong> que alteran el funcionamiento del contexto: al cambiar el contexto de estado, cambia su forma de comportarse.',
+          ],
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-42-1', q: 'El patrón State permite a un objeto alterar su comportamiento de acuerdo con su estado interno.', a: true, explain: 'Es el enunciado textual del patrón.' },
+          { id: 'tf-42-2', q: 'El apunte considera que usar un atributo estado con IF-ELSE está mal en sí mismo.', a: false, explain: 'Dice que no tiene nada de malo almacenar el estado interno y escribir código condicional. El problema aparece al agregar o quitar estados.' },
+          { id: 'tf-42-3', q: 'Uno de los pasos del patrón State es eliminar todo tipo de código condicional.', a: true, explain: 'Es el tercero de los tres pasos, después de definir la interfaz de transiciones e implementar cada estado en una clase.' },
+          { id: 'tf-42-4', q: 'Poner la lógica de transiciones en cada xyzState no genera ningún acoplamiento.', a: false, explain: 'Aporta flexibilidad, pero acopla un poco: cada xyzState tiene que conocer al menos a otro xyzState.' },
+          { id: 'tf-42-5', q: 'State y Strategy son iguales en forma pero se diferencian en intención.', a: true, explain: 'Es la frase con la que el apunte abre la sección "Relaciones con otros patrones".' },
+        ],
+        mc: [
+          {
+            id: 'mc-42-1',
+            q: '¿Cuál es el primer paso para aplicar el patrón State según el apunte?',
+            options: [
+              'Implementar cada estado posible en una clase',
+              'Definir una interfaz que contenga cada transición de estado',
+              'Eliminar todo el código condicional existente',
+              'Crear un atributo estado de tipo entero',
+            ],
+            correctIndex: 1,
+            explain: 'Primero se define la interfaz con cada operación que implique un cambio de estado; después se implementa cada estado en una clase y por último se eliminan los condicionales.',
+          },
+          {
+            id: 'mc-42-2',
+            q: '¿Cuál es la desventaja innegable del patrón State?',
+            options: [
+              'Que impide cambiar de estado en tiempo de ejecución',
+              'Que obliga a usar herencia múltiple',
+              'Que al crecer la cantidad de estados crece la cantidad de clases y el consumo de memoria',
+              'Que deja la lógica dispersa en varios métodos',
+            ],
+            correctIndex: 2,
+            explain: 'Más estados implican más clases, más código escrito y más objetos, consumiendo más memoria.',
+          },
+          {
+            id: 'mc-42-3',
+            q: 'En el Strategy, ¿quién especifica qué objeto de estrategia se usa en el contexto?',
+            options: [
+              'El cliente',
+              'El propio contexto, según su estado interno',
+              'El objeto de estrategia anterior',
+              'La JVM en tiempo de ejecución',
+            ],
+            correctIndex: 0,
+            explain: 'En el Strategy el cliente especifica el objeto xyzStrategy. En el State, en cambio, el cliente no conoce casi nada de los objetos xyzState.',
+          },
+          {
+            id: 'mc-42-4',
+            q: '¿Qué riesgo señala el apunte al manejar estados con constantes e IF/ELSE?',
+            options: [
+              'Que el compilador no permita comparar constantes',
+              'Que el paso de estado se pueda confundir con una asignación de valor a una variable',
+              'Que las constantes ocupen demasiada memoria',
+              'Que se pierda el encapsulamiento de la clase contexto',
+            ],
+            correctIndex: 1,
+            explain: 'Con constantes, un cambio de estado se ve igual que asignar un valor a una variable; el State da una visión clara de los cambios de estado.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-42-1',
+            q: '¿En qué situaciones puede estar el sistema de tiro del tanque según el apunte?',
+            options: [
+              'Armado, listo para entrar en combate',
+              'Desarmado, en modo de espera o apagado',
+              'Con munición lista para disparar',
+              'Sin municiones',
+              'En reparación en la base',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'El estado "en reparación" no aparece en el apunte; los otros cuatro sí.',
+          },
+          {
+            id: 'ms-42-2',
+            q: '¿Qué conclusiones favorables del patrón State enumera el apunte?',
+            options: [
+              'Da una clara visión de qué hace la máquina en cada estado',
+              'Reduce la posibilidad de dejar al contexto en un estado inconsistente',
+              'Da una clara visión de los cambios de estado',
+              'Reduce el consumo de memoria del sistema',
+              'Elimina la necesidad de definir interfaces',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'El consumo de memoria en realidad aumenta, y la interfaz de transiciones es justamente el primer paso del patrón.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-42-1', front: 'Patrón State (enunciado)', back: 'Permite a un objeto alterar su comportamiento de acuerdo con su estado interno.' },
+        { id: 'fc-42-2', front: 'El caso del sistema de tiro', back: 'Un tanque carga el arma, dispara y vuelve a empezar. Puede estar armado o desarmado, con munición lista o sin municiones. Cada interacción lo hace cambiar de estado.' },
+        { id: 'fc-42-3', front: 'El approach ingenuo de manejar estados', back: 'Un atributo "estado" y un método por transición con un IF-ELSE adentro. No está mal en sí, pero agregar o quitar un estado obliga a cambiar el if-else y puede afectar toda la lógica.' },
+        { id: 'fc-42-4', front: 'Los tres pasos del patrón State', back: '1) Definir una interfaz con cada transición de estado. 2) Implementar cada estado posible en una clase. 3) Eliminar todo tipo de código condicional.' },
+        { id: 'fc-42-5', front: 'Ventaja y costo de poner las transiciones en cada xyzState', back: 'Ventaja: cada estado conoce por qué cambia, cuándo lo hace y hacia dónde va, lo que aporta flexibilidad. Costo: se acopla un poco, porque un xyzState debe conocer a otro.' },
+        { id: 'fc-42-6', front: 'Desventaja innegable del State', back: 'A medida que crece la cantidad de estados crece la cantidad de clases: más código escrito, más objetos y más consumo de memoria.' },
+        { id: 'fc-42-7', front: 'State vs. Strategy', back: 'Son iguales en forma pero distintos en intención. En State el cliente no conoce casi nada de los xyzState y el contexto cambia solo; en Strategy el cliente especifica el xyzStrategy y normalmente hay uno adecuado por problema.' },
+        { id: 'fc-42-8', front: '¿Para qué sirve el State frente a los condicionales?', back: 'Para reemplazar varios condicionales que alteran el funcionamiento del contexto: al cambiar el estado, cambia la forma de comportarse.' },
+      ],
+    },
+    {
+      id: '43',
+      unit: 'diseno-avanzado',
+      title: 'Patrón Singleton',
+      criollo: 'Cuando necesitás una y solo una instancia de algo (el mapa del juego, las preferencias, un historial) y querés llegar a ella desde cualquier lado. Constructor privado, getInstance() y listo. Después el apunte se pone fino con los threads y aparece el double-checked locking con volatile.',
+      blocks: [
+        {
+          type: 'h3',
+          text: '¿Por qué necesitamos una sola instancia de un objeto?',
+          criollo: 'Objetos caros de construir, con recursos limitados, o que simplemente no tiene sentido duplicar.',
+        },
+        {
+          type: 'p',
+          text: 'Puede tratarse de objetos que sean <strong>contenedores de preferencias</strong>, <strong>diálogos</strong>, <strong>editores</strong>, <strong>mensajes</strong>, objetos que <strong>usen recursos limitados</strong>, <strong>historiales de acciones</strong> o cuya <strong>construcción sea costosa</strong> y no varíe durante el ciclo de vida de la aplicación.',
+        },
+        {
+          type: 'p',
+          text: 'En este último caso, puede que <strong>no necesitemos ese objeto hasta cierto punto</strong> en la aplicación, y crearlo apenas arranca podría significar <strong>un tiempo de espera inaceptable para el usuario</strong>. En cualquiera de estos escenarios sería útil poder tener <strong>acceso global</strong> a ese objeto, ya que contamos con una única instancia.',
+        },
+        {
+          type: 'h3',
+          text: 'Acceso global a una variable en Java: algunas consideraciones',
+          criollo: 'La tentación es una variable public static. Mala idea: rompés el encapsulamiento y no controlás cuándo se inicializa.',
+        },
+        {
+          type: 'ul',
+          items: [
+            'Si lo guardado en la variable global fuera <strong>muy costoso en recursos</strong>, quedaría "atado" a la variable <strong>hasta que el programa termine</strong>, y puede que solo necesite que quede accesible <strong>después de un tiempo</strong> de usar la aplicación ("lazy initialization").',
+            'Usando <strong>variables estáticas</strong> no resultaría fácil <strong>controlar cuándo o a partir de cuándo se inicializa</strong>.',
+            'Si uso variables <strong><code>public static</code></strong>, <strong>rompo con cualquier concepto de encapsulamiento y ocultamiento de información</strong>, dado que esos valores pueden ser accedidos por cualquier objeto sin mayor control.',
+          ],
+        },
+        {
+          type: 'h3',
+          text: 'Creando un objeto sobre demanda (Lazy Loading)',
+          criollo: 'El mapa del juego: uno solo, actualizado, y creado recién cuando el jugador toca "mostrar mapa".',
+        },
+        {
+          type: 'p',
+          text: 'En nuestro juego, que se trata de un mundo futuro en guerra, podemos mostrar un <strong>"mapa"</strong> con la situación de los bandos, los ejércitos, etc. Pero <strong>necesito solo un mapa</strong> y mantener en este todo actualizado al momento de seleccionar la opción "mostrar mapa" de la pantalla. Entonces puedo implementar el <strong>patrón Singleton</strong>.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: '<strong>Patrón Singleton (enunciado).</strong> Singleton provee la certeza de que haya siempre <strong>SOLO UNA INSTANCIA</strong> de una clase determinada y, a la vez, provee <strong>un punto de acceso global</strong> a ella.',
+        },
+        {
+          type: 'h3',
+          text: 'Conclusiones: constructor privado y getInstance()',
+          criollo: 'La clave es que nadie pueda hacer new desde afuera. Solo la clase Singleton crea el Singleton.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Solo la clase Singleton crea el Singleton.</strong> Esto se debe a que el patrón se implementa incluyendo un <strong>constructor privado</strong>. Dado que nadie puede llamar al constructor directamente, lo único que hacen los clientes del Singleton es <strong>obtener una referencia a este mediante el método provisto <code>getInstance()</code></strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Ahora el acceso es global como si fuera una variable, con la diferencia de que se trata de <strong>una clase como cualquier otra con todos los beneficios</strong>: atributos, getters y setters para cada uno, y métodos.',
+        },
+        {
+          type: 'h3',
+          text: 'El problema de los múltiples threads',
+          criollo: 'Si dos hilos piden la instancia al mismo tiempo, podés terminar con dos singletons. Sincronizar arregla, pero te cuesta performance.',
+        },
+        {
+          type: 'p',
+          text: 'Un potencial problema es <strong>la creación del objeto único</strong>. Si necesita ser accedido por <strong>varios threads a la vez</strong>, ya sea para escribir, leer o incluso al momento de obtener la referencia, puede haber problemas. Típicamente agregaríamos <code>synchronized</code> al <code>getInstance()</code> y listo. Pero eso <strong>solo sería relevante la primera vez que se corra</strong>, que es cuando se instancia la clase y se asigna a la variable. A partir de ahí, sincronizar las llamadas es <strong>inútil y costoso</strong> a la vez, porque hace de esta llamada <strong>un cuello de botella</strong>.',
+        },
+        {
+          type: 'h3',
+          text: '¿Qué se puede hacer?',
+          criollo: 'Tres caminos. El tercero es el famoso double-checked locking.',
+        },
+        {
+          type: 'ol',
+          items: [
+            'Si <strong>la performance no es un tema importante</strong>, dejarlo con el <code>synchronized</code> en el <code>getInstance</code>. Tener en cuenta que <strong>sincronizar un método lo vuelve más lento</strong>.',
+            '<strong>Eliminar el chequeo por null</strong>, haciendo que la clase no se instancie sobre demanda sino que quede ya instanciada: <code>private static Singleton = new Singleton()</code>. A esto se le llama <strong>"eager initialization"</strong>, en contraposición con el "lazy loading".',
+            'Usar <strong>"double-checked locking"</strong> para reducir la sincronización: primero se verifica si la instancia está creada y, si no, solo entonces se realiza la sincronización.',
+          ],
+        },
+        {
+          type: 'code',
+          code: 'public class Singleton {\n\n    private volatile static Singleton uniqueInstance;\n\n    private Singleton() {} // constructor PRIVADO!\n\n    public static Singleton getInstance() {\n        if (uniqueInstance == null) {\n            synchronized (Singleton.class) {\n                if (uniqueInstance == null) {\n                    uniqueInstance = new Singleton();\n                }\n            }\n        }\n        return uniqueInstance;\n    }\n}',
+        },
+        {
+          type: 'p',
+          text: 'En este código se pueden ver <strong>cuatro temas importantes</strong>:',
+        },
+        {
+          type: 'ul',
+          items: [
+            'El uso de <strong><code>volatile</code></strong>: se asegura de que múltiples threads manejen la variable <code>instance</code> de forma correcta cuando se le esté asignando la instancia de Singleton.',
+            'El <code>getInstance</code> se hace como siempre, pero <strong>solo luego del chequeo por null se sincroniza el bloque</strong> de código.',
+            'El bloque de instanciación <strong>chequea por segunda vez si la variable es null</strong>. Solo entonces hace el <code>new Singleton()</code>.',
+            'Después del <strong>chequeo por partida doble</strong>, se retorna la instancia.',
+          ],
+        },
+        {
+          type: 'p',
+          text: 'De esta manera nos aseguramos de que <strong>el acceso por múltiples threads sea seguro</strong>, a la vez que <strong>mejoramos la performance</strong> de la opción 1.',
+        },
+        {
+          type: 'h3',
+          text: 'Los otros dos problemas del Singleton',
+          criollo: 'Acopla y no se puede heredar. El apunte lo admite y dice que a veces vale la pena igual.',
+        },
+        {
+          type: 'p',
+          text: 'Otro potencial problema es que el Singleton <strong>rompe con el principio de una clase &lt;-&gt; una responsabilidad</strong> (es decir, se acopla): la clase Singleton hace lo que tiene que hacer <strong>además de gestionarse como instancia única</strong>. El caso de Singleton <strong>puede ser una excepción</strong>: a veces es mucho más simple usar Singleton que otra solución y <strong>toma precedencia por sobre el principio</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Un problema adicional se presenta si queremos <strong>reutilizar la funcionalidad del Singleton mediante la herencia</strong>: es <strong>imposible</strong>, dado que el constructor es privado. De hacerlo público rompemos con el propósito del Singleton, no solo por hacer el constructor visible, sino porque <strong>las hijas compartirán la variable</strong> y probablemente no sea lo que queramos. Habría que implementar algún tipo de contenedor, y eso <strong>complica las cosas cuando en realidad decidimos usar Singleton para simplificarlas</strong>.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-43-1', q: 'El Singleton se implementa con un constructor privado.', a: true, explain: 'Por eso solo la clase Singleton crea el Singleton: nadie puede llamar al constructor directamente desde afuera.' },
+          { id: 'tf-43-2', q: 'Usar variables public static es una buena forma de dar acceso global sin perder encapsulamiento.', a: false, explain: 'Rompe con cualquier concepto de encapsulamiento y ocultamiento de información: esos valores pueden ser accedidos por cualquier objeto sin control.' },
+          { id: 'tf-43-3', q: 'Sincronizar getInstance() es útil solamente la primera vez que se corre.', a: true, explain: 'Es cuando se instancia la clase y se asigna a la variable. Después, sincronizar es inútil y costoso: hace de la llamada un cuello de botella.' },
+          { id: 'tf-43-4', q: 'La "eager initialization" consiste en crear la instancia recién cuando se la pide por primera vez.', a: false, explain: 'Eso es el lazy loading. La eager initialization es dejar la clase ya instanciada eliminando el chequeo por null.' },
+          { id: 'tf-43-5', q: 'Se puede reutilizar la funcionalidad de un Singleton mediante herencia sin inconvenientes.', a: false, explain: 'Es imposible, porque el constructor es privado. Hacerlo público rompe el propósito del patrón y además las hijas compartirían la variable.' },
+        ],
+        mc: [
+          {
+            id: 'mc-43-1',
+            q: '¿Qué provee el patrón Singleton?',
+            options: [
+              'Una familia de algoritmos intercambiables en runtime',
+              'La certeza de que haya solo una instancia de una clase y un punto de acceso global a ella',
+              'Un esqueleto de algoritmo cuyos pasos implementan las subclases',
+              'La posibilidad de que un objeto altere su comportamiento según su estado interno',
+            ],
+            correctIndex: 1,
+            explain: 'Es el enunciado textual del Singleton. Las otras tres opciones corresponden a Strategy, Template Method y State.',
+          },
+          {
+            id: 'mc-43-2',
+            q: '¿Cómo obtienen los clientes la referencia al Singleton?',
+            options: [
+              'Con el operador new sobre la clase Singleton',
+              'Accediendo directamente a la variable public static',
+              'Mediante el método provisto getInstance()',
+              'Casteando cualquier instancia con instanceof',
+            ],
+            correctIndex: 2,
+            explain: 'Como el constructor es privado, lo único que hacen los clientes es obtener una referencia mediante getInstance().',
+          },
+          {
+            id: 'mc-43-3',
+            q: '¿Para qué se usa volatile en la implementación con double-checked locking?',
+            options: [
+              'Para que múltiples threads manejen la variable de forma correcta al asignarle la instancia',
+              'Para que la variable se libere de memoria al terminar el método',
+              'Para que la instancia se cree en el arranque del programa',
+              'Para que el compilador no optimice el bloque synchronized',
+            ],
+            correctIndex: 0,
+            explain: 'volatile se asegura de que múltiples threads manejen la variable instance de forma correcta cuando se le esté asignando la instancia de Singleton.',
+          },
+          {
+            id: 'mc-43-4',
+            q: '¿Qué principio rompe el Singleton, según el apunte?',
+            options: [
+              'El de programar contra una interfaz',
+              'El de favorecer la composición por sobre la herencia',
+              'El de una clase con una única responsabilidad',
+              'El de separar lo que varía de lo que queda fijo',
+            ],
+            correctIndex: 2,
+            explain: 'La clase Singleton hace lo que tiene que hacer además de gestionarse como instancia única, es decir, se acopla. El apunte lo admite como excepción aceptable.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-43-1',
+            q: '¿Qué tipos de objetos menciona el apunte como candidatos a Singleton?',
+            options: [
+              'Contenedores de preferencias',
+              'Diálogos, editores y mensajes',
+              'Objetos que usen recursos limitados',
+              'Historiales de acciones',
+              'Objetos que cambian de tipo en tiempo de ejecución',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'También los objetos cuya construcción sea costosa y no varíe durante el ciclo de vida de la aplicación. El último no aparece.',
+          },
+          {
+            id: 'ms-43-2',
+            q: '¿Qué opciones da el apunte frente al problema de los múltiples threads?',
+            options: [
+              'Dejar el synchronized en getInstance si la performance no importa',
+              'Eliminar el chequeo por null y usar eager initialization',
+              'Usar double-checked locking para reducir la sincronización',
+              'Hacer el constructor público para evitar la sincronización',
+              'Crear una instancia por cada thread',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'Son las tres opciones enumeradas en "¿Qué se puede hacer?". Las otras dos rompen el patrón.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-43-1', front: 'Patrón Singleton (enunciado)', back: 'Provee la certeza de que haya siempre solo una instancia de una clase determinada y, a la vez, provee un punto de acceso global a ella.' },
+        { id: 'fc-43-2', front: '¿Cuándo conviene un Singleton?', back: 'Contenedores de preferencias, diálogos, editores, mensajes, objetos que usan recursos limitados, historiales de acciones, o cuya construcción es costosa y no varía durante el ciclo de vida de la app.' },
+        { id: 'fc-43-3', front: 'Problema de usar variables public static para acceso global', back: 'Rompe el encapsulamiento y el ocultamiento de información: cualquier objeto accede a esos valores sin control. Y con estáticas no es fácil controlar cuándo se inicializa.' },
+        { id: 'fc-43-4', front: 'Lazy initialization vs. eager initialization', back: 'Lazy: el objeto se crea recién cuando se lo necesita (chequeo por null en getInstance). Eager: se elimina el chequeo y la clase queda ya instanciada con private static Singleton = new Singleton().' },
+        { id: 'fc-43-5', front: '¿Cómo se implementa el Singleton?', back: 'Con un constructor privado, de modo que solo la clase cree la instancia, y un método público getInstance() con el que los clientes obtienen la referencia.' },
+        { id: 'fc-43-6', front: 'Problema del synchronized en getInstance()', back: 'Solo es relevante la primera vez, cuando se instancia la clase. Después sincronizar es inútil y costoso: convierte la llamada en un cuello de botella.' },
+        { id: 'fc-43-7', front: 'Double-checked locking', back: 'Se chequea si la instancia es null; solo entonces se sincroniza el bloque; adentro se vuelve a chequear por null antes de hacer el new; y se retorna la instancia. La variable se declara volatile.' },
+        { id: 'fc-43-8', front: '¿Para qué sirve volatile en el Singleton?', back: 'Para asegurar que múltiples threads manejen correctamente la variable instance cuando se le está asignando la instancia de Singleton.' },
+        { id: 'fc-43-9', front: 'Dos problemas de diseño del Singleton', back: 'Rompe el principio de una clase / una responsabilidad (se gestiona a sí mismo además de su tarea), y no se puede reutilizar por herencia porque el constructor es privado.' },
+      ],
+    },
+    {
+      id: '44',
+      unit: 'actividades',
+      title: 'Actividad del módulo: diseño de clases en Java (corregida)',
+      criollo: 'La actividad calificada de la unidad 04: tres de opción múltiple y una de ensayo. Se entregó y volvió con 4/10, así que acá está todo: qué se contestó, qué era lo correcto y por qué. La pregunta 4 es la joya: el código no compila por un error de tipeo, y encima abajo esconde la diferencia entre sobrecarga y sobreescritura. Leela con calma.',
+      blocks: [
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Actividad de la <strong>unidad 04 (Diseño de clases en Java)</strong>. Tres preguntas de opción múltiple de 2 puntos cada una y una de ensayo de 4 puntos. <strong>Calificación obtenida: 4/10</strong> (se perdieron la 3 y la 4). Abajo va cada pregunta con la respuesta correcta y la corrección del docente.',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 1: ¿qué aporta la herencia?',
+          criollo: 'Trampa clásica: hay cuatro opciones que suenan lindas y solo una es la que el apunte sostiene.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Conociendo el concepto de herencia, seleccionar la opción correcta:</strong>',
+        },
+        {
+          type: 'ul',
+          items: [
+            '<strong>A. La herencia fomenta la reutilización de código.</strong> ✔ CORRECTA',
+            'B. La herencia ayuda a disminuir el acoplamiento.',
+            'C. La herencia facilita el testeo del sistema.',
+            'D. La herencia facilita el mantenimiento del sistema.',
+            'E. Todos los anteriores.',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'La herencia apunta <strong>fundamentalmente a la reutilización de código</strong>: es lo que dice el apunte de conceptos básicos de herencia. Las otras no las sostiene: de hecho, en el apunte de uso avanzado de interfaces se muestra que la herencia puede <strong>complicar</strong> el mantenimiento (un cambio local con efecto colateral generalizado) y que <strong>acopla</strong> las hijas al comportamiento fijo del padre.',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 2: qué líneas compilan y corren',
+          criollo: 'Ejecutivo extiende de Empleado. Todo lo que sube por el ES-UN va solo; todo lo que baja necesita casteo y que el objeto real sea del tipo posta.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Sabiendo que la clase Ejecutivo extiende de la clase Empleado, indicar cuál o cuáles de las siguientes líneas compilan y corren correctamente:</strong>',
+        },
+        {
+          type: 'table',
+          caption: 'Análisis línea por línea',
+          headers: ['Opción', 'Código', '¿Compila y corre?'],
+          rows: [
+            ['A', 'Empleado e = new Ejecutivo();', 'SÍ — Ejecutivo ES UN Empleado'],
+            ['B', 'Ejecutivo e = new Ejecutivo();', 'SÍ — mismo tipo en ambos lados'],
+            ['C', 'Ejecutivo e = new Ejecutivo(); Empleado m = e;', 'SÍ — se asigna hacia arriba en la jerarquía'],
+            ['D', 'Ejecutivo e = new Empleado();', 'NO — un Empleado no es necesariamente un Ejecutivo'],
+            ['E', 'Empleado e = new Empleado(); Ejecutivo j = e;', 'NO — falta el casteo y además el objeto no es Ejecutivo'],
+            ['F', 'Empleado e = new Empleado(); Ejecutivo j = (Ejecutivo)e;', 'Compila, pero falla en runtime con ClassCastException'],
+            ['G', 'Ejecutivo e = new Empleado(); Empleado m = e;', 'NO — la primera línea ya no compila'],
+            ['H', 'Empleado e = new Ejecutivo(); Ejecutivo j = (Ejecutivo)e;', 'SÍ — el objeto real ES UN Ejecutivo, el casteo es válido'],
+            ['I', 'Ejecutivo e = new Empleado(); Empleado m = (Empleado)e;', 'NO — la primera línea ya no compila'],
+            ['J', 'Todas las anteriores.', 'NO'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Las correctas son <strong>A, B, C y H</strong>. La <strong>F</strong> es el caso que el apunte de conceptos avanzados describe como "compila, pero no anda": le mentimos al compilador y el <strong>dynamic binding</strong> nos delata en tiempo de ejecución. Para evitarlo está <code>instanceof</code>.',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 3: variables y métodos de clase (esta se perdió)',
+          criollo: 'El punto es simple pero se pasa por alto: un método de instancia sí puede tocar un atributo static; un método static NO puede tocar atributos de instancia, porque no hay instancia.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Sobre variables de clase y métodos de clase, indicar la opción correcta:</strong>',
+        },
+        {
+          type: 'ul',
+          items: [
+            'A. La keyword <code>static</code> sirve solo para hacer constantes.',
+            'B. Usar atributos de clase reduce el acoplamiento.',
+            'C. Los métodos de clase pueden alterar valores de los atributos de instancia.',
+            'D. Los atributos de clase rompen el encapsulamiento.',
+            '<strong>E. Los métodos de instancia pueden alterar los atributos de clase.</strong> ✔ CORRECTA',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'Por qué caen las otras: <strong>A</strong>, porque <code>static</code> sirve para mucho más que constantes (atributos y métodos de clase). <strong>C</strong> es la inversa de la correcta y es justamente lo que <strong>no</strong> se puede: un método de clase no tiene un <code>this</code> al que preguntarle por los atributos de instancia. <strong>B</strong> y <strong>D</strong> son afirmaciones sobre acoplamiento y encapsulamiento que el apunte no sostiene.',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 4: el resultado de correr main() (la de ensayo)',
+          criollo: 'Acá está el oro. La consigna avisa: "conviene no tomar el camino fácil, no correr el código en el IDE". Y tenía razón, porque si lo corrés el IDE te subraya el error y no ves la trampa de abajo.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Dadas las clases Vehiculo y Auto, ¿cuál es el resultado de correr <code>main()</code>? Explicar por qué.</strong> Nota de la consigna: "¡conviene no tomar el camino fácil! No correr el código en el IDE".',
+        },
+        {
+          type: 'code',
+          code: 'public class Vehiculo {\n    public int acelerar(int i) {\n        return 10;\n    }\n}\n\npublic class Auto extends Vehiculo {\n    public int acelerar(int i) {\n        return 20*i;\n    }\n    public int acelerar(String i) {\n        return 100;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Vehiculo v = new Vehiculo();\n        System.out.println(v.acelerar(3));\n        Vehiculo v2 = new Auto();\n        System.out.println(a.acelerar(2));\n    }\n}',
+        },
+        {
+          type: 'p',
+          text: '<strong>Respuesta entregada (incorrecta):</strong> "10 en la primera línea de println y 40 en la segunda; recién acá se utiliza el parámetro del método".',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: '<strong>Corrección del profesor.</strong> El resultado real es que <strong>el programa NO COMPILA</strong>, porque la variable <code>a</code> <strong>no está declarada</strong>: el código escribe <code>a.acelerar(2)</code> en vez de <code>v2.acelerar(2)</code>. <strong>No imprime ni 10 ni 40.</strong> Faltó explicar la causa considerando el código <strong>tal como está escrito</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Qué esconde la pregunta 4 abajo del error de tipeo',
+          criollo: 'Sacale el typo y la pregunta se convierte en el mejor ejemplo de sobrecarga vs. sobreescritura que vas a ver.',
+        },
+        {
+          type: 'p',
+          text: 'Si el error de tipeo no estuviera y la línea fuera <code>v2.acelerar(2)</code>, <strong>la respuesta sería 40</strong>. ¿Por qué?',
+        },
+        {
+          type: 'ol',
+          items: [
+            '<code>v2</code> está <strong>declarada como Vehiculo</strong> pero apunta a un objeto <strong>Auto</strong>. Eso es válido: Auto ES UN Vehiculo.',
+            '<code>acelerar(int)</code> está <strong>sobreescrito</strong> en Auto: misma firma, distinto cuerpo. Como el despacho es <strong>dinámico</strong>, la JVM llama al método <strong>del objeto referenciado</strong>, es decir, al de Auto. Entonces devuelve <code>20*2 = 40</code>.',
+            '<code>acelerar(String)</code> es <strong>sobrecarga</strong>, no sobreescritura: cambia la firma (recibe String en vez de int). Es un método <strong>nuevo</strong> de Auto, no una redefinición del de Vehiculo.',
+            'Y como <code>v2</code> es de tipo <strong>Vehiculo</strong>, ese <code>acelerar(String)</code> <strong>ni siquiera es visible</strong> a través de esa referencia: la referencia define <strong>qué métodos podés llamar</strong>, el objeto define <strong>cómo se ejecutan</strong>.',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'Ese es el punto que la pregunta busca evaluar. La primera línea sí da <strong>10</strong>: <code>v</code> es un Vehiculo apuntando a un Vehiculo, y el <code>acelerar(int)</code> de Vehiculo devuelve 10 fijo sin usar el parámetro. Pero la respuesta correcta a la consigna, con el código tal cual está escrito, sigue siendo <strong>"no compila"</strong>.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-44-1', q: 'La respuesta correcta de la pregunta 1 es que la herencia fomenta la reutilización de código.', a: true, explain: 'Es la opción A. Las demás (menos acoplamiento, testeo más fácil, mantenimiento más fácil) no las sostiene el apunte.' },
+          { id: 'tf-44-2', q: 'Empleado e = new Empleado(); Ejecutivo j = (Ejecutivo)e; compila pero falla en tiempo de ejecución.', a: true, explain: 'Es la opción F: compila porque le mentimos al compilador con el casteo, pero en runtime tira ClassCastException porque e no es una instancia de Ejecutivo.' },
+          { id: 'tf-44-3', q: 'Los métodos de clase pueden alterar valores de los atributos de instancia.', a: false, explain: 'Es la opción C de la pregunta 3 y es falsa. Lo correcto es al revés: los métodos de instancia pueden alterar los atributos de clase.' },
+          { id: 'tf-44-4', q: 'El main de la pregunta 4 imprime 10 y después 40.', a: false, explain: 'No imprime nada: el programa no compila porque la variable a no está declarada. El código escribe a.acelerar(2) en lugar de v2.acelerar(2).' },
+          { id: 'tf-44-5', q: 'acelerar(String) en la clase Auto es una sobreescritura del método de Vehiculo.', a: false, explain: 'Es una sobrecarga: cambia la firma. Y como v2 está declarada como Vehiculo, ese método ni siquiera es visible por esa referencia.' },
+        ],
+        mc: [
+          {
+            id: 'mc-44-1',
+            q: '¿Cuáles son las opciones correctas de la pregunta 2?',
+            options: [
+              'A, B, C y H',
+              'A, B, D y F',
+              'Solo B y C',
+              'Todas las anteriores (opción J)',
+            ],
+            correctIndex: 0,
+            explain: 'A, B y C asignan hacia arriba o al mismo nivel; H castea hacia abajo pero el objeto real ES UN Ejecutivo, así que funciona.',
+          },
+          {
+            id: 'mc-44-2',
+            q: '¿Por qué no compila el main de la pregunta 4?',
+            options: [
+              'Porque Auto no puede sobrecargar acelerar con un String',
+              'Porque la variable a no está declarada',
+              'Porque Vehiculo v2 = new Auto() es una asignación inválida',
+              'Porque falta el return en el método main',
+            ],
+            correctIndex: 1,
+            explain: 'Es la corrección del profesor: el código escribe a.acelerar(2) en vez de v2.acelerar(2), y a nunca fue declarada.',
+          },
+          {
+            id: 'mc-44-3',
+            q: 'Si la línea fuera v2.acelerar(2), ¿qué imprimiría?',
+            options: [
+              '10, porque la referencia es de tipo Vehiculo',
+              '100, porque toma la sobrecarga con String',
+              '40, porque acelerar(int) está sobreescrito en Auto y el despacho es dinámico',
+              '2, porque devuelve el parámetro recibido',
+            ],
+            correctIndex: 2,
+            explain: 'La JVM llama al método del objeto referenciado, que es un Auto: 20*2 = 40.',
+          },
+          {
+            id: 'mc-44-4',
+            q: '¿Qué error se le señaló a la respuesta entregada en la pregunta 4?',
+            options: [
+              'Haber corrido el código en el IDE en vez de razonarlo',
+              'Faltó explicar la causa considerando el código tal como está escrito',
+              'Haber confundido la sobrecarga con la sobreescritura en la explicación',
+              'No haber indicado el valor de retorno del método main',
+            ],
+            correctIndex: 1,
+            explain: 'La corrección dice exactamente eso: faltó explicar la causa considerando el código tal como está escrito, es decir, con la variable a sin declarar.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-44-1',
+            q: '¿Cuáles de estas líneas de la pregunta 2 NO compilan?',
+            options: [
+              'Ejecutivo e = new Empleado();',
+              'Empleado e = new Empleado(); Ejecutivo j = e;',
+              'Empleado e = new Ejecutivo();',
+              'Ejecutivo e = new Ejecutivo(); Empleado m = e;',
+              'Empleado e = new Empleado(); Ejecutivo j = (Ejecutivo)e;',
+            ],
+            correctIndexes: [0, 1],
+            explain: 'Las dos primeras no compilan (asignan un Empleado a una referencia Ejecutivo sin casteo). La última sí compila, aunque falle en runtime.',
+          },
+          {
+            id: 'ms-44-2',
+            q: '¿Qué conceptos evalúa realmente la pregunta 4?',
+            options: [
+              'Que una variable no declarada impide la compilación',
+              'Que acelerar(int) está sobreescrito y se despacha dinámicamente',
+              'Que acelerar(String) es una sobrecarga, no una sobreescritura',
+              'Que la sobrecarga no es visible desde una referencia del tipo padre',
+              'Que una clase hija no puede agregar métodos nuevos',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Una clase hija sí puede agregar métodos nuevos; el punto es que no son alcanzables desde una referencia del tipo del padre.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-44-1', front: 'Pregunta 1: ¿qué fomenta la herencia?', back: 'La reutilización de código. No se sostiene que disminuya el acoplamiento, ni que facilite el testeo o el mantenimiento.' },
+        { id: 'fc-44-2', front: 'Pregunta 2: opciones correctas', back: 'A (Empleado e = new Ejecutivo()), B (Ejecutivo e = new Ejecutivo()), C (asignar el Ejecutivo a una referencia Empleado) y H (Empleado e = new Ejecutivo(); Ejecutivo j = (Ejecutivo)e).' },
+        { id: 'fc-44-3', front: 'El caso F de la pregunta 2', back: 'Empleado e = new Empleado(); Ejecutivo j = (Ejecutivo)e; compila (le mentimos al compilador) pero falla en runtime con ClassCastException.' },
+        { id: 'fc-44-4', front: 'Pregunta 3: la afirmación correcta', back: 'Los métodos de instancia pueden alterar los atributos de clase. La inversa (métodos de clase alterando atributos de instancia) es falsa: no hay instancia a la que preguntarle.' },
+        { id: 'fc-44-5', front: 'Pregunta 4: ¿qué imprime el main?', back: 'Nada: el programa NO COMPILA, porque la variable a no está declarada (escribe a.acelerar(2) en vez de v2.acelerar(2)).' },
+        { id: 'fc-44-6', front: 'Pregunta 4: ¿y si el typo no estuviera?', back: 'Imprimiría 10 y 40. El 40 sale de acelerar(int) sobreescrito en Auto (20*2), porque el despacho es dinámico sobre el objeto referenciado.' },
+        { id: 'fc-44-7', front: 'Pregunta 4: el rol de acelerar(String)', back: 'Es una sobrecarga, no una sobreescritura: cambia la firma. Y como v2 está declarada como Vehiculo, ese método ni siquiera es visible desde esa referencia.' },
+        { id: 'fc-44-8', front: 'Referencia vs. objeto', back: 'La referencia define qué métodos podés llamar; el objeto define cómo se ejecutan. Es la moraleja de toda la pregunta 4.' },
+      ],
+    },
+    {
+      id: '45',
+      unit: 'actividades',
+      title: 'Actividad: Conceptos de diseño (unidad 05)',
+      criollo: 'Cuatro preguntas de ensayo de 2,5 puntos cada una sobre toda la unidad 05: constructores en clases abstractas, cuándo interfaz y cuándo clase abstracta, cuándo componer en vez de heredar, y qué resuelve el patrón State. Acá están las consignas tal cual y, abajo de cada una, una respuesta modelo armada con los apuntes de la unidad.',
+      blocks: [
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: '<strong>Aviso importante.</strong> Las consignas de abajo son las de la cátedra. Las <strong>respuestas modelo son elaboración de este apunte</strong>, armadas a partir de los cuatro apuntes de la unidad 05 (conceptos avanzados de herencia, interfaces / caso zoo virtual, uso avanzado de las interfaces y patrones de diseño comunes). <strong>No son la solución oficial de la cátedra</strong>: sirven como guía de estudio, no como respuesta garantizada.',
+        },
+        {
+          type: 'p',
+          text: 'Actividad de ensayo de la <strong>unidad 05</strong>, <strong>10 puntos</strong> en total: <strong>4 preguntas de 2,5 puntos cada una</strong>.',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 1: si las clases abstractas no se pueden instanciar, ¿para qué pueden definir constructores?',
+          criollo: 'La respuesta corta: porque los constructores no sirven solo para hacer new. Sirven para inicializar, y las hijas los llaman.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Respuesta modelo.</strong> Porque el objetivo del constructor en una clase abstracta <strong>es el mismo que en cualquier otra clase: reutilizar código</strong>. Que una clase abstracta no se pueda instanciar directamente no significa que no participe de la construcción de sus hijas: cuando se instancia una <strong>subclase concreta</strong>, la cadena de constructores <strong>sube por la jerarquía</strong> y el constructor de la clase abstracta se ejecuta igual, inicializando los atributos que la abstracta declara.',
+        },
+        {
+          type: 'p',
+          text: 'Conviene recordar que <strong>una clase abstracta es una clase como cualquier otra</strong>: puede tener atributos y métodos concretos, además de los abstractos que definen el contrato. Si tiene atributos (por ejemplo el <code>nombre</code> de la clase abstracta <code>Perro</code> del apunte), tiene sentido tener un constructor que los reciba e inicialice <strong>una sola vez y en un solo lugar</strong>, en vez de repetir esa inicialización en cada subclase.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'El apunte agrega una advertencia que conviene mencionar: hay que <strong>recordar las reglas acerca de los constructores y su uso en herencia</strong>, junto con los <strong>posibles efectos secundarios de definir constructores adicionales al constructor por default</strong> (si definís un constructor con parámetros, dejás de tener el constructor sin argumentos gratis, y las hijas tienen que invocar explícitamente al del padre).',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 2: ¿en qué casos deben utilizarse las interfaces por sobre las clases abstractas?',
+          criollo: 'Cuando el comportamiento no pertenece a la jerarquía, cuando lo necesitás en más de un árbol, o cuando querés un contrato puro sin fisuras.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Respuesta modelo.</strong> Hay cuatro situaciones típicas que salen de los apuntes de la unidad:',
+        },
+        {
+          type: 'ol',
+          items: [
+            '<strong>Cuando el comportamiento no pertenece a la jerarquía.</strong> Definir comportamiento abstracto con clases abstractas <strong>quita flexibilidad al dejarlo "atrapado" en una jerarquía</strong>. El caso <code>vestir()</code>: es tan abstracto que no es parte de Perro, ni de Animal, ni de SerVivo. Meterlo en la jerarquía contamina clases que no deberían tenerlo, y dejarlo con implementación vacía es peor todavía (si una clase tiene una operación que no hace nada, no debería tenerla siquiera).',
+            '<strong>Cuando una clase necesita comportamiento de más de una "familia".</strong> Java <strong>solo soporta herencia simple</strong>, así que si un objeto tiene que ser dos cosas a la vez la clase abstracta no alcanza. Es el caso del <strong>ornitorrinco</strong>: es mamífero y ovíparo al mismo tiempo. Con interfaces <code>Mamifero</code> y <code>Oviparo</code> se dan <strong>selectivamente</strong> los comportamientos <code>amamantar()</code>, <code>parir()</code>, <code>ponerHuevos()</code> y <code>romperCascaron()</code> a las clases que los necesiten.',
+            '<strong>Cuando se quiere garantizar un contrato completo.</strong> Como en una clase abstracta se puede mezclar comportamiento abstracto con métodos concretos, <strong>no se puede garantizar la definición completa de un contrato</strong>. Las interfaces representan <strong>comportamiento puro</strong>: solo definen qué hacer. Por eso el apunte llega a afirmar que <strong>en Java solo hay polimorfismo si utilizamos interfaces</strong>.',
+            '<strong>Cuando se quiere programar contra una interfaz y no contra una implementación.</strong> Si el tipo del lado izquierdo del igual es una interfaz, puedo cambiar la implementación del lado derecho sin tocar el código cliente. Eso es lo que habilita separar las "formas de" atacar y volar en el caso "Batalla del futuro" y poder intercambiarlas en runtime.',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'Y el contraejemplo, para redondear: la <strong>clase abstracta conviene</strong> cuando además del contrato querés <strong>compartir código</strong> (atributos, métodos concretos, constructores) entre clases que sí pertenecen a la misma jerarquía. En Java (dentro del scope de la materia) <strong>las operaciones definidas en las interfaces no pueden llevar código</strong>, así que con interfaces sola no reusás implementación.',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 3: ¿en qué casos conviene usar composición de clases, en contraposición a herencia?',
+          criollo: 'Cuando el comportamiento varía entre las hijas, cuando no todas deberían tenerlo, y sobre todo cuando querés poder cambiarlo con el programa corriendo.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Respuesta modelo.</strong> El tercer principio de diseño del apunte lo dice directo: <strong>favorecer la composición por sobre la herencia</strong>. Conviene componer cuando:',
+        },
+        {
+          type: 'ul',
+          items: [
+            '<strong>El comportamiento varía entre las subclases</strong> y no todas deberían tenerlo. Es el caso del <code>volar()</code> en <code>SistemaArmas</code>: si se lo pone en la superclase aparece el <strong>tanque volador</strong>, y sobrescribirlo vacío en cada clase que no vuela duplica código y deja un software susceptible a errores. El <code>VehiculoSeñuelo</code> lo lleva al extremo: no vuela, no ataca y no se defiende.',
+            '<strong>Un cambio local no debe generar un efecto colateral generalizado.</strong> Con herencia, agregar una operación al padre impacta en toda la jerarquía. La composición encapsula ese comportamiento afuera.',
+            '<strong>Hace falta cambiar el comportamiento en RUNTIME.</strong> Con herencia es <strong>casi imposible</strong>; componiendo, alcanza con un setter: <code>miRobot.setFormaDeAtacar(new AtacarConMisiles())</code> y el mismo objeto pasa de "Lanzo rayos" a "Lanzo Misiles" sin recompilar, sin parar el sistema y sin liberar una versión nueva.',
+            '<strong>Se quiere reutilizar el comportamiento en otros escenarios.</strong> Las clases cuyo único propósito es implementar una "forma de" pueden reusarse en contextos distintos (si las batallas pasaran a suceder en el espacio, algunas formas de atacar se aprovechan tal cual), y se pueden agregar formas nuevas sin afectar el diseño ni el código existente.',
+          ],
+        },
+        {
+          type: 'p',
+          text: 'La frase que resume todo: <strong>componer nos da mayor flexibilidad; heredar nos "encerraba" en comportamientos fijos</strong>. Además hay una guía semántica clásica: la herencia modela un <strong>ES UN</strong> y la composición un <strong>TIENE UN</strong>. Si el sistema de armas <strong>tiene</strong> una forma de atacar (y esa forma puede cambiar), eso es composición, no herencia.',
+        },
+        {
+          type: 'h3',
+          text: 'Pregunta 4: ¿qué intenta resolver el patrón State?',
+          criollo: 'El problema de los IF-ELSE repartidos por toda la clase para preguntar en qué estado estás. State los borra: cada estado es una clase.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Respuesta modelo.</strong> El patrón State <strong>permite a un objeto alterar su comportamiento de acuerdo con su estado interno</strong>. Lo que intenta resolver es el problema de <strong>desacoplar el estado actual del comportamiento del sistema</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'El planteo del apunte es el sistema de tiro de un tanque: se carga el arma, se dispara y vuelve a empezar. Puede estar <strong>armado</strong> o <strong>desarmado</strong>, con la <strong>munición lista</strong> o <strong>sin municiones</strong>, y cada interacción lo hace <strong>cambiar de estado</strong>. El approach ingenuo es tener un atributo <code>estado</code> y, dentro de cada método de transición, un <strong>IF-ELSE</strong> que pregunte en qué estado está. Eso <strong>no tiene nada de malo en sí</strong>: el problema aparece cuando hay que <strong>agregar o quitar un estado</strong>, porque hay que cambiar el if-else o, peor, se puede afectar toda la lógica.',
+        },
+        {
+          type: 'p',
+          text: 'La solución del patrón son tres pasos: <strong>(1)</strong> definir una interfaz que contenga cada transición de estado; <strong>(2)</strong> implementar cada estado posible en su propia clase, con la responsabilidad de actuar según ese estado; <strong>(3)</strong> <strong>eliminar todo tipo de código condicional</strong>. Así, cada estado y cómo actúa la máquina en él queda <strong>concentrado en clases y no disperso en sentencias IF-ELSE</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Lo que se gana: una <strong>visión clara de qué hace la máquina en cada estado</strong> y de <strong>los cambios de estado</strong> (con constantes e IF/ELSE un cambio de estado se confunde con una simple asignación de valor a una variable), y <strong>menos posibilidad de dejar al contexto en un estado inconsistente</strong>. Lo que se paga: a medida que crecen los estados <strong>crece la cantidad de clases</strong>, hay que escribir más código y hay más objetos, <strong>consumiendo más memoria</strong>.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Vale sumar la comparación con Strategy, porque suele preguntarse: <strong>son iguales en forma pero se diferencian en intención</strong>. En State el estado está encapsulado en objetos y <strong>el cliente no conoce casi nada</strong> de los "xyzState"; en Strategy <strong>el cliente especifica</strong> qué "xyzStrategy" usar, y normalmente hay una estrategia adecuada por problema. El State sirve para <strong>reemplazar varios condicionales</strong> que alteran el funcionamiento del contexto.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Bibliografía de la unidad:</strong> Eckel, B. (2002). <em>Piensa en Java</em>. España: Pearson Educación (pp. 223-239 y 255-265).',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-45-1', q: 'La actividad de conceptos de diseño vale 10 puntos repartidos en 4 preguntas de 2,5 cada una.', a: true, explain: 'Es el formato de la actividad de ensayo de la unidad 05.' },
+          { id: 'tf-45-2', q: 'Una clase abstracta no puede definir constructores porque nunca se instancia directamente.', a: false, explain: 'Sí puede, y con el mismo objetivo de siempre: reutilizar código. La cadena de constructores se ejecuta igual cuando se instancia una subclase concreta.' },
+          { id: 'tf-45-3', q: 'Las interfaces convienen cuando una clase necesita comportamiento de más de una familia, porque Java no tiene herencia múltiple.', a: true, explain: 'Es el caso del ornitorrinco: mamífero y ovíparo al mismo tiempo. Con interfaces se dan los comportamientos selectivamente.' },
+          { id: 'tf-45-4', q: 'Con herencia es sencillo cambiar el comportamiento de un objeto en tiempo de ejecución.', a: false, explain: 'El apunte lo lista como desventaja: cambiar el comportamiento en runtime con herencia es casi imposible. Con composición alcanza con un setter.' },
+          { id: 'tf-45-5', q: 'Uno de los pasos del patrón State es eliminar todo tipo de código condicional.', a: true, explain: 'Es el tercer paso, después de definir la interfaz de transiciones e implementar cada estado en una clase.' },
+        ],
+        mc: [
+          {
+            id: 'mc-45-1',
+            q: '¿Cuál es el argumento central para que una clase abstracta defina constructores?',
+            options: [
+              'Permitir instanciarla con new en casos excepcionales',
+              'Reutilizar código: inicializar en un solo lugar los atributos que declara',
+              'Obligar a las subclases a implementar los métodos abstractos',
+              'Evitar que la clase pueda ser heredada por más de una subclase',
+            ],
+            correctIndex: 1,
+            explain: 'El objetivo es el mismo que en cualquier clase: reutilizar código. La clase abstracta puede tener atributos y conviene inicializarlos una sola vez.',
+          },
+          {
+            id: 'mc-45-2',
+            q: '¿Cuándo conviene una clase abstracta por sobre una interfaz?',
+            options: [
+              'Cuando además del contrato se quiere compartir código entre clases de la misma jerarquía',
+              'Cuando el comportamiento no pertenece a ninguna jerarquía',
+              'Cuando una clase debe pertenecer a dos familias a la vez',
+              'Cuando se quiere garantizar un contrato completo sin fisuras',
+            ],
+            correctIndex: 0,
+            explain: 'En el scope de la materia, las operaciones de una interfaz no pueden llevar código, así que la clase abstracta es la que permite reusar implementación. Las otras tres son motivos para usar interfaces.',
+          },
+          {
+            id: 'mc-45-3',
+            q: '¿Qué frase resume el tercer principio de diseño?',
+            options: [
+              'Heredar da flexibilidad y componer encierra en comportamientos fijos',
+              'Componer da mayor flexibilidad; heredar encierra en comportamientos fijos',
+              'Componer y heredar son equivalentes si se respetan las interfaces',
+              'Conviene heredar siempre que la relación sea un TIENE UN',
+            ],
+            correctIndex: 1,
+            explain: 'Es la frase textual del apunte, que da lugar al principio de favorecer la composición por sobre la herencia.',
+          },
+          {
+            id: 'mc-45-4',
+            q: '¿Qué problema concreto viene a resolver el patrón State?',
+            options: [
+              'La duplicación de pasos entre algoritmos parecidos',
+              'La necesidad de tener una sola instancia con acceso global',
+              'La lógica condicional dispersa que actúa según el estado del objeto',
+              'La imposibilidad de heredar de dos clases a la vez',
+            ],
+            correctIndex: 2,
+            explain: 'Busca desacoplar el estado actual del comportamiento del sistema, reemplazando los IF-ELSE dispersos por una clase por estado.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-45-1',
+            q: '¿Qué motivos justifican elegir interfaces por sobre clases abstractas?',
+            options: [
+              'El comportamiento no pertenece a la jerarquía',
+              'Una clase necesita comportamiento de más de una familia y Java no tiene herencia múltiple',
+              'Se quiere un contrato completo, sin métodos concretos que lo debiliten',
+              'Se quiere programar contra una interfaz y no contra una implementación',
+              'Se quiere compartir atributos y constructores entre las clases',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Compartir atributos y constructores es justamente lo que habilita la clase abstracta, no la interfaz.',
+          },
+          {
+            id: 'ms-45-2',
+            q: '¿Qué se gana aplicando el patrón State?',
+            options: [
+              'Visión clara de qué hace la máquina en cada estado',
+              'Visión clara de los cambios de estado',
+              'Menos posibilidad de dejar al contexto en un estado inconsistente',
+              'Menos clases y menos consumo de memoria',
+              'Eliminación del código condicional disperso',
+            ],
+            correctIndexes: [0, 1, 2, 4],
+            explain: 'La cantidad de clases y el consumo de memoria en realidad aumentan: es la desventaja innegable del patrón.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-45-1', front: 'Consignas de la actividad de conceptos de diseño', back: '1) ¿Para qué pueden definir constructores las clases abstractas si no se instancian? 2) ¿Cuándo usar interfaces por sobre clases abstractas? 3) ¿Cuándo conviene composición en vez de herencia? 4) ¿Qué intenta resolver el patrón State?' },
+        { id: 'fc-45-2', front: 'Constructores en clases abstractas', back: 'Sirven para reutilizar código: inicializan en un solo lugar los atributos que la abstracta declara. La cadena de constructores se ejecuta igual al instanciar una subclase concreta.' },
+        { id: 'fc-45-3', front: 'Interfaces por sobre clases abstractas: motivos', back: 'Comportamiento que no pertenece a la jerarquía; una clase que debe pertenecer a dos familias (Java no tiene herencia múltiple); contrato completo sin métodos concretos; y programar contra una interfaz.' },
+        { id: 'fc-45-4', front: '¿Cuándo conviene la clase abstracta?', back: 'Cuando además del contrato se quiere compartir código (atributos, métodos concretos, constructores) entre clases de la misma jerarquía, porque las interfaces no pueden llevar código.' },
+        { id: 'fc-45-5', front: 'Composición en vez de herencia: cuándo', back: 'Cuando el comportamiento varía entre subclases y no todas deberían tenerlo; cuando un cambio local no debe impactar todo el modelo; cuando hace falta cambiarlo en runtime; y cuando se quiere reutilizar ese comportamiento en otros escenarios.' },
+        { id: 'fc-45-6', front: 'ES UN vs. TIENE UN como criterio', back: 'La herencia modela un ES UN; la composición un TIENE UN. Si el sistema de armas tiene una forma de atacar que puede cambiar, eso es composición.' },
+        { id: 'fc-45-7', front: '¿Qué resuelve el patrón State?', back: 'Desacopla el estado actual del comportamiento del sistema: reemplaza la lógica condicional dispersa (IF-ELSE por estado) por una clase por estado, con una interfaz de transiciones.' },
+        { id: 'fc-45-8', front: 'Costo del patrón State', back: 'A medida que crece la cantidad de estados crece la cantidad de clases: más código, más objetos y más consumo de memoria.' },
+        { id: 'fc-45-9', front: 'Bibliografía obligatoria de la unidad 05', back: 'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 223-239 y 255-265.' },
+      ],
+    },
   ],
   pdfs: [
     { key: 'origen-poo', label: 'PPT · Origen de la POO', path: 'pdfs/laboratorio-1/1-origen-poo.pdf' },
@@ -6481,6 +8815,10 @@ export default {
     { key: 'imperativos-declarativos', label: 'Apunte · Lenguajes imperativos y declarativos', path: 'pdfs/laboratorio-1/6-lenguajes-imperativos-declarativos.pdf' },
     { key: 'jvm-jre', label: 'Apunte · Funcionamiento de la JVM y JRE', path: 'pdfs/laboratorio-1/7-funcionamiento-jvm-jre.pdf' },
     { key: 'herramientas-jdk', label: 'Apunte · Herramientas de la Java Development Kit', path: 'pdfs/laboratorio-1/8-herramientas-jdk.pdf' },
+    { key: 'herencia-avanzada', label: 'Apunte · Conceptos avanzados de herencia', path: 'pdfs/laboratorio-1/5-conceptos-avanzados-de-herencia.pdf' },
+    { key: 'interfaces-zoo', label: 'Apunte · Interfaces. Caso Zoo virtual', path: 'pdfs/laboratorio-1/5-interfaces-caso-zoo-virtual.pdf' },
+    { key: 'interfaces-avanzado', label: 'Apunte · Uso avanzado de las interfaces', path: 'pdfs/laboratorio-1/5-uso-avanzado-de-las-interfaces.pdf' },
+    { key: 'patrones-diseno', label: 'Apunte · Patrones de diseño comunes', path: 'pdfs/laboratorio-1/5-patrones-de-diseno-comunes.pdf' },
     { key: 'actividad-auto', label: 'Actividad · Programar un auto y sus partes', path: 'pdfs/laboratorio-1/2-actividad-programar-auto.pdf' },
   ],
 };
