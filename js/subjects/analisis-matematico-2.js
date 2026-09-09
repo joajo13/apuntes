@@ -2790,6 +2790,20 @@ export default {
         { type: 'p', text: 'Si $u = f(x) \\rightarrow du = f\'(x)\\,dx$ y si $dv = g(x)\\,dx \\rightarrow v = \\displaystyle\\int g(x)\\,dx$.' },
         { type: 'callout', tone: 'info', text: 'Debemos elegir $u$ y $dv$ de tal manera que la última integral sea más simple de resolver o por lo menos con la misma complejidad que la integral inicial.' },
 
+        { type: 'h3', text: 'Quién es quién: $U$, $dV$, $dU$, $V$', criollo: 'El cuadro que ordena el método. El lío de partes casi nunca es la fórmula: es perder de vista cuál de las cuatro letras se deriva, cuál se integra y dónde va cada una. Acá está todo de un vistazo.' },
+        {
+          type: 'table',
+          headers: ['Variable', '¿Qué es al principio?', '¿Qué operación le aplicás?', '¿En qué se convierte?', '¿Dónde la ubicás en la fórmula?'],
+          rows: [
+            ['$U$', 'La función que elegís usando ILATE.', 'Se <strong>DERIVA</strong>', 'Pasa a ser $dU$', 'Usás la $U$ original en la primera parte, y la $dU$ la metés en la nueva integral de la derecha.'],
+            ['$V$', 'Todo lo que sobra en la integral original ($dV$).', 'Se <strong>INTEGRA</strong>', 'Pasa a ser $V$', 'Usás la $V$ transformada (ya integrada) en todas partes: multiplicando a la $U$ y dentro de la nueva integral.'],
+          ],
+        },
+        { type: 'p', text: 'Leído sobre la fórmula $\\displaystyle\\int U\\, dV = U \\cdot V - \\int V\\, dU$: la $U$ aparece <strong>sin tocar</strong> en el producto de la izquierda y <strong>derivada</strong> ($dU$) adentro de la integral; la $V$ aparece <strong>ya integrada</strong> en los dos lugares.' },
+        { type: 'callout', tone: 'warning', text: 'En este cuadro las letras van en <strong>mayúscula</strong> ($U$, $V$, $dU$, $dV$) para que se lean de un saque. El apunte de la cátedra y los prácticos las escriben en <strong>minúscula</strong> ($u$, $v$, $du$, $dv$): es exactamente lo mismo, no son variables distintas.' },
+        { type: 'callout', tone: 'info', text: '<strong>ILATE</strong> es la regla mnemotécnica para elegir $U$: <strong>I</strong>nversas trigonométricas ($\\operatorname{arctg} x$), <strong>L</strong>ogarítmicas ($\\ln x$), <strong>A</strong>lgebraicas (los polinomios), <strong>T</strong>rigonométricas ($\\operatorname{sen} x$, $\\cos x$), <strong>E</strong>xponenciales ($e^x$, $a^x$). La que aparezca primero en esa lista es tu $U$; el resto es $dV$. No figura en el apunte de la cátedra, pero es la forma corta de decir lo mismo que el criterio de arriba: elegí como $U$ lo que se simplifique al derivar.' },
+        { type: 'callout', tone: 'criollo', text: 'Chequeá el cuadro contra el Ejemplo 1 que viene abajo: $U = 2x$ (algebraica, gana sobre la trigonométrica) se deriva y da $dU = 2\\,dx$; lo que sobra, $dV = \\operatorname{sen} x\\,dx$, se integra y da $V = -\\cos x$. Después es reemplazar en la fórmula y listo. El error clásico es integrar la que había que derivar — por eso conviene escribir las cuatro letras en una columna antes de tocar nada.' },
+
         { type: 'h3', text: 'Ejemplo 1 — $\\int 2x \\cdot \\operatorname{sen} x\\, dx$' },
         { type: 'p', text: 'Reemplazamos $u = 2x \\rightarrow du = 2\\,dx$ y $dv = \\operatorname{sen} x\\,dx \\rightarrow v = \\displaystyle\\int \\operatorname{sen} x\\,dx = -\\cos x$.' },
         { type: 'math', latex: '\\int 2x \\operatorname{sen} x\\, dx = 2x \\cdot (-\\cos x) - \\int -\\cos x \\cdot 2\\, dx = -2x\\cos x + 2\\operatorname{sen} x + C', display: true },
@@ -2920,6 +2934,8 @@ export default {
         { id: 'fc-15-6', front: '$\\int e^x \\cos x\\,dx$ — la integral cíclica', back: 'Se aplica partes dos veces y reaparece la integral original. Se agrupa: $2\\int e^x\\cos x = e^x(\\cos x+\\operatorname{sen} x)$, o sea $\\frac{e^x}{2}(\\cos x + \\operatorname{sen} x)+C$.' },
         { id: 'fc-15-7', front: '$\\int 2x \\operatorname{sen} x\\,dx$', back: '$u = 2x$, $dv = \\operatorname{sen} x\\,dx$, $v = -\\cos x$: resultado $-2x\\cos x + 2\\operatorname{sen} x + C$.' },
         { id: 'fc-15-8', front: 'Polinomio por exponencial: ¿cuántas veces se aplica partes?', back: 'Tantas como el grado del polinomio. En $\\int(3x^2-4)5^x dx$ se aplica dos veces, hasta que el polinomio desaparece.' },
+        { id: 'fc-15-9', front: '$U$ y $V$: ¿cuál se deriva y cuál se integra?', back: 'La $U$ (la que elegís por ILATE) se <strong>DERIVA</strong> y pasa a ser $dU$. Lo que sobra ($dV$) se <strong>INTEGRA</strong> y pasa a ser $V$.' },
+        { id: 'fc-15-10', front: 'ILATE — ¿para qué sirve y qué significa?', back: 'Para elegir la $U$. <strong>I</strong>nversas trigonométricas, <strong>L</strong>ogarítmicas, <strong>A</strong>lgebraicas, <strong>T</strong>rigonométricas, <strong>E</strong>xponenciales: la que aparezca primero en la lista es la $U$, el resto es $dV$.' },
       ],
     },
 
