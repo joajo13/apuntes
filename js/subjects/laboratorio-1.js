@@ -13,6 +13,8 @@
  *   'jdk'         Herramientas de la Java Development Kit (javac, java, javadoc, jar, JConsole)
  *   'diseno-avanzado' Conceptos avanzados de diseño en Java (herencia avanzada, contratos,
  *                 clases abstractas, interfaces, principios de diseño y patrones)
+ *   'excepciones' Manejo de excepciones (checked vs. unchecked, jerarquía Throwable/Error/
+ *                 Exception, excepciones propias y granularidad del throws)
  *   'actividades' Actividades prácticas (programar un auto y sus partes; modelar y hacer funcionar una PC)
  *
  * Quiz (V/F + MC + MS) y flashcards por sección. Las capturas del tutorial de
@@ -24,7 +26,7 @@ export default {
   id: 'laboratorio-1',
   title: 'Laboratorio 1',
   subtitle: 'POO, IDEs y Java — Apuntes',
-  tagline: 'Origen de la POO · Qué es un IDE · Eclipse, NetBeans e IntelliJ IDEA · Tutorial de Eclipse · Fundamentos de código Java · Herencia, arreglos y conversión de tipos · Relaciones entre objetos · Paradigmas imperativo y declarativo',
+  tagline: 'Origen de la POO · Qué es un IDE · Eclipse, NetBeans e IntelliJ IDEA · Tutorial de Eclipse · Fundamentos de código Java · Herencia, arreglos y conversión de tipos · Relaciones entre objetos · Paradigmas imperativo y declarativo · Manejo de excepciones',
   units: {
     'poo': 'Origen de la POO',
     'ides': 'Introducción a los IDEs',
@@ -36,6 +38,7 @@ export default {
     'jvm': 'Funcionamiento de la JVM y el JRE',
     'jdk': 'Herramientas del JDK',
     'diseno-avanzado': 'Conceptos avanzados de diseño en Java',
+    'excepciones': 'Manejo de excepciones',
     'actividades': 'Actividades prácticas',
   },
   sections: [
@@ -8802,6 +8805,710 @@ export default {
         { id: 'fc-45-9', front: 'Bibliografía obligatoria de la unidad 05', back: 'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 223-239 y 255-265.' },
       ],
     },
+    {
+      id: '46',
+      unit: 'excepciones',
+      title: 'Checked exceptions vs. unchecked exceptions',
+      criollo: 'Arranca la unidad de excepciones. Primero la categoría: si tu excepción hereda de Exception el compilador te obliga a manejarla o avisar que la lanzás; si hereda de RuntimeException, hacés lo que quieras. Después las tres formas de manejar una checked exception, que también valen (pero opcionales) para las unchecked.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'Las dos categorías de excepciones',
+          criollo: 'Todo se reduce a de quién hereda tu excepción. Ese solo dato cambia si el compilador te tumba la compilación o te deja en paz.',
+        },
+        {
+          type: 'p',
+          text: 'El apunte arranca clasificando las excepciones en dos categorías o tipos. Las <strong>Checked Exceptions</strong>: <strong>heredan de <code>Exception</code></strong>, y <strong>el compilador obliga a chequear el eventual lanzamiento de la excepción</strong> y a <strong>manejarla o lanzarla</strong>.',
+        },
+        {
+          type: 'p',
+          text: 'Las <strong>Unchecked Exceptions</strong>, en cambio: <strong>heredan de <code>RuntimeException</code></strong>, y acá <strong>no estamos obligados a chequear el eventual lanzamiento</strong> ni es <strong>necesario el tratamiento</strong> de la excepción.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'La diferencia entera pasa por <strong>de qué clase hereda tu excepción</strong>. No hay ninguna otra regla mágica: <code>Exception</code> te obliga, <code>RuntimeException</code> te deja en libertad. El tratamiento (try-catch-finally) es idéntico en ambos casos.',
+        },
+        {
+          type: 'h3',
+          text: 'Las tres opciones para manejar una Checked Exception',
+          criollo: 'Manejar y relanzar, manejar sin relanzar, o pasarle el problema al que te llamó. Elegís una según cuánto control querés tener.',
+        },
+        {
+          type: 'p',
+          text: 'Frente a una <code>Checked Exception</code> hay <strong>tres opciones</strong> disponibles. La <strong>opción 1 es manejar y relanzar</strong>: atrapás la excepción original con un <code>catch</code> y lanzás una nueva, distinta, avisando con <code>throws</code> que tu método puede lanzarla.',
+        },
+        {
+          type: 'code',
+          code: '//opción 1: manejar y relanzar\npublic void unMetodoQuePuedeFallar() throws OtraCheckedException {\n    try {\n        //codigo que puede lanzar una checked exception\n    } catch(MiCheckedException e) {\n        //atrapo, manejo y lanzo una nueva\n        throw new OtraCheckedException();\n    }\n}',
+        },
+        {
+          type: 'p',
+          text: 'La <strong>opción 2 es manejar pero no relanzar</strong>: atrapás la excepción y hacés algo con ella (en el ejemplo del apunte, avisar por mail a soporte), pero <strong>no la volvés a lanzar</strong>. El método ya no necesita <code>throws</code> porque, desde afuera, no hay ninguna excepción pendiente.',
+        },
+        {
+          type: 'code',
+          code: '//opción 2: manejar pero no relanzar\npublic void unMetodoQuePuedeFallar() {\n    try {\n        //codigo que puede lanzar una checked exception\n    } catch(MiCheckedException e) {\n        //atrapo y manejo\n        this.mailClient.enviarMail("soporte@abc.com", "error!");\n    }\n}',
+        },
+        {
+          type: 'p',
+          text: 'La <strong>opción 3 es lanzar tal cual viene</strong>: ni pongo <code>try</code> ni <code>catch</code>, solo <strong>aviso al llamador</strong> con <code>throws</code> de que mi método puede lanzar esa excepción, y que se ocupe él (o quien lo llame a él, si vuelve a avisar).',
+        },
+        {
+          type: 'code',
+          code: '//opción 3: lanzar tal cual viene\npublic void unMetodoQuePuedeFallar() throws MiCheckedException {\n    //codigo que puede lanzar una checked exception\n    //en este caso, código que puede lanzar MiCheckedException\n    //no hago nada, solo aviso al llamador de la eventual\n    //excepción\n}',
+        },
+        {
+          type: 'table',
+          caption: 'Las tres opciones frente a una Checked Exception',
+          headers: ['Opción', 'Qué hace', '¿Necesita throws?'],
+          rows: [
+            ['1. Manejar y relanzar', 'Atrapa la excepción original y lanza una nueva desde el catch', 'Sí, de la nueva excepción'],
+            ['2. Manejar pero no relanzar', 'Atrapa la excepción y resuelve el problema ahí mismo (ej: avisar por mail)', 'No'],
+            ['3. Lanzar tal cual viene', 'No pone try/catch: solo avisa que el método puede lanzarla', 'Sí, de la excepción original'],
+          ],
+        },
+        {
+          type: 'h3',
+          text: 'Las mismas opciones sirven para las Unchecked (pero son opcionales)',
+          criollo: 'Podés usar cualquiera de las tres si querés más control, pero nadie te va a obligar. Si no hacés nada, el código sigue compilando igual.',
+        },
+        {
+          type: 'p',
+          text: 'Para las <code>Unchecked Exceptions</code> <strong>las opciones son exactamente las mismas</strong> que para las checked. La diferencia es que <strong>no estamos obligados a poner el <code>try</code> ni el <code>catch</code></strong>: si queremos manejarlas, podemos usar cualquiera de las tres opciones anteriores; de lo contrario, todo se reduce a esto:',
+        },
+        {
+          type: 'code',
+          code: 'public void unMetodoQuePuedeFallar() {\n    //codigo que puede lanzar una UncheckedException\n}',
+        },
+        {
+          type: 'p',
+          text: 'Como <strong>no estoy obligado a chequear ni a manejar</strong>, el método puede seguir escrito <strong>como si no hubiera ningún problema</strong>: ni <code>try/catch</code> ni <code>throws</code>. El compilador no va a decir nada.',
+        },
+        {
+          type: 'h3',
+          text: '¿Cuál de las tres opciones es la mejor?',
+          criollo: 'No hay una respuesta única. Depende del negocio, del problema puntual y de cuánto control querés tener. Y si son varias excepciones, la pregunta se repite pero además hay que decidir el nivel de granularidad.',
+        },
+        {
+          type: 'p',
+          text: 'El apunte es tajante: <strong>todo depende</strong> de <strong>el negocio</strong>, de <strong>el problema que queremos resolver</strong> y de <strong>el grado de control que queremos tener sobre las eventualidades</strong> en nuestro código. No hay una opción "correcta" en abstracto.',
+        },
+        {
+          type: 'p',
+          text: '¿Y si pueden lanzarse <strong>más de una excepción</strong>? Las opciones para manejarlas son las mismas y, de nuevo, dependen de lo mismo. Pero cada punto anterior nos puede llevar a decidir <strong>cómo</strong> manejamos ese conjunto: <strong>manejar todas las excepciones en cada llamada</strong> (bien específico, excepción por excepción), <strong>realizar una jerarquía y manejar la excepción más genérica</strong> (tratando a todas por igual), o <strong>un mix entre los dos</strong> según el caso.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-46-1', q: 'Las Checked Exceptions heredan de RuntimeException.', a: false, explain: 'Al revés: las Checked heredan de Exception. Las que heredan de RuntimeException son las Unchecked.' },
+          { id: 'tf-46-2', q: 'El compilador obliga a manejar o lanzar las Unchecked Exceptions.', a: false, explain: 'La obligación es solo para las Checked. En las Unchecked no es necesario el tratamiento.' },
+          { id: 'tf-46-3', q: 'La opción "manejar y relanzar" atrapa la excepción original y lanza una nueva desde el catch.', a: true, explain: 'Es la opción 1: catch(MiCheckedException e) { throw new OtraCheckedException(); }.' },
+          { id: 'tf-46-4', q: 'Un método que usa la opción "lanzar tal cual viene" necesita try/catch propio.', a: false, explain: 'No pone try/catch: solo avisa con throws que el método puede lanzar la excepción, y quien lo llame se ocupa.' },
+          { id: 'tf-46-5', q: 'Para las Unchecked Exceptions, las tres opciones de manejo dejan de estar disponibles.', a: false, explain: 'Las opciones son las mismas; lo único que cambia es que usarlas ya no es obligatorio.' },
+        ],
+        mc: [
+          {
+            id: 'mc-46-1',
+            q: '¿Qué obliga el compilador con una Checked Exception?',
+            options: [
+              'A chequear el eventual lanzamiento y a manejarla o lanzarla',
+              'A declararla siempre como atributo static de la clase',
+              'A que herede obligatoriamente de RuntimeException',
+              'A no usar try/catch en ningún caso',
+            ],
+            correctIndex: 0,
+            explain: 'Son las dos obligaciones textuales del apunte para las checked: chequear el eventual lanzamiento, y manejar o lanzar.',
+          },
+          {
+            id: 'mc-46-2',
+            q: 'En la opción "manejar pero no relanzar", ¿qué pasa con el throws del método?',
+            options: [
+              'Ya no hace falta, porque no queda ninguna excepción pendiente para el llamador',
+              'Sigue siendo obligatorio declarar la excepción original',
+              'Hay que declarar tanto la original como una nueva',
+              'Se reemplaza por un bloque finally con throws',
+            ],
+            correctIndex: 0,
+            explain: 'Como la excepción se atrapa y se resuelve ahí mismo (por ejemplo, avisando por mail), no queda nada pendiente para avisar hacia afuera.',
+          },
+          {
+            id: 'mc-46-3',
+            q: 'Si una Unchecked Exception no se maneja con try/catch, ¿qué pasa al compilar?',
+            options: [
+              'Compila igual, como si no hubiera ningún problema',
+              'No compila, porque toda excepción exige tratamiento',
+              'Compila pero con un warning obligatorio del compilador',
+              'Solo compila si se agrega throws en la firma',
+            ],
+            correctIndex: 0,
+            explain: 'Como no estoy obligado a chequear ni manejar, el método puede quedar escrito sin try/catch y sin throws, y compila sin problema.',
+          },
+          {
+            id: 'mc-46-4',
+            q: 'Cuando pueden lanzarse varias excepciones, ¿qué alternativas de manejo menciona el apunte?',
+            options: [
+              'Manejar cada una en cada llamada, manejar la más genérica de la jerarquía, o un mix',
+              'Ignorarlas todas hasta que el sistema falle en producción',
+              'Convertirlas todas en Error antes de manejarlas',
+              'Declarar todas las excepciones como static final',
+            ],
+            correctIndex: 0,
+            explain: 'El apunte lista exactamente esas tres: manejar todas en cada llamada, manejar la excepción padre de forma genérica, o combinar ambas según el caso.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-46-1',
+            q: '¿Qué factores dice el apunte que determinan cuál es "la mejor" forma de manejar una excepción?',
+            options: [
+              'El negocio',
+              'El problema que se quiere resolver',
+              'El grado de control que se quiere tener sobre las eventualidades',
+              'La cantidad de líneas que tiene el método',
+              'El nombre de la clase que declara la excepción',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'Las últimas dos no aparecen en el apunte como criterio de decisión.',
+          },
+          {
+            id: 'ms-46-2',
+            q: '¿Cuáles de estas afirmaciones sobre las tres opciones de manejo son correctas?',
+            options: [
+              'La opción 1 relanza una excepción distinta de la que atrapó',
+              'La opción 2 resuelve el problema dentro del propio método',
+              'La opción 3 no usa try/catch',
+              'Las tres opciones son exclusivas de las Checked Exceptions',
+              'Las tres opciones dejan de estar disponibles si la excepción es Unchecked',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'Las tres opciones también sirven para las Unchecked: ahí simplemente no son obligatorias.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-46-1', front: 'Checked Exception: definición', back: 'Hereda de Exception. El compilador obliga a chequear el eventual lanzamiento y a manejarla o lanzarla.' },
+        { id: 'fc-46-2', front: 'Unchecked Exception: definición', back: 'Hereda de RuntimeException. No hay obligación de chequear su eventual lanzamiento ni de tratarla.' },
+        { id: 'fc-46-3', front: 'Opción 1: manejar y relanzar', back: 'catch(MiCheckedException e) { throw new OtraCheckedException(); } — el método declara throws de la nueva excepción.' },
+        { id: 'fc-46-4', front: 'Opción 2: manejar pero no relanzar', back: 'Se atrapa la excepción y se resuelve el problema ahí mismo (ej: avisar por mail a soporte). El método ya no necesita throws.' },
+        { id: 'fc-46-5', front: 'Opción 3: lanzar tal cual viene', back: 'Sin try/catch: el método solo declara throws de la excepción, avisando al llamador de la eventualidad.' },
+        { id: 'fc-46-6', front: '¿Las 3 opciones sirven para Unchecked?', back: 'Sí, son las mismas tres. La diferencia es que usarlas es opcional: sin try/catch ni throws, el código compila igual.' },
+        { id: 'fc-46-7', front: '¿De qué depende la mejor forma de manejar una excepción?', back: 'Del negocio, del problema que se quiere resolver y del grado de control que se quiere tener sobre las eventualidades.' },
+        { id: 'fc-46-8', front: 'Manejar varias excepciones posibles: alternativas', back: 'Manejar todas en cada llamada (específico), manejar la excepción más genérica de la jerarquía, o un mix entre las dos.' },
+      ],
+    },
+    {
+      id: '47',
+      unit: 'excepciones',
+      title: 'La jerarquía Throwable-Error-Exception y las excepciones propias',
+      criollo: 'Ahora el mapa completo: todo cuelga de Throwable, que se separa en Error (cosas que ni deberías atrapar) y Exception (con RuntimeException adentro para las unchecked). Y con ese mapa en la cabeza, armamos nuestra propia familia de excepciones con los 4 constructores de siempre.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'La jerarquía base: Throwable, Error y Exception',
+          criollo: 'Esto ya lo conocés de otras materias, pero repasarlo con nombres concretos ayuda: NullPointerException y ClassCastException son primas, las dos hijas de RuntimeException.',
+        },
+        {
+          type: 'p',
+          text: 'El apunte presenta la <strong>jerarquía base</strong> de las excepciones de Java, que arranca en <code>Throwable</code> y se abre en dos ramas: <code>Error</code> y <code>Exception</code>.',
+        },
+        {
+          type: 'table',
+          caption: 'Jerarquía base de excepciones (Throwable → Error / Exception)',
+          headers: ['Rama', 'Clase', 'Ejemplos concretos', 'Categoría'],
+          rows: [
+            ['Throwable → Error', 'Error', 'StackOverflowError, OutOfMemoryError', '(no forman parte de checked/unchecked)'],
+            ['Throwable → Exception', 'Exception', '—', 'Checked Exceptions'],
+            ['Exception → RuntimeException', 'RuntimeException', 'NullPointerException, ClassCastException, ArrayIndexOutOfBoundsException', 'Unchecked Exceptions (dentro de las checked)'],
+            ['Exception → IOException', 'IOException', 'FileNotFoundException', 'Checked'],
+            ['Exception → SQLException', 'SQLException', '—', 'Checked'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'El diagrama del apunte marca <code>Exception</code> como el techo de las <strong>"Checked Exceptions"</strong>, y a <code>RuntimeException</code> (que a su vez hereda de <code>Exception</code>) como el techo de las <strong>"Unchecked Exceptions"</strong>. Por eso toda unchecked es, técnicamente, también una Exception... pero al heredar puntualmente de <code>RuntimeException</code> queda liberada de la obligación de chequeo del compilador.',
+        },
+        {
+          type: 'h3',
+          text: 'Cómo crear nuestras propias excepciones',
+          criollo: 'Extendés Exception si querés que sea checked, RuntimeException si la querés unchecked. Después armás la familia como una jerarquía de clases común y silvestre.',
+        },
+        {
+          type: 'p',
+          text: 'La pregunta que se hace el apunte después de mostrar la jerarquía base es directa: <strong>¿por qué no aplicamos algo similar?</strong> Es decir, <strong>¿cómo crear nuestras propias excepciones?</strong> La respuesta: <strong>extendiendo <code>Exception</code> o <code>RuntimeException</code></strong>, y armando la jerarquía que haga falta.',
+        },
+        {
+          type: 'code',
+          code: 'public class BebidaException extends Exception { .... }\npublic class SinGasException extends BebidaException{ .... }\npublic class TemperaturaException extends BebidaException { ....}',
+        },
+        {
+          type: 'p',
+          text: 'Con esas tres líneas ya tenemos una <strong>jerarquía propia de excepciones</strong>: <code>BebidaException</code> es la raíz (checked, porque extiende de <code>Exception</code>), y <code>SinGasException</code> y <code>TemperaturaException</code> son <strong>hijas más específicas</strong> de esa misma familia.',
+        },
+        {
+          type: 'h3',
+          text: 'Los 4 constructores más comunes (no son obligatorios)',
+          criollo: 'Si no escribís ninguno, tenés el constructor por default gratis. Los otros tres sirven para distintas situaciones: con mensaje, con causa, o con las dos cosas.',
+        },
+        {
+          type: 'p',
+          text: 'Además de crear la jerarquía, se pueden <strong>sobreescribir los 4 constructores más comunes</strong>. El apunte aclara que <strong>no es obligatorio</strong>, porque siempre está disponible el <strong>constructor por default</strong>.',
+        },
+        {
+          type: 'code',
+          code: 'public BebidaException() { //constructor por default\n}\n\npublic BebidaException(String message) {\n    super(message); //creo una excepción con un mensaje\n}\n\npublic BebidaException(Throwable cause) {\n    //creo una excepción e indico qué la provocó\n    //por eso el argumento es un Throwable\n    super(cause);\n}\n\npublic BebidaException(String message, Throwable cause) {\n    //el mensaje de esta excepción y qué la provocó\n    super(message, cause);\n}',
+        },
+        {
+          type: 'ul',
+          items: [
+            '<strong>Constructor por default:</strong> sin argumentos. Es el que existe siempre, aunque no escribas ninguno.',
+            '<strong><code>(String message)</code>:</strong> llama a <code>super(message)</code> para crear la excepción con un mensaje descriptivo.',
+            '<strong><code>(Throwable cause)</code>:</strong> llama a <code>super(cause)</code>. Sirve para indicar <strong>qué otra excepción provocó</strong> esta, encadenando causas.',
+            '<strong><code>(String message, Throwable cause)</code>:</strong> llama a <code>super(message, cause)</code>, combinando el mensaje de esta excepción con la causa que la disparó.',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'El apunte cierra el punto con una frase corta pero importante: <strong>"podemos hacer lo mismo para las hijas de <code>BebidaException</code>"</strong>. Es decir, <code>SinGasException</code> y <code>TemperaturaException</code> pueden tener exactamente los mismos 4 constructores, cada una llamando a <code>super(...)</code> para delegar en <code>BebidaException</code>.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-47-1', q: 'En la jerarquía base, Error y Exception son ambas hijas directas de Throwable.', a: true, explain: 'El diagrama del apunte muestra a Throwable como raíz, con Error y Exception como sus dos hijas directas.' },
+          { id: 'tf-47-2', q: 'NullPointerException y ClassCastException son ejemplos que el apunte ubica bajo RuntimeException.', a: true, explain: 'Ambas aparecen como hijas de RuntimeException, junto con ArrayIndexOutOfBoundsException.' },
+          { id: 'tf-47-3', q: 'Para crear una excepción propia checked hay que extender de RuntimeException.', a: false, explain: 'Para que sea checked hay que extender de Exception. RuntimeException es para las unchecked.' },
+          { id: 'tf-47-4', q: 'Es obligatorio sobreescribir los 4 constructores comunes al crear una excepción propia.', a: false, explain: 'El apunte aclara que no es obligatorio, porque siempre está disponible el constructor por default.' },
+          { id: 'tf-47-5', q: 'El constructor que recibe un Throwable cause sirve para indicar qué provocó la excepción.', a: true, explain: 'Llama a super(cause) justamente para encadenar la causa que disparó esta excepción.' },
+        ],
+        mc: [
+          {
+            id: 'mc-47-1',
+            q: '¿Dónde ubica el apunte a FileNotFoundException dentro de la jerarquía?',
+            options: [
+              'Como hija de RuntimeException, junto a NullPointerException',
+              'Como hija de IOException, que a su vez es hija de Exception',
+              'Como hija directa de Throwable',
+              'Como hija de Error, junto a StackOverflowError',
+            ],
+            correctIndex: 1,
+            explain: 'El diagrama pone a FileNotFoundException colgando de IOException, que cuelga de Exception (rama de las checked).',
+          },
+          {
+            id: 'mc-47-2',
+            q: '¿Cómo se crea una jerarquía propia de excepciones según el ejemplo del apunte?',
+            options: [
+              'BebidaException extends Exception; SinGasException extends BebidaException',
+              'BebidaException extends RuntimeException; SinGasException implements BebidaException',
+              'Todas las excepciones propias deben extender directamente de Throwable',
+              'SinGasException extends Exception; BebidaException extends SinGasException',
+            ],
+            correctIndex: 0,
+            explain: 'BebidaException extiende de Exception (raíz de la familia, checked) y SinGasException / TemperaturaException extienden de BebidaException.',
+          },
+          {
+            id: 'mc-47-3',
+            q: '¿Qué hace el constructor BebidaException(String message)?',
+            options: [
+              'Llama a super(message) para crear la excepción con un mensaje',
+              'Ignora el mensaje y llama al constructor por default',
+              'Llama a super() y guarda el mensaje en un atributo estático',
+              'Lanza una nueva excepción con el mensaje recibido',
+            ],
+            correctIndex: 0,
+            explain: 'Es textual del apunte: super(message); //creo una excepción con un mensaje.',
+          },
+          {
+            id: 'mc-47-4',
+            q: 'Según el cierre del apunte sobre constructores, ¿qué se puede hacer con las hijas de BebidaException?',
+            options: [
+              'Nada: solo la clase raíz de la jerarquía puede tener los 4 constructores',
+              'Se les puede quitar el constructor por default',
+              'Se puede hacer lo mismo: darles los mismos 4 constructores',
+              'Deben usar obligatoriamente el constructor de Throwable directamente',
+            ],
+            correctIndex: 2,
+            explain: 'El apunte cierra diciendo "podemos hacer lo mismo para las hijas de BebidaException".',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-47-1',
+            q: '¿Cuáles de estas clases aparecen en la jerarquía base del apunte como hijas de RuntimeException?',
+            options: [
+              'NullPointerException',
+              'ClassCastException',
+              'ArrayIndexOutOfBoundsException',
+              'FileNotFoundException',
+              'SQLException',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'FileNotFoundException cuelga de IOException y SQLException cuelga de Exception: ninguna de las dos es hija de RuntimeException.',
+          },
+          {
+            id: 'ms-47-2',
+            q: '¿Qué constructores comunes lista el apunte para una excepción propia?',
+            options: [
+              'Constructor por default',
+              'Constructor con String message',
+              'Constructor con Throwable cause',
+              'Constructor con String message y Throwable cause',
+              'Constructor con un código de error numérico',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'El apunte lista exactamente esos 4. Un código de error numérico no aparece en el listado.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-47-1', front: 'Jerarquía base: raíz', back: 'Throwable. Se abre en dos ramas: Error (StackOverflowError, OutOfMemoryError) y Exception.' },
+        { id: 'fc-47-2', front: '¿Qué cuelga de Exception en el diagrama?', back: 'RuntimeException (con NullPointerException, ClassCastException, ArrayIndexOutOfBoundsException), además de IOException (con FileNotFoundException) y SQLException.' },
+        { id: 'fc-47-3', front: '¿Cómo crear una excepción propia checked?', back: 'Extendiendo de Exception. Ejemplo: public class BebidaException extends Exception { .... }' },
+        { id: 'fc-47-4', front: 'Jerarquía propia de ejemplo', back: 'BebidaException extends Exception; SinGasException extends BebidaException; TemperaturaException extends BebidaException.' },
+        { id: 'fc-47-5', front: '¿Es obligatorio sobreescribir los constructores?', back: 'No. Siempre está disponible el constructor por default, aunque no se escriba ninguno.' },
+        { id: 'fc-47-6', front: 'Constructor (Throwable cause)', back: 'Llama a super(cause). Sirve para indicar qué otra excepción provocó esta (encadenamiento de causas).' },
+        { id: 'fc-47-7', front: 'Constructor (String message, Throwable cause)', back: 'Llama a super(message, cause), combinando el mensaje de esta excepción con la causa que la disparó.' },
+        { id: 'fc-47-8', front: '¿Se puede reusar el patrón de constructores en las hijas?', back: 'Sí, el apunte lo dice explícito: "podemos hacer lo mismo para las hijas de BebidaException".' },
+      ],
+    },
+    {
+      id: '48',
+      unit: 'excepciones',
+      title: 'Granularidad del throws y conclusiones de la unidad',
+      criollo: 'Última parada: cuando tu método puede tirar varias excepciones de la misma familia, ¿avisás cada una por su nombre o avisás solo a la madre de todas? Y las conclusiones que resumen toda la unidad en cuatro ideas.',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'Avisar todas las excepciones puntuales',
+          criollo: 'Cada excepción por su nombre, en la firma del método. El que llama sabe exactamente qué puede pasarle.',
+        },
+        {
+          type: 'p',
+          text: 'Respecto del manejo, el apunte muestra dos formas de declarar el <code>throws</code> cuando un método puede lanzar <strong>más de una excepción de la misma familia</strong>. La primera: <strong>se puede avisar que se lanzan todas las excepciones</strong>, una por una.',
+        },
+        {
+          type: 'code',
+          code: 'public void consumirBebida() throws SinGasException, TemperaturaException {\n    if(this.gas < 100) {\n        throw new SinGasException();\n    }\n    if(this.temperatura > 20) {\n        throw new TemperaturaException();\n    }\n}',
+        },
+        {
+          type: 'h3',
+          text: 'O avisar solo la más genérica',
+          criollo: 'Como SinGasException y TemperaturaException son las dos una BebidaException, alcanza con avisar de la madre.',
+        },
+        {
+          type: 'p',
+          text: 'La segunda forma: <strong>se puede avisar que se lanza la más genérica</strong>. Como tanto <code>SinGasException</code> como <code>TemperaturaException</code> <strong>son una <code>BebidaException</code></strong> (por herencia), alcanza con declarar <code>throws BebidaException</code> en la firma.',
+        },
+        {
+          type: 'code',
+          code: 'public void consumirBebida() throws BebidaException {\n    if(this.gas < 100) {\n        throw new SinGasException();//SinGasException es una BebidaException\n    }\n    if(this.temperatura > 20) {\n        throw new TemperaturaException();//TemperaturaException es una BebidaException\n    }\n}',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Las dos versiones de <code>consumirBebida()</code> lanzan exactamente <strong>las mismas excepciones concretas</strong> (<code>SinGasException</code> o <code>TemperaturaException</code>). Lo único que cambia es <strong>qué tan específico es el <code>throws</code> de la firma</strong>: nombrar cada una, o nombrar solo a la madre común. Esta granularidad es la misma decisión de "excepción por excepción vs. excepción genérica" que ya vimos para el manejo con try/catch, aplicada ahora a la firma del método.',
+        },
+        {
+          type: 'h3',
+          text: 'Conclusiones de la unidad',
+          criollo: 'El resumen de las tres secciones anteriores en cuatro ideas. Si te acordás de esto, te acordás de la unidad entera.',
+        },
+        {
+          type: 'ol',
+          items: [
+            '<strong>Las excepciones son clases como cualquier otra.</strong>',
+            '<strong>Extender de <code>Exception</code> o de <code>RuntimeException</code> solo convierte a nuestra excepción en Checked o Unchecked.</strong> El tratamiento es igual (<code>try - catch - finally</code>); lo que cambia es la <strong>obligatoriedad</strong> del tratamiento: en las checked hay que manejar y/o avisar que se lanza la excepción, en las unchecked no es necesario (ni obligatorio).',
+            '<strong>Elegir la forma del tratamiento depende del problema a resolver.</strong>',
+            '<strong>Podemos manejar las excepciones lanzadas</strong> excepción por excepción (siendo bien específicos en el tratamiento de cada una), manejando la excepción padre (siendo más genéricos, tratando a todas por igual), o combinando una y otra forma según el caso.',
+          ],
+        },
+        {
+          type: 'p',
+          text: '<strong>Bibliografía obligatoria de la unidad:</strong> Eckel, B. (2002). <em>Piensa en Java</em>. España: Pearson Educación, pp. 405-435.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-48-1', q: 'En consumirBebida(), avisar la más genérica significa declarar throws BebidaException en vez de listar cada excepción concreta.', a: true, explain: 'Como SinGasException y TemperaturaException son ambas una BebidaException, alcanza con declarar la madre en el throws.' },
+          { id: 'tf-48-2', q: 'Las dos versiones de consumirBebida() (con throws específico y con throws genérico) lanzan excepciones concretas distintas.', a: false, explain: 'Lanzan exactamente las mismas excepciones concretas (SinGasException o TemperaturaException); solo cambia qué tan específica es la firma.' },
+          { id: 'tf-48-3', q: 'Según las conclusiones del apunte, extender de Exception o RuntimeException cambia el tratamiento try-catch-finally.', a: false, explain: 'El tratamiento es igual en ambos casos. Lo que cambia es la obligatoriedad de aplicarlo.' },
+          { id: 'tf-48-4', q: 'Las excepciones son clases como cualquier otra, según la primera conclusión del apunte.', a: true, explain: 'Es la primera conclusión textual: "Las excepciones son clases como cualquier otra".' },
+          { id: 'tf-48-5', q: 'El apunte concluye que siempre hay que manejar excepción por excepción, nunca por la más genérica.', a: false, explain: 'El apunte deja las tres opciones abiertas: específico, genérico (excepción padre), o un mix según el caso.' },
+        ],
+        mc: [
+          {
+            id: 'mc-48-1',
+            q: '¿Por qué alcanza con throws BebidaException en la segunda versión de consumirBebida()?',
+            options: [
+              'Porque SinGasException y TemperaturaException son ambas una BebidaException por herencia',
+              'Porque BebidaException no requiere throws al ser checked',
+              'Porque el método deja de lanzar SinGasException y TemperaturaException',
+              'Porque BebidaException es una Unchecked Exception',
+            ],
+            correctIndex: 0,
+            explain: 'Por herencia, ambas excepciones concretas son también BebidaException, así que declarar la madre alcanza para avisar de cualquiera de las dos.',
+          },
+          {
+            id: 'mc-48-2',
+            q: 'Según las conclusiones del apunte, ¿qué cambia entre una excepción checked y una unchecked?',
+            options: [
+              'El tratamiento try-catch-finally, que es distinto en cada caso',
+              'La obligatoriedad de manejar o avisar la excepción',
+              'La posibilidad de crear constructores propios',
+              'La capacidad de heredar de otra excepción',
+            ],
+            correctIndex: 1,
+            explain: 'El tratamiento es igual en ambas; lo que cambia es si el compilador obliga (checked) o no (unchecked) a manejar/avisar.',
+          },
+          {
+            id: 'mc-48-3',
+            q: '¿Cuál es la bibliografía obligatoria de la unidad de manejo de excepciones?',
+            options: [
+              'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 405-435',
+              'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 223-239',
+              'Eckel, B. (2002). Piensa en Java. Madrid: Pearson Educación, pp. 1-7',
+              'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 255-265',
+            ],
+            correctIndex: 0,
+            explain: 'Las páginas 405-435 son las de esta unidad. Las otras referencias son de las unidades de diseño avanzado y de la actividad del auto.',
+          },
+          {
+            id: 'mc-48-4',
+            q: '¿Cuáles son las tres formas de manejar excepciones que resume la última conclusión del apunte?',
+            options: [
+              'Excepción por excepción, manejar la excepción padre, o un mix de ambas',
+              'Solo con try-catch, solo con throws, o ignorarlas',
+              'Loguear, relanzar como Error, o silenciar',
+              'Convertirlas todas en checked antes de manejarlas',
+            ],
+            correctIndex: 0,
+            explain: 'Es la última conclusión textual del apunte, calcada de la sección anterior sobre "¿cuál es la mejor?".',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-48-1',
+            q: '¿Cuáles de estas son conclusiones textuales del apunte?',
+            options: [
+              'Las excepciones son clases como cualquier otra',
+              'Extender de Exception o RuntimeException solo cambia si son checked o unchecked',
+              'El tratamiento try-catch-finally es igual en ambos casos',
+              'Elegir la forma del tratamiento depende del problema a resolver',
+              'Las unchecked exceptions no pueden manejarse nunca con try-catch',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Las unchecked sí pueden manejarse con try-catch si uno quiere: simplemente no es obligatorio.',
+          },
+          {
+            id: 'ms-48-2',
+            q: '¿Qué diferencia hay entre las dos versiones de consumirBebida() que muestra el apunte?',
+            options: [
+              'Una declara throws con cada excepción concreta y la otra con la excepción más genérica',
+              'Una usa try-catch y la otra no usa ningún tipo de manejo',
+              'Ambas lanzan las mismas excepciones concretas ante las mismas condiciones',
+              'Una es un método de instancia y la otra es estático',
+              'Ambas siguen validando this.gas < 100 y this.temperatura > 20',
+            ],
+            correctIndexes: [0, 2, 4],
+            explain: 'Ninguna de las dos versiones usa try-catch (ambas usan throws en la firma), y las dos son métodos de instancia.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-48-1', front: 'Avisar todas las excepciones puntuales', back: 'throws SinGasException, TemperaturaException — cada excepción concreta nombrada en la firma del método.' },
+        { id: 'fc-48-2', front: 'Avisar la más genérica', back: 'throws BebidaException — alcanza con la madre, porque SinGasException y TemperaturaException son, por herencia, BebidaException.' },
+        { id: 'fc-48-3', front: 'Conclusión 1', back: 'Las excepciones son clases como cualquier otra.' },
+        { id: 'fc-48-4', front: 'Conclusión 2', back: 'Extender de Exception o RuntimeException solo convierte a la excepción en checked o unchecked. El tratamiento (try-catch-finally) es igual; cambia la obligatoriedad.' },
+        { id: 'fc-48-5', front: 'Conclusión 3', back: 'Elegir la forma del tratamiento depende del problema a resolver.' },
+        { id: 'fc-48-6', front: 'Conclusión 4', back: 'Se puede manejar excepción por excepción (específico), manejar la excepción padre (genérico), o combinar ambas formas según el caso.' },
+        { id: 'fc-48-7', front: 'Checked: obligatoriedad', back: 'Debo manejar y/o avisar que se lanza la excepción.' },
+        { id: 'fc-48-8', front: 'Unchecked: obligatoriedad', back: 'No es necesario (ni obligatorio) manejarla ni avisarla.' },
+        { id: 'fc-48-9', front: 'Bibliografía obligatoria de la unidad', back: 'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 405-435.' },
+      ],
+    },
+    {
+      id: '49',
+      unit: 'actividades',
+      title: 'Actividad: Librería de validación de valores',
+      criollo: 'La actividad práctica de la unidad 06. Un solo ejercicio pero con mucha tela para cortar: armar una librería que valide valores y tire una excepción propia por cada valor inválido. Va a servir después para el proyecto final, así que conviene pensarla bien desde ahora: ¿checked o unchecked? ¿métodos estáticos o instancia?',
+      blocks: [
+        {
+          type: 'h3',
+          text: 'Reglamentos generales para la actividad',
+          criollo: 'Los mismos de siempre, con una vuelta de tuerca: acá sí hace falta el main() de prueba mostrando que la librería funciona.',
+        },
+        {
+          type: 'ol',
+          items: [
+            'La actividad consta de <strong>un ejercicio práctico de código Java</strong>. Se espera que la entrega contenga <strong>el programa, junto a un <code>main()</code></strong> para poder probar que cumple con el objetivo. De lo contrario, no se considerará "entregada".',
+            'La entrega consiste en un <strong>paquete exportado desde Eclipse</strong>, según se explica en el tutorial. De usar otro IDE, la entrega deberá estar empaquetada según los procedimientos de este.',
+            '<strong>No acoplar la salida de los métodos a la consola.</strong> No usar la salida por consola dentro de un método sin una justificación. De haberla, incluir el comentario en el código.',
+            'El código debe <strong>documentarse por sí mismo</strong>: no usar nombres de métodos o variables como "x", "nom", "val", etc. Usar, en cambio, "incógnita", "nombre", "valorDeRetorno", etc.',
+            'No se considerará como "entregada" la actividad si se <strong>ignoran las convenciones de código</strong> descriptas en los módulos teóricos.',
+            'La actividad tendrá una valoración de <strong>"entregada" o "no entregada"</strong> (no se califica numéricamente).',
+            'Se admitirá <strong>una sola entrega</strong>.',
+            'Se dará una <strong>devolución global</strong> a los alumnos haciendo hincapié en los puntos flojos comunes mediante la plataforma de la materia y remarcando los puntos correctos.',
+          ],
+        },
+        {
+          type: 'h3',
+          text: 'El ejercicio: una librería de validación de valores',
+          criollo: 'La idea central: por cada valor inválido, una excepción propia que cuente el problema. Nada de devolver true/false o un código numérico de error.',
+        },
+        {
+          type: 'p',
+          text: 'Implementar una <strong>librería de validación de valores</strong>. Para <strong>cada valor inválido</strong>, deberá lanzarse una <strong>excepción al flujo indicando el problema</strong>. Por ejemplo: evaluar un valor de texto, y si es "vacío", lanzar una excepción.',
+        },
+        {
+          type: 'code',
+          code: 'public String validarTexto(String texto) throws TextoVacioException {\n    if(texto.length == 0) {\n        throw new TextoVacioException("El texto es invalido");\n    }\n}',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Esta librería <strong>será de utilidad para cuando se desarrolle el proyecto final</strong>, donde habrá <strong>muchas pantallas con muchos campos cada una</strong> y necesitarán validaciones. Se pueden validar, por ejemplo: <strong>rangos de números</strong>, <strong>números negativos</strong>, que un texto sea <strong>solo letras</strong> o <strong>solo números</strong>, o que <strong>necesariamente tenga ambos</strong>, etc.',
+        },
+        {
+          type: 'h3',
+          text: 'Qué se pide concretamente',
+          criollo: 'Armar la familia de excepciones que haga falta y, sobre todo, poder justificar por qué la armaste así.',
+        },
+        {
+          type: 'ul',
+          items: [
+            'Realizar <strong>todas las excepciones que se consideren necesarias</strong> (ejemplo: <code>TextoVacioException</code>, <code>ValorNumericoException</code>, etc.).',
+            'Evaluar el uso de <strong>Checked Exceptions y de Unchecked Exceptions</strong>, de ser necesario, para cada una de las excepciones que se creen.',
+            'Se pueden usar <strong>métodos estáticos u otro enfoque</strong>. <strong>Justificar, mediante un comentario en el código, el porqué del enfoque</strong> elegido.',
+          ],
+        },
+        {
+          type: 'table',
+          caption: 'Ejemplos de validaciones que sugiere el enunciado',
+          headers: ['Qué validar', 'Ejemplo de excepción propia'],
+          rows: [
+            ['Texto vacío', 'TextoVacioException'],
+            ['Valor numérico inválido / fuera de tipo', 'ValorNumericoException'],
+            ['Rango de números (min/max)', 'ValorFueraDeRangoException'],
+            ['Número negativo cuando no corresponde', 'ValorNegativoException'],
+            ['Texto que debe ser solo letras', 'TextoNoAlfabeticoException'],
+            ['Texto que debe ser solo números', 'TextoNoNumericoException'],
+            ['Texto que debe tener letras y números a la vez', 'TextoAlfanumericoInvalidoException'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'El nombre <code>ValorNuméricoException</code> que trae el enunciado tiene tilde y es raro como identificador Java (los identificadores no llevan tildes ni tampoco conviene usar "Numérico" con acento en el nombre de una clase). Convión usarlo sin tilde: <code>ValorNumericoException</code>. Es un detalle menor del enunciado, no un límite del lenguaje.',
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          text: 'Los puntos del reglamento que más entregas tumban acá: <strong>si falta el <code>main()</code> de prueba, no está entregada</strong>, y <strong>si el enfoque (checked/unchecked, estático/instancia) no viene justificado con un comentario, tampoco</strong>. Sumale que se admite una sola entrega, sin reevaluación.',
+        },
+        {
+          type: 'p',
+          text: '<strong>Bibliografía de la unidad:</strong> Eckel, B. (2002). <em>Piensa en Java</em>. España: Pearson Educación, pp. 405-435.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-49-1', q: 'La entrega debe incluir un main() para probar que la librería cumple con el objetivo.', a: true, explain: 'Es el punto 1 del reglamento: se espera el programa junto a un main() de prueba, o no se considera entregada.' },
+          { id: 'tf-49-2', q: 'Por cada valor inválido, el método debe devolver false en vez de lanzar una excepción.', a: false, explain: 'El enunciado pide lo contrario: por cada valor inválido debe lanzarse una excepción al flujo indicando el problema.' },
+          { id: 'tf-49-3', q: 'El enunciado obliga a que todas las excepciones creadas sean Unchecked.', a: false, explain: 'El enunciado pide evaluar el uso de Checked y de Unchecked según corresponda, no impone una sola categoría.' },
+          { id: 'tf-49-4', q: 'Se puede usar métodos estáticos para la librería, siempre que se justifique el enfoque con un comentario en el código.', a: true, explain: 'El enunciado lo permite explícitamente y pide justificar por qué se eligió ese enfoque.' },
+          { id: 'tf-49-5', q: 'La actividad admite reevaluación si la primera entrega no aprueba.', a: false, explain: 'Se admite una sola entrega, igual que en el resto de las actividades de la materia.' },
+        ],
+        mc: [
+          {
+            id: 'mc-49-1',
+            q: 'Según el ejemplo del enunciado, ¿qué hace validarTexto(String texto) si el texto está vacío?',
+            options: [
+              'Lanza una TextoVacioException con un mensaje',
+              'Devuelve null sin avisar nada',
+              'Imprime un error por consola y continúa',
+              'Lanza un ClassCastException genérico',
+            ],
+            correctIndex: 0,
+            explain: 'El código del enunciado es: if(texto.length == 0) { throw new TextoVacioException("El texto es invalido"); }',
+          },
+          {
+            id: 'mc-49-2',
+            q: '¿Para qué dice el enunciado que va a servir esta librería más adelante?',
+            options: [
+              'Para el proyecto final, con muchas pantallas y campos que necesitarán validaciones',
+              'Para reemplazar por completo el uso de try-catch en la materia',
+              'Únicamente para validar credenciales de login',
+              'Para el parcial de la unidad siguiente',
+            ],
+            correctIndex: 0,
+            explain: 'El enunciado lo dice literal: "esta librería será de utilidad para cuando se desarrolle el proyecto final".',
+          },
+          {
+            id: 'mc-49-3',
+            q: '¿Qué debe justificarse con un comentario en el código según el enunciado?',
+            options: [
+              'El porqué del enfoque elegido (por ejemplo, métodos estáticos u otro)',
+              'El nombre de la universidad en cada archivo',
+              'La cantidad total de líneas del programa',
+              'El motivo por el cual no se usó Eclipse',
+            ],
+            correctIndex: 0,
+            explain: 'El enunciado dice: "Se pueden usar métodos estáticos u otro enfoque. Justificar, mediante un comentario en el código, el porqué del enfoque".',
+          },
+          {
+            id: 'mc-49-4',
+            q: '¿Qué tipos de validación sugiere el enunciado como ejemplo, además del texto vacío?',
+            options: [
+              'Rangos de números, números negativos, y texto solo letras o solo números',
+              'Validación de conexión a base de datos',
+              'Validación de formato de archivos PDF',
+              'Validación de fechas con zona horaria',
+            ],
+            correctIndex: 0,
+            explain: 'El enunciado menciona: "rangos de números, números negativos, que un texto sea solo letras o solo números o que necesariamente tenga ambos, etc."',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-49-1',
+            q: '¿Cuáles de estos puntos figuran en el reglamento general de esta actividad?',
+            options: [
+              'La entrega debe incluir un main() de prueba',
+              'La entrega es un paquete exportado desde Eclipse (o empaquetado según el IDE usado)',
+              'No se debe acoplar la salida de los métodos a la consola sin justificación',
+              'El código debe documentarse por sí mismo, sin nombres como "x", "nom" o "val"',
+              'La actividad se califica numéricamente sobre 10 puntos',
+            ],
+            correctIndexes: [0, 1, 2, 3],
+            explain: 'Esta actividad, como las demás actividades prácticas de código, no se califica numéricamente: la valoración es "entregada" o "no entregada".',
+          },
+          {
+            id: 'ms-49-2',
+            q: '¿Qué decisiones de diseño pide evaluar el enunciado al crear las excepciones de la librería?',
+            options: [
+              'Si cada excepción conviene como Checked o como Unchecked',
+              'Si usar métodos estáticos o algún otro enfoque',
+              'Justificar el enfoque elegido con un comentario en el código',
+              'Qué nombre le pone la cátedra a cada excepción de forma obligatoria',
+              'En qué paquete de Java (java.util, java.io, etc.) debe vivir cada excepción',
+            ],
+            correctIndexes: [0, 1, 2],
+            explain: 'El enunciado deja los nombres de las excepciones a criterio propio ("las que se consideren necesarias") y no exige un paquete de Java particular.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-49-1', front: 'Objetivo del ejercicio', back: 'Implementar una librería de validación de valores. Por cada valor inválido, lanzar una excepción propia al flujo indicando el problema.' },
+        { id: 'fc-49-2', front: 'Ejemplo del enunciado', back: 'public String validarTexto(String texto) throws TextoVacioException { if(texto.length == 0) { throw new TextoVacioException("El texto es invalido"); } }' },
+        { id: 'fc-49-3', front: '¿Para qué va a servir esta librería?', back: 'Para el proyecto final: muchas pantallas con muchos campos que van a necesitar validaciones (rangos, negativos, solo letras, solo números, alfanumérico).' },
+        { id: 'fc-49-4', front: 'Qué excepciones hay que crear', back: 'Todas las que se consideren necesarias (ejemplo: TextoVacioException, ValorNumericoException, etc.), evaluando si conviene checked o unchecked para cada una.' },
+        { id: 'fc-49-5', front: 'Sobre métodos estáticos', back: 'Se pueden usar métodos estáticos u otro enfoque, pero hay que justificar mediante un comentario en el código el porqué de esa elección.' },
+        { id: 'fc-49-6', front: 'Requisito de entrega distinto al resto de actividades', back: 'Acá sí es obligatorio un main() de prueba que demuestre que la librería cumple con el objetivo; sin él, no se considera entregada.' },
+        { id: 'fc-49-7', front: 'Criterio de aprobación', back: 'No está calificada numéricamente: la valoración es "entregada" o "no entregada", con una sola entrega admitida y devolución global.' },
+        { id: 'fc-49-8', front: 'Bibliografía de la unidad', back: 'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 405-435.' },
+      ],
+    },
   ],
   pdfs: [
     { key: 'origen-poo', label: 'PPT · Origen de la POO', path: 'pdfs/laboratorio-1/1-origen-poo.pdf' },
@@ -8820,5 +9527,7 @@ export default {
     { key: 'interfaces-avanzado', label: 'Apunte · Uso avanzado de las interfaces', path: 'pdfs/laboratorio-1/5-uso-avanzado-de-las-interfaces.pdf' },
     { key: 'patrones-diseno', label: 'Apunte · Patrones de diseño comunes', path: 'pdfs/laboratorio-1/5-patrones-de-diseno-comunes.pdf' },
     { key: 'actividad-auto', label: 'Actividad · Programar un auto y sus partes', path: 'pdfs/laboratorio-1/2-actividad-programar-auto.pdf' },
+    { key: 'jerarquia-excepciones', label: 'PPT · Jerarquía de excepciones', path: 'pdfs/laboratorio-1/6-jerarquia-de-excepciones.pdf' },
+    { key: 'actividad-libreria-validacion', label: 'Actividad · Librería de validación de valores', path: 'pdfs/laboratorio-1/6-actividad-libreria-validacion-de-valores.pdf' },
   ],
 };

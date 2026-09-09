@@ -7,7 +7,9 @@
  *
  * Cubre las secciones 21-27 (unidades 'jvm', 'jdk' y 'actividades'), las
  * secciones 28-34 (unidad 'diseno-clases'), las secciones 35-43 (unidad
- * 'diseno-avanzado') y las secciones 44-45 (actividades de las unidades 04 y 05).
+ * 'diseno-avanzado'), las secciones 44-45 (actividades de las unidades 04 y 05),
+ * las secciones 46-48 (unidad 'excepciones') y la sección 49 (actividad de la
+ * unidad 06).
  */
 export default {
   '21': {
@@ -2756,6 +2758,365 @@ export default {
       { id: 'fc2-45-6', front: 'Frase de cierre para la pregunta 3', back: 'Componer da mayor flexibilidad; heredar encierra en comportamientos fijos. La herencia es un ES UN, la composición un TIENE UN.' },
       { id: 'fc2-45-7', front: 'Estructura de la respuesta sobre el patrón State', back: 'Enunciado, problema del IF-ELSE disperso, los tres pasos de la solución, lo que se gana (visión clara y menos inconsistencias) y lo que se paga (más clases y memoria).' },
       { id: 'fc2-45-8', front: 'Bibliografía de la unidad 05', back: 'Eckel, B. (2002). Piensa en Java. España: Pearson Educación, pp. 223-239 y 255-265.' },
+    ],
+  },
+  '46': {
+    quiz2: {
+      tf: [
+        { id: 'tf2-46-1', q: 'Una excepción que hereda de RuntimeException es una Unchecked Exception.', a: true, explain: 'Heredar de RuntimeException es exactamente lo que define a una Unchecked Exception.' },
+        { id: 'tf2-46-2', q: 'El compilador exige manejar o avisar cualquier excepción que herede de RuntimeException.', a: false, explain: 'Esa exigencia es para las que heredan de Exception. Las que heredan de RuntimeException quedan liberadas de esa obligación.' },
+        { id: 'tf2-46-3', q: 'La opción "manejar y relanzar" implica que el método atrapa una excepción y lanza otra distinta desde el catch.', a: true, explain: 'Es la esencia de esa opción: catch de una excepción, throw de otra nueva.' },
+        { id: 'tf2-46-4', q: 'Un método que usa la opción de "lanzar tal cual viene" incluye un bloque catch para esa excepción.', a: false, explain: 'Esa opción no usa try/catch: solo declara throws y deja que el llamador se ocupe.' },
+        { id: 'tf2-46-5', q: 'Si varias excepciones concretas comparten una excepción padre, siempre hay que declarar cada una por separado en el throws.', a: false, explain: 'Se puede optar por declarar solo la más genérica de la jerarquía, sin listar cada una.' },
+      ],
+      mc: [
+        {
+          id: 'mc2-46-1',
+          q: '¿De qué depende, según el apunte, cuál de las tres opciones de manejo conviene usar?',
+          options: [
+            'De si el proyecto usa Eclipse o IntelliJ como IDE',
+            'Del negocio, el problema a resolver y el grado de control deseado',
+            'De la cantidad de líneas que tenga el método afectado',
+            'De si la excepción tiene o no un constructor por default',
+          ],
+          correctIndex: 1,
+          explain: 'Son los tres factores que menciona el apunte para decidir la mejor forma de manejo.',
+        },
+        {
+          id: 'mc2-46-2',
+          q: '¿Qué diferencia hay, en obligatoriedad, entre manejar una checked y una unchecked?',
+          options: [
+            'En la checked es obligatorio manejar o avisar; en la unchecked no',
+            'En la unchecked es obligatorio manejar o avisar; en la checked no',
+            'Ambas exigen manejo obligatorio por igual',
+            'Ninguna de las dos categorías exige manejo obligatorio',
+          ],
+          correctIndex: 0,
+          explain: 'Esa es justamente la diferencia entre las dos categorías que arma toda la unidad.',
+        },
+        {
+          id: 'mc2-46-3',
+          q: 'Cuando un método puede lanzar más de una excepción emparentada, ¿qué alternativa NO aparece en el apunte?',
+          options: [
+            'Manejar cada excepción concreta por separado',
+            'Manejar la excepción más genérica de la jerarquía',
+            'Combinar el manejo específico con el genérico según el caso',
+            'Convertir automáticamente todas en Error del sistema',
+          ],
+          correctIndex: 3,
+          explain: 'Convertir las excepciones en Error no figura entre las alternativas que menciona el apunte.',
+        },
+        {
+          id: 'mc2-46-4',
+          q: 'Si un método usa la opción "manejar pero no relanzar", ¿qué ocurre con la excepción original fuera de ese método?',
+          options: [
+            'Sigue siendo visible para quien llame al método',
+            'Deja de ser visible: el problema se resolvió dentro del propio método',
+            'Se convierte automáticamente en una Unchecked Exception',
+            'Debe declararse igual en el throws por prevención',
+          ],
+          correctIndex: 1,
+          explain: 'Al manejarla y no relanzarla, el problema queda resuelto internamente y no hay nada pendiente para el llamador.',
+        },
+      ],
+      ms: [
+        {
+          id: 'ms2-46-1',
+          q: '¿Qué afirmaciones son ciertas sobre las tres opciones de manejo de excepciones?',
+          options: [
+            'Se pueden aplicar también a excepciones unchecked, aunque no sea obligatorio',
+            'Una de ellas evita declarar throws porque resuelve el problema internamente',
+            'Otra de ellas relanza una excepción distinta de la que atrapó',
+            'Las tres requieren obligatoriamente un bloque finally',
+            'Las tres están disponibles únicamente para excepciones checked',
+          ],
+          correctIndexes: [0, 1, 2],
+          explain: 'Ninguna de las tres exige finally, y las tres sirven tanto para checked como para unchecked (en las unchecked, de forma opcional).',
+        },
+        {
+          id: 'ms2-46-2',
+          q: '¿Qué factores usa el apunte para decidir entre manejo específico, genérico o mixto?',
+          options: [],
+          correctIndexes: [],
+          explain: 'El apunte no da una fórmula ni una lista cerrada de factores para esa decisión puntual: solo repite que depende del negocio, el problema y el control deseado, sin agregar criterios nuevos para el caso de múltiples excepciones.',
+        },
+      ],
+    },
+    flashcards2: [
+      { id: 'fc2-46-1', front: '¿Qué obliga una Checked Exception?', back: 'A chequear el eventual lanzamiento y a manejarla o avisar que se lanza, por exigencia del compilador.' },
+      { id: 'fc2-46-2', front: '¿Qué libertad da una Unchecked Exception?', back: 'No exige chequeo ni tratamiento obligatorio: el código compila igual sin try/catch ni throws.' },
+      { id: 'fc2-46-3', front: 'Opción de manejo sin try/catch propio', back: '"Lanzar tal cual viene": el método declara throws y deja la resolución para quien lo llame.' },
+      { id: 'fc2-46-4', front: 'Opción de manejo que resuelve internamente', back: '"Manejar pero no relanzar": se atrapa la excepción y se resuelve el problema dentro del mismo método, sin dejar throws pendiente.' },
+      { id: 'fc2-46-5', front: 'Opción de manejo que cambia el tipo de excepción', back: '"Manejar y relanzar": se atrapa una excepción y se lanza una distinta desde el catch.' },
+      { id: 'fc2-46-6', front: 'Manejo ante varias excepciones emparentadas', back: 'Se puede manejar cada una específicamente, manejar solo la más genérica de la jerarquía, o combinar ambas formas.' },
+      { id: 'fc2-46-7', front: 'Factores que definen "la mejor" forma de manejo', back: 'El negocio, el problema a resolver y el grado de control deseado sobre las eventualidades.' },
+    ],
+  },
+  '47': {
+    quiz2: {
+      tf: [
+        { id: 'tf2-47-1', q: 'Throwable es la raíz de toda la jerarquía de excepciones del apunte.', a: true, explain: 'Tanto Error como Exception cuelgan directamente de Throwable.' },
+        { id: 'tf2-47-2', q: 'RuntimeException hereda directamente de Throwable, sin pasar por Exception.', a: false, explain: 'RuntimeException hereda de Exception, que a su vez hereda de Throwable.' },
+        { id: 'tf2-47-3', q: 'Para que una excepción propia sea checked, hay que extenderla de RuntimeException.', a: false, explain: 'Para que sea checked hay que extender de Exception. RuntimeException produce excepciones unchecked.' },
+        { id: 'tf2-47-4', q: 'El constructor sin argumentos de una excepción propia existe aunque no se escriba ninguno.', a: true, explain: 'Es el constructor por default, disponible siempre por más que no se sobreescriban los demás.' },
+        { id: 'tf2-47-5', q: 'El constructor que recibe un Throwable como parámetro sirve para declarar qué causó la excepción actual.', a: true, explain: 'Ese constructor llama a super(cause) para encadenar la causa que disparó la excepción.' },
+      ],
+      mc: [
+        {
+          id: 'mc2-47-1',
+          q: '¿Qué relación tienen Error y Exception en la jerarquía del apunte?',
+          options: [
+            'Ambas son hijas directas de Throwable',
+            'Error es hija de Exception',
+            'Exception es hija de Error',
+            'Ninguna de las dos desciende de Throwable',
+          ],
+          correctIndex: 0,
+          explain: 'El diagrama del apunte ubica a Error y Exception como las dos ramas que cuelgan directamente de Throwable.',
+        },
+        {
+          id: 'mc2-47-2',
+          q: '¿Qué necesita heredar una excepción propia para quedar dentro de la rama "unchecked"?',
+          options: [
+            'RuntimeException',
+            'Exception',
+            'Throwable directamente',
+            'Error',
+          ],
+          correctIndex: 0,
+          explain: 'RuntimeException es la clase que marca la rama de las unchecked dentro de la jerarquía de Exception.',
+        },
+        {
+          id: 'mc2-47-3',
+          q: '¿Qué hace el constructor que recibe (String message, Throwable cause)?',
+          options: [
+            'Llama a super(message, cause), combinando mensaje y causa',
+            'Ignora el mensaje y guarda solo la causa',
+            'Ignora la causa y guarda solo el mensaje',
+            'Lanza una excepción nueva con ambos parámetros',
+          ],
+          correctIndex: 0,
+          explain: 'Es literal del apunte: super(message, cause) combina el mensaje propio con la causa que disparó la excepción.',
+        },
+        {
+          id: 'mc2-47-4',
+          q: 'Según el cierre del apunte sobre constructores, ¿qué se puede hacer con las clases hijas de una excepción propia?',
+          options: [
+            'Darles los mismos cuatro constructores que a la clase padre',
+            'Quitarles el constructor por default obligatoriamente',
+            'Prohibirles declarar constructores propios',
+            'Obligarlas a heredar directamente de Throwable en vez de la clase padre',
+          ],
+          correctIndex: 0,
+          explain: 'El apunte cierra diciendo que se puede hacer lo mismo (los mismos constructores) para las clases hijas.',
+        },
+      ],
+      ms: [
+        {
+          id: 'ms2-47-1',
+          q: '¿Qué clases ubica el apunte como ejemplos concretos bajo RuntimeException?',
+          options: [
+            'NullPointerException',
+            'ClassCastException',
+            'ArrayIndexOutOfBoundsException',
+            'FileNotFoundException',
+            'StackOverflowError',
+          ],
+          correctIndexes: [0, 1, 2],
+          explain: 'FileNotFoundException cuelga de IOException y StackOverflowError cuelga de Error: ninguna de las dos es hija de RuntimeException.',
+        },
+        {
+          id: 'ms2-47-2',
+          q: '¿Cuáles de estos constructores lista el apunte como comunes para una excepción propia?',
+          options: [
+            'Constructor sin argumentos',
+            'Constructor con un String',
+            'Constructor con un Throwable',
+            'Constructor con String y Throwable juntos',
+            'Constructor con un código numérico de error',
+          ],
+          correctIndexes: [0, 1, 2, 3],
+          explain: 'El código numérico de error no aparece en la lista de constructores comunes del apunte.',
+        },
+      ],
+    },
+    flashcards2: [
+      { id: 'fc2-47-1', front: 'Raíz de la jerarquía de excepciones', back: 'Throwable, del que cuelgan directamente Error y Exception.' },
+      { id: 'fc2-47-2', front: 'Rama de las unchecked dentro de Exception', back: 'RuntimeException, con ejemplos como NullPointerException, ClassCastException y ArrayIndexOutOfBoundsException.' },
+      { id: 'fc2-47-3', front: 'Cómo crear una excepción propia checked', back: 'Extendiendo de Exception, por ejemplo: public class BebidaException extends Exception { .... }' },
+      { id: 'fc2-47-4', front: 'Constructor con Throwable como parámetro', back: 'Llama a super(cause) para indicar qué otra excepción provocó esta.' },
+      { id: 'fc2-47-5', front: '¿Hace falta sobreescribir los cuatro constructores?', back: 'No, el apunte aclara que no es obligatorio porque siempre existe el constructor por default.' },
+      { id: 'fc2-47-6', front: '¿Se puede repetir el patrón de constructores en las excepciones hijas?', back: 'Sí, el apunte cierra diciendo que se puede hacer lo mismo para las hijas de la excepción raíz.' },
+    ],
+  },
+  '48': {
+    quiz2: {
+      tf: [
+        { id: 'tf2-48-1', q: 'Declarar throws con la excepción más genérica cambia qué excepciones concretas puede lanzar el método.', a: false, explain: 'El método sigue lanzando exactamente las mismas excepciones concretas; solo cambia qué tan específica es la firma con throws.' },
+        { id: 'tf2-48-2', q: 'Según las conclusiones del apunte, extender de Exception o de RuntimeException cambia el tratamiento try-catch-finally.', a: false, explain: 'El tratamiento es idéntico en los dos casos; lo que cambia es la obligatoriedad de aplicarlo.' },
+        { id: 'tf2-48-3', q: 'Una de las conclusiones del apunte afirma que las excepciones son clases como cualquier otra.', a: true, explain: 'Es la primera conclusión textual de la unidad.' },
+        { id: 'tf2-48-4', q: 'El apunte concluye que siempre conviene manejar cada excepción por separado, nunca la más genérica.', a: false, explain: 'Deja las tres alternativas abiertas: específico, genérico, o un mix, según el caso.' },
+        { id: 'tf2-48-5', q: 'En las excepciones checked, según las conclusiones, hay que manejar y/o avisar que se lanza la excepción.', a: true, explain: 'Es exactamente lo que dice la conclusión sobre la obligatoriedad en las checked.' },
+      ],
+      mc: [
+        {
+          id: 'mc2-48-1',
+          q: '¿Qué gana en concreto declarar throws con la excepción padre en vez de listar cada excepción hija?',
+          options: [
+            'Una firma más corta, sin cambiar qué excepciones concretas se lanzan',
+            'Que el método deje de necesitar manejo alguno',
+            'Que las excepciones hijas pasen a ser unchecked',
+            'Que el método ya no pueda lanzar la excepción más específica',
+          ],
+          correctIndex: 0,
+          explain: 'Las excepciones concretas lanzadas no cambian: solo cambia el nivel de detalle de la firma declarada con throws.',
+        },
+        {
+          id: 'mc2-48-2',
+          q: 'Según las conclusiones, ¿qué cambia realmente entre extender de Exception y de RuntimeException?',
+          options: [
+            'La obligatoriedad de manejar o avisar la excepción',
+            'La cantidad de constructores disponibles',
+            'La posibilidad de usar try-catch-finally',
+            'La capacidad de la excepción de llevar un mensaje',
+          ],
+          correctIndex: 0,
+          explain: 'El tratamiento y las capacidades son las mismas; la obligatoriedad de aplicarlo es lo único que varía.',
+        },
+        {
+          id: 'mc2-48-3',
+          q: '¿Cuál de estas es una de las conclusiones finales que resume el apunte?',
+          options: [
+            'Elegir la forma del tratamiento depende del problema a resolver',
+            'Toda excepción debe convertirse en checked antes de lanzarse',
+            'El finally es obligatorio en cualquier bloque try',
+            'Las excepciones unchecked no pueden tener mensaje propio',
+          ],
+          correctIndex: 0,
+          explain: 'Es una de las cuatro conclusiones textuales que cierra la unidad.',
+        },
+      ],
+      ms: [
+        {
+          id: 'ms2-48-1',
+          q: '¿Qué conclusiones aparecen textualmente al cierre del apunte de la unidad?',
+          options: [
+            'Las excepciones son clases como cualquier otra',
+            'El tratamiento try-catch-finally es igual, cambia la obligatoriedad',
+            'Elegir la forma del tratamiento depende del problema a resolver',
+            'Se puede manejar excepción por excepción, la más genérica, o un mix',
+            'Las excepciones unchecked deben evitarse siempre que sea posible',
+          ],
+          correctIndexes: [0, 1, 2, 3],
+          explain: 'El apunte nunca recomienda evitar las unchecked: las presenta como una categoría igual de válida, solo con distinta obligatoriedad.',
+        },
+        {
+          id: 'ms2-48-2',
+          q: '¿Qué combinaciones de throws son válidas para un método que puede lanzar SinGasException y TemperaturaException (ambas hijas de BebidaException)?',
+          options: [
+            'throws SinGasException, TemperaturaException',
+            'throws BebidaException',
+            'throws Exception',
+            'Sin ningún throws, si ambas fueran unchecked',
+            'throws Error',
+          ],
+          correctIndexes: [0, 1, 2, 3],
+          explain: 'Error no tiene relación de herencia con BebidaException, así que declararlo no cubre esas excepciones.',
+        },
+      ],
+    },
+    flashcards2: [
+      { id: 'fc2-48-1', front: 'Throws específico vs. throws genérico', back: 'Listar cada excepción concreta o declarar solo la más genérica de la jerarquía: ambas formas lanzan exactamente las mismas excepciones concretas.' },
+      { id: 'fc2-48-2', front: 'Qué NO cambia entre checked y unchecked', back: 'El tratamiento try-catch-finally es idéntico en los dos casos.' },
+      { id: 'fc2-48-3', front: 'Qué SÍ cambia entre checked y unchecked', back: 'La obligatoriedad: en checked hay que manejar y/o avisar; en unchecked no es necesario.' },
+      { id: 'fc2-48-4', front: 'Conclusión sobre la naturaleza de las excepciones', back: 'Las excepciones son clases como cualquier otra.' },
+      { id: 'fc2-48-5', front: 'Conclusión sobre cómo elegir el tratamiento', back: 'Depende del problema a resolver, no hay una receta fija.' },
+      { id: 'fc2-48-6', front: 'Conclusión sobre manejar varias excepciones', back: 'Se puede manejar cada una específicamente, manejar la excepción padre de forma genérica, o combinar ambas según el caso.' },
+    ],
+  },
+  '49': {
+    quiz2: {
+      tf: [
+        { id: 'tf2-49-1', q: 'El enunciado exige incluir un main() que pruebe que la librería cumple con el objetivo.', a: true, explain: 'Sin ese main() de prueba, la actividad no se considera entregada.' },
+        { id: 'tf2-49-2', q: 'El enunciado obliga a que todas las excepciones creadas sean checked.', a: false, explain: 'Pide evaluar el uso de checked y de unchecked según corresponda a cada excepción, sin imponer una sola categoría.' },
+        { id: 'tf2-49-3', q: 'Según el enunciado, cada valor inválido debe generar una excepción que indique el problema.', a: true, explain: 'Es la consigna central: "para cada valor inválido, deberá lanzarse una excepción al flujo indicando el problema".' },
+        { id: 'tf2-49-4', q: 'El enunciado prohíbe usar métodos estáticos en la librería.', a: false, explain: 'Los permite explícitamente, siempre que el enfoque quede justificado con un comentario en el código.' },
+        { id: 'tf2-49-5', q: 'La actividad se aprueba con una calificación numérica sobre 10 puntos.', a: false, explain: 'Como el resto de las actividades prácticas de código de la materia, se valora como "entregada" o "no entregada".' },
+      ],
+      mc: [
+        {
+          id: 'mc2-49-1',
+          q: '¿Qué debe acompañar al programa entregado, según el reglamento de esta actividad?',
+          options: [
+            'Un main() que permita probar que cumple el objetivo',
+            'Un archivo de configuración XML con los parámetros de validación',
+            'Una interfaz gráfica para ingresar los valores a validar',
+            'Un archivo de log con cada ejecución previa',
+          ],
+          correctIndex: 0,
+          explain: 'El primer punto del reglamento pide el programa junto a un main() de prueba, o no se considera entregada.',
+        },
+        {
+          id: 'mc2-49-2',
+          q: '¿Qué debe justificarse con un comentario en el código según el enunciado?',
+          options: [
+            'El enfoque elegido para implementar la librería (por ejemplo, métodos estáticos u otro)',
+            'La cantidad de excepciones creadas en total',
+            'El nombre completo del alumno en cada clase',
+            'La fecha de entrega de la actividad',
+          ],
+          correctIndex: 0,
+          explain: 'El enunciado pide justificar mediante un comentario el porqué del enfoque elegido, no otros datos administrativos.',
+        },
+        {
+          id: 'mc2-49-3',
+          q: '¿Para qué proyecto posterior dice el enunciado que servirá esta librería?',
+          options: [
+            'Para el proyecto final, con muchas pantallas y campos a validar',
+            'Para un proyecto de integración con bases de datos externas',
+            'Para un trabajo práctico de otra materia',
+            'Para un sistema de autenticación de usuarios de la cátedra',
+          ],
+          correctIndex: 0,
+          explain: 'El enunciado lo indica textual: servirá para el proyecto final, con muchas pantallas con muchos campos que necesitarán validaciones.',
+        },
+      ],
+      ms: [
+        {
+          id: 'ms2-49-1',
+          q: '¿Qué exige el reglamento general de esta actividad?',
+          options: [
+            'Que la entrega sea un paquete exportado desde Eclipse (o empaquetado según el IDE)',
+            'Que el código se documente por sí mismo, sin nombres como "x" o "val"',
+            'Que no se acople la salida de los métodos a la consola sin justificación',
+            'Que se admita más de una entrega para poder corregir errores',
+            'Que la actividad se califique numéricamente',
+          ],
+          correctIndexes: [0, 1, 2],
+          explain: 'Se admite una sola entrega y la actividad no se califica numéricamente: es "entregada" o "no entregada".',
+        },
+        {
+          id: 'ms2-49-2',
+          q: '¿Qué tipos de validación menciona el enunciado como ejemplos posibles para la librería?',
+          options: [
+            'Rangos de números',
+            'Números negativos',
+            'Texto que sea solo letras o solo números',
+            'Texto que necesariamente tenga letras y números',
+            'Formato de direcciones de correo electrónico',
+          ],
+          correctIndexes: [0, 1, 2, 3],
+          explain: 'El formato de direcciones de correo no aparece entre los ejemplos que da el enunciado.',
+        },
+      ],
+    },
+    flashcards2: [
+      { id: 'fc2-49-1', front: 'Consigna central del ejercicio', back: 'Implementar una librería de validación de valores que, ante cada valor inválido, lance una excepción indicando el problema.' },
+      { id: 'fc2-49-2', front: 'Ejemplo de método de validación', back: 'validarTexto(String texto) que lanza TextoVacioException si el texto está vacío, en vez de devolver un booleano.' },
+      { id: 'fc2-49-3', front: 'Decisión de diseño a evaluar por excepción', back: 'Si conviene que sea Checked o Unchecked Exception, según el caso concreto.' },
+      { id: 'fc2-49-4', front: 'Enfoque de implementación', back: 'Se permite usar métodos estáticos u otro enfoque, siempre justificando la elección con un comentario en el código.' },
+      { id: 'fc2-49-5', front: 'Requisito distinto al de otras actividades', back: 'Esta sí exige explícitamente un main() de prueba que demuestre que la librería cumple el objetivo.' },
+      { id: 'fc2-49-6', front: 'Proyección de la actividad', back: 'La librería se pensó para reutilizarse en el proyecto final, donde habrá muchas pantallas con muchos campos a validar.' },
     ],
   },
 };
