@@ -2553,6 +2553,108 @@ export default {
     },
 
     {
+      id: '23',
+      unit: 'integracion',
+      title: 'Tabla básica de integrales inmediatas',
+      criollo: 'Esta es la tabla que el resto de la unidad da por sabida. Cada vez que el apunte dice "queda una integral de tabla" o "se integra directamente por tabla", se refiere a estas siete líneas. No hay truco ni método acá: son las derivadas leídas al revés, y conviene sabérselas de memoria porque sustitución, partes y fracciones simples no hacen otra cosa que llevarte hasta acá.',
+      blocks: [
+        { type: 'p', text: 'Integrar es la operación inversa de derivar: buscar una <strong>primitiva</strong> de $f$ es buscar una función $F$ tal que $F\'(x) = f(x)$. Como todas las primitivas de una misma función difieren en una constante, el resultado se escribe con la <strong>constante de integración</strong> $C$ y se llama <strong>integral indefinida</strong>.' },
+        { type: 'p', text: 'Las integrales que se resuelven aplicando directamente esta correspondencia, sin ningún método intermedio, son las <strong>integrales inmediatas</strong> o <strong>directas</strong>. Son las que el resto de la unidad llama "de tabla".' },
+
+        { type: 'h3', text: 'Tabla básica', criollo: 'Las siete de memoria. Fijate que 2 y 3 son la misma regla partida en dos: la potencia funciona para todo $m$ salvo $m = -1$, y ese caso justamente es el logaritmo.' },
+        {
+          type: 'table',
+          headers: ['#', 'Integral', 'Resultado', 'Condición'],
+          rows: [
+            ['1', '$\\displaystyle\\int k\\, dx$', '$kx + C$', ''],
+            ['2', '$\\displaystyle\\int x^m\\, dx$', '$\\dfrac{x^{m+1}}{m+1} + C$', '$m \\neq -1$'],
+            ['3', '$\\displaystyle\\int x^{-1}\\, dx = \\int \\dfrac{1}{x}\\, dx$', '$\\ln|x| + C$', ''],
+            ['4', '$\\displaystyle\\int e^x\\, dx$', '$e^x + C$', ''],
+            ['5', '$\\displaystyle\\int a^x\\, dx$', '$\\dfrac{a^x}{\\ln a} + C$', '$a > 0$'],
+            ['6', '$\\displaystyle\\int \\cos x\\, dx$', '$\\operatorname{sen} x + C$', ''],
+            ['7', '$\\displaystyle\\int \\operatorname{sen} x\\, dx$', '$-\\cos x + C$', ''],
+          ],
+        },
+        { type: 'callout', tone: 'info', text: '<strong>Nota de notación:</strong> la tabla original escribe $\\sin x$; en el resto del apunte y en los prácticos de la cátedra la misma función aparece como $\\operatorname{sen} x$. Es exactamente lo mismo — acá quedó unificado como $\\operatorname{sen}$. Ojo también con el ítem 7 de la tabla original, que viene sin la $+C$: es una omisión, la constante va siempre.' },
+
+        { type: 'h3', text: 'Cómo se leen', criollo: 'Un repaso línea por línea de dónde sale cada una.' },
+        {
+          type: 'ul',
+          items: [
+            '<strong>1.</strong> La derivada de $kx$ es $k$. Caso particular: $\\int dx = x + C$ (con $k = 1$).',
+            '<strong>2.</strong> Se le suma uno al exponente y se divide por el exponente nuevo. Es la regla de la potencia al revés. Sirve también para raíces y para potencias negativas escribiéndolas como exponente: $\\int \\sqrt{x}\\,dx = \\int x^{1/2}dx = \\frac{2}{3}x^{3/2}+C$.',
+            '<strong>3.</strong> El caso que la regla 2 no puede cubrir, porque daría división por cero. Va con <strong>valor absoluto</strong>: el logaritmo solo está definido para positivos, pero $\\frac{1}{x}$ existe también para $x < 0$.',
+            '<strong>4.</strong> La exponencial natural es su propia derivada, así que es su propia primitiva.',
+            '<strong>5.</strong> La generalización de la 4: como $(a^x)\' = a^x \\ln a$, hay que dividir por $\\ln a$ para compensar. Con $a = e$ se recupera la línea 4, porque $\\ln e = 1$.',
+            '<strong>6 y 7.</strong> Ojo con el signo, que es el error más barato de todos: la que <em>no</em> lleva menos es $\\int \\cos x\\,dx = \\operatorname{sen} x + C$. El menos está en la del seno, porque $(\\cos x)\' = -\\operatorname{sen} x$.',
+          ],
+        },
+
+        { type: 'callout', tone: 'criollo', text: 'Dos costumbres que te salvan el parcial. Primera: <strong>toda integral indefinida se verifica derivando</strong>. Si derivás tu resultado y no te vuelve el integrando, está mal — no hace falta que te lo diga la clave. Segunda: <strong>no te comas la $C$</strong>. En la indefinida siempre va; en la definida no, porque se cancela sola al restar.' },
+        { type: 'callout', tone: 'warning', text: 'La tabla es de funciones <strong>simples</strong>. Si adentro hay una función compuesta ($\\cos(3x+4)$, $e^{\\sqrt{x}}$, $(5x^2+3x)^5$) no se aplica directo: ahí arrancan los métodos de integración de las secciones que siguen.' },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-23-1', q: 'La regla $\\int x^m dx = \\frac{x^{m+1}}{m+1}+C$ vale para cualquier valor real de $m$.', a: false, explain: 'Vale para $m \\neq -1$. Con $m = -1$ el denominador se anularía; ese caso es el logaritmo: $\\int x^{-1}dx = \\ln|x|+C$.' },
+          { id: 'tf-23-2', q: '$\\int \\frac{1}{x} dx = \\ln x + C$, sin valor absoluto.', a: false, explain: 'Va con valor absoluto: $\\ln|x|+C$. La función $\\frac{1}{x}$ también está definida para $x<0$, donde $\\ln x$ no existiría.' },
+          { id: 'tf-23-3', q: '$\\int \\operatorname{sen} x\\, dx = -\\cos x + C$.', a: true, explain: 'El menos está en la del seno, porque la derivada del coseno es $-\\operatorname{sen} x$. La del coseno va sin menos: $\\int\\cos x\\,dx = \\operatorname{sen} x + C$.' },
+          { id: 'tf-23-4', q: 'En $\\int a^x dx = \\frac{a^x}{\\ln a}+C$ se exige $a > 0$.', a: true, explain: 'Es la condición que figura en la tabla; además, para que $\\ln a$ exista, $a$ tiene que ser positivo (y distinto de 1).' },
+          { id: 'tf-23-5', q: 'La línea $\\int e^x dx = e^x + C$ es un caso particular de $\\int a^x dx = \\frac{a^x}{\\ln a}+C$.', a: true, explain: 'Con $a = e$ queda $\\frac{e^x}{\\ln e}$, y como $\\ln e = 1$ el denominador desaparece.' },
+        ],
+        mc: [
+          {
+            id: 'mc-23-1',
+            q: '¿Cuál es el resultado de $\\int \\sqrt{x}\\, dx$?',
+            options: [
+              '$\\dfrac{2}{3}x^{3/2} + C$',
+              '$\\dfrac{1}{2\\sqrt{x}} + C$',
+              '$2\\sqrt{x} + C$',
+              '$\\dfrac{x^{3/2}}{3} + C$',
+            ],
+            correctIndex: 0,
+            explain: 'Se escribe $\\sqrt{x} = x^{1/2}$ y se aplica la regla 2: el exponente pasa a $\\frac{3}{2}$ y se divide por $\\frac{3}{2}$, o sea se multiplica por $\\frac{2}{3}$.',
+          },
+          {
+            id: 'mc-23-2',
+            q: '¿Por qué la regla de la potencia excluye el caso $m = -1$?',
+            options: [
+              'Porque el denominador $m+1$ se anularía',
+              'Porque $x^{-1}$ no es derivable',
+              'Porque el resultado dejaría de llevar constante de integración',
+              'Porque la potencia negativa exige valor absoluto',
+            ],
+            correctIndex: 0,
+            explain: 'Con $m = -1$ quedaría $\\frac{x^0}{0}$, que no está definido. Ese caso se cubre aparte con $\\ln|x|+C$.',
+          },
+        ],
+        ms: [
+          {
+            id: 'ms-23-1',
+            q: '¿Cuáles de estas igualdades figuran correctamente en la tabla básica?',
+            options: [
+              '$\\int k\\, dx = kx + C$',
+              '$\\int e^x dx = e^x + C$',
+              '$\\int \\cos x\\, dx = -\\operatorname{sen} x + C$',
+              '$\\int a^x dx = a^x \\ln a + C$',
+            ],
+            correctIndices: [0, 1],
+            explain: 'La del coseno va <strong>sin</strong> menos ($\\operatorname{sen} x + C$) y la de $a^x$ va <strong>dividiendo</strong> por $\\ln a$, no multiplicando.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-23-1', front: '$\\int k\\, dx$', back: '$kx + C$' },
+        { id: 'fc-23-2', front: '$\\int x^m dx$', back: '$\\dfrac{x^{m+1}}{m+1} + C$, con $m \\neq -1$' },
+        { id: 'fc-23-3', front: '$\\int \\dfrac{1}{x}\\, dx$', back: '$\\ln|x| + C$ — el caso que la regla de la potencia no cubre. Va con valor absoluto.' },
+        { id: 'fc-23-4', front: '$\\int e^x dx$', back: '$e^x + C$' },
+        { id: 'fc-23-5', front: '$\\int a^x dx$', back: '$\\dfrac{a^x}{\\ln a} + C$, con $a > 0$' },
+        { id: 'fc-23-6', front: '$\\int \\cos x\\, dx$', back: '$\\operatorname{sen} x + C$ (sin menos)' },
+        { id: 'fc-23-7', front: '$\\int \\operatorname{sen} x\\, dx$', back: '$-\\cos x + C$ (con menos)' },
+        { id: 'fc-23-8', front: '¿Cómo se verifica una integral indefinida?', back: 'Derivando el resultado: tiene que volver a salir el integrando.' },
+      ],
+    },
+
+    {
       id: '14',
       unit: 'integracion',
       title: 'Método de sustitución',
