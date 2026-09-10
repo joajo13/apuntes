@@ -2839,7 +2839,7 @@ export default {
         { type: 'math', latex: '2\\int e^x \\cos x = e^x(\\cos x + \\operatorname{sen} x) \\;\\rightarrow\\; \\int e^x \\cos x\\, dx = \\frac{e^x}{2}(\\cos x + \\operatorname{sen} x) + C', display: true },
 
         { type: 'callout', tone: 'criollo', text: 'Tres patrones para reconocer de una: (1) <strong>polinomio por exponencial o trigonométrica</strong> → $u$ = el polinomio, y repetís partes tantas veces como el grado; (2) <strong>logaritmo o arco solos</strong> → $u$ = ese bicho y $dv = dx$; (3) <strong>exponencial por trigonométrica</strong> → la integral vuelve a aparecer, la pasás al primer miembro y despejás. Si no cae en ninguno de los tres, probablemente no era por partes.' },
-        { type: 'callout', tone: 'info', text: 'Ojo con este método en el cálculo de áreas: el ejercicio de final $y = x\,e^x$ en $[-1;2]$ —resuelto en <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a>— se resuelve por partes, pero <strong>antes</strong> hay que hacer el estudio de signo y partir la integral en $x = 0$. Si vas directo a partes de $-1$ a $2$, el resultado no es el área.' },
+        { type: 'callout', tone: 'info', text: 'Ojo con este método en el cálculo de áreas: el ejercicio de final $y = x\\,e^x$ en $[-1;2]$ —resuelto en <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a>— se resuelve por partes, pero <strong>antes</strong> hay que hacer el estudio de signo y partir la integral en $x = 0$. Si vas directo a partes de $-1$ a $2$, el resultado no es el área. Y la otra primitiva por partes que aparece en esa unidad es $\\int \\ln x\\,dx = x\\ln x - x$, en el ejercicio del área limitada por $y = \\ln x$.' },
       ],
       quiz: {
         tf: [
@@ -3462,7 +3462,7 @@ export default {
             'Stewart, J. (2018). <em>Cálculo: Trascendentes tempranas</em> (8va. ed.). México: Cengage Learning (pp. 378-391, 428-435).',
           ],
         },
-        { type: 'callout', tone: 'info', text: 'Barrow es la herramienta; el cálculo de áreas es la aplicación que más se toma. En <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a> están las propiedades, los cuatro casos y cuatro ejercicios de final resueltos paso a paso: dos con cambio de signo y dos de área entre curvas, con los límites sacados de sistemas de ecuaciones.' },
+        { type: 'callout', tone: 'info', text: 'Barrow es la herramienta; el cálculo de áreas es la aplicación que más se toma. En <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a> están las propiedades, los cuatro casos y cinco ejercicios de final resueltos paso a paso: dos con cambio de signo, dos de área entre curvas con los límites sacados de sistemas de ecuaciones, y uno con franjas horizontales (integrando en $dy$).' },
       ],
       quiz: {
         tf: [
@@ -3561,7 +3561,7 @@ export default {
       id: '20',
       unit: 'integral-definida',
       title: 'Propiedades y cálculo de áreas',
-      criollo: 'Ahora la parte que más se toma: calcular áreas. La regla mental es una sola — <strong>el área nunca es negativa</strong>. Así que si la función está por debajo del eje, la integral te va a dar negativa y tenés que cambiarle el signo. Y si la función cruza el eje dentro del intervalo, no te queda otra que partir la integral en los puntos de corte y tratar cada pedazo por separado. Ese es el error clásico: integrar de una punta a la otra y comerse la cancelación. Al final de la unidad hay cuatro ejercicios de final resueltos paso a paso, ordenados de más fácil a más difícil: dos de cambio de signo (una parábola y uno con exponencial) y dos de área entre curvas, donde los límites salen de resolver sistemas de ecuaciones.',
+      criollo: 'Ahora la parte que más se toma: calcular áreas. La regla mental es una sola — <strong>el área nunca es negativa</strong>. Así que si la función está por debajo del eje, la integral te va a dar negativa y tenés que cambiarle el signo. Y si la función cruza el eje dentro del intervalo, no te queda otra que partir la integral en los puntos de corte y tratar cada pedazo por separado. Ese es el error clásico: integrar de una punta a la otra y comerse la cancelación. Al final de la unidad hay cinco ejercicios de final resueltos paso a paso, ordenados de más fácil a más difícil: dos de cambio de signo (una parábola y uno con exponencial), dos de área entre curvas donde los límites salen de sistemas de ecuaciones, y uno que se resuelve integrando respecto de $y$ con franjas horizontales.',
       blocks: [
         { type: 'h3', text: 'Propiedades de la integral definida' },
         {
@@ -3878,6 +3878,107 @@ export default {
           ],
         },
         { type: 'callout', tone: 'criollo', text: 'La moraleja de este ejercicio: <strong>no siempre se parte por los ceros de la función</strong>. Acá ninguna recta cambia de signo en el recinto y sin embargo hay que partir igual, porque lo que cambia es <em>quién hace de techo</em>. Son dos motivos distintos para partir una integral y conviene tenerlos separados en la cabeza: en el caso c) partís donde $f$ corta el eje $x$; en el caso d) partís donde las curvas se cruzan entre sí.' },
+
+        { type: 'h3', text: 'Franjas horizontales: integrar respecto de $y$' },
+        { type: 'p', text: 'Hasta acá todas las franjas fueron verticales: altura $= $ techo $-$ piso, y se integraba en $dx$. Pero cuando el recinto está limitado por dos <strong>rectas horizontales</strong> y por curvas que lo cierran a izquierda y derecha, conviene girar la cabeza 90°: se toman franjas <strong>horizontales</strong>, de ancho derecha $-$ izquierda, y se integra en $dy$.' },
+        { type: 'math', latex: 'A = \\int_{c}^{d} \\left[\\,x_{\\text{der}}(y) - x_{\\text{izq}}(y)\\,\\right] dy', display: true },
+        {
+          type: 'table',
+          caption: 'Las dos formas de barrer el mismo recinto.',
+          headers: ['', 'Franjas verticales ($dx$)', 'Franjas horizontales ($dy$)'],
+          rows: [
+            ['Qué se mide', 'altura de la franja', 'ancho de la franja'],
+            ['Fórmula', '$\\displaystyle\\int_a^b (\\text{techo} - \\text{piso})\\,dx$', '$\\displaystyle\\int_c^d (\\text{derecha} - \\text{izquierda})\\,dy$'],
+            ['Las funciones van', 'despejadas como $y = f(x)$', 'despejadas como $x = h(y)$'],
+            ['Los límites son', 'abscisas', 'ordenadas'],
+            ['Conviene cuando', 'el recinto está limitado arriba y abajo', 'el recinto está limitado a izquierda y derecha'],
+          ],
+        },
+        { type: 'callout', tone: 'criollo', text: 'Es la misma fórmula de siempre con los ejes intercambiados, no hay teoría nueva. Lo único que hay que saber hacer es <strong>despejar $x$</strong> de la ecuación de la curva: $y = \\ln x \\Rightarrow x = e^y$; $y = x^2$ (con $x \\geq 0$) $\\Rightarrow x = \\sqrt{y}$; $y = x^3 \\Rightarrow x = \\sqrt[3]{y}$. Elegir bien el sentido de las franjas puede ser la diferencia entre una integral y tres.' },
+
+        { type: 'h3', text: 'Ejercicio de final — área limitada por $y = \\ln x$, $y = -1$, $y = 1$ y $x = 0$' },
+        { type: 'p', text: 'Calcular el área de la región limitada por la curva $y = \\ln x$, las rectas horizontales $y = -1$ e $y = 1$, y el eje $y$ (la recta $x = 0$).' },
+        { type: 'callout', tone: 'info', text: 'Mirá qué bordes tiene el recinto: arriba y abajo, dos rectas horizontales; a la izquierda, el eje $y$; a la derecha, la curva. Está pidiendo a gritos franjas horizontales — pero lo vamos a resolver de las dos maneras para que se vea la diferencia.' },
+
+        { type: 'p', text: '<strong>Paso 1 — Los puntos de intersección.</strong> Igual que siempre, un sistema por cada par de bordes que se cruzan:' },
+        {
+          type: 'table',
+          caption: 'Intersecciones de la curva con las rectas horizontales.',
+          headers: ['Sistema', 'Se iguala', 'Se despeja', 'Punto'],
+          rows: [
+            ['$\\begin{cases} y = \\ln x \\\\ y = -1 \\end{cases}$', '$\\ln x = -1$', '$x = e^{-1} = \\tfrac{1}{e}$', '$P = \\left(\\tfrac{1}{e};\\,-1\\right)$'],
+            ['$\\begin{cases} y = \\ln x \\\\ y = 1 \\end{cases}$', '$\\ln x = 1$', '$x = e^{1} = e$', '$Q = (e;\\,1)$'],
+          ],
+        },
+        { type: 'p', text: 'Para despejar se aplica la exponencial a los dos miembros: $\\ln x = k \\Rightarrow e^{\\ln x} = e^{k} \\Rightarrow x = e^{k}$.' },
+        {
+          type: 'plot',
+          caption: 'El recinto: a la izquierda el eje $y$, arriba $y=1$, abajo $y=-1$ y a la derecha la curva $y = \\ln x$, que las corta en $\\left(\\tfrac{1}{e};-1\\right)$ y $(e;1)$.',
+          height: 400,
+          domain: [-0.4, 3.4],
+          range: [-1.9, 1.9],
+          curves: [
+            { fn: (x) => Math.log(x), d1: (x) => 1 / x, label: 'y = ln x', color: 'ink', width: 2.2 },
+          ],
+          hlines: [
+            { y: 1, label: 'y = 1', color: 'steel', dash: false },
+            { y: -1, label: 'y = -1', color: 'steel', dash: false },
+          ],
+          vlines: [
+            { x: 1 / Math.E, label: 'x = 1/e', color: 'muted' },
+            { x: Math.E, label: 'x = e', color: 'muted' },
+          ],
+          points: [
+            { x: 1 / Math.E, on: 0, label: 'P', color: 'accent', guides: false },
+            { x: Math.E, on: 0, label: 'Q', color: 'accent', guides: false },
+          ],
+          annotations: [
+            { x: 0.85, y: 0.2, text: 'región', color: 'forest', align: 'center' },
+          ],
+        },
+
+        { type: 'p', text: '<strong>Paso 2 — Camino corto: franjas horizontales.</strong> Se despeja $x$ de la curva y se identifican los bordes izquierdo y derecho:' },
+        {
+          type: 'ul',
+          items: [
+            'Borde izquierdo: la recta $x = 0$, o sea $x_{\\text{izq}}(y) = 0$.',
+            'Borde derecho: la curva, despejada como $x_{\\text{der}}(y) = e^{y}$.',
+            'Los límites son las ordenadas: de $y = -1$ a $y = 1$.',
+          ],
+        },
+        { type: 'math', latex: 'A = \\int_{-1}^{1} \\left(e^{y} - 0\\right) dy = \\left.e^{y}\\right|_{-1}^{1} = e^{1} - e^{-1} = e - \\frac{1}{e} \\approx 2{,}35', display: true },
+        { type: 'callout', tone: 'criollo', text: 'Una línea. Ese es todo el mérito de haber elegido bien el sentido de las franjas.' },
+
+        { type: 'p', text: '<strong>Paso 3 — Camino largo: franjas verticales (para comparar).</strong> Si insistimos con $dx$, el techo y el piso no son los mismos en todo el recorrido, así que hay que partir en $x = \\tfrac{1}{e}$:' },
+        {
+          type: 'ul',
+          items: [
+            'En $\\left[0;\\tfrac{1}{e}\\right]$ la franja va de $y=-1$ a $y=1$: es un rectángulo de altura $2$.',
+            'En $\\left[\\tfrac{1}{e};e\\right]$ la franja va de la curva $y = \\ln x$ (piso) hasta $y = 1$ (techo).',
+          ],
+        },
+        { type: 'math', latex: 'A_1 = \\int_{0}^{1/e} \\left[1-(-1)\\right] dx = \\int_{0}^{1/e} 2\\,dx = \\left.2x\\right|_{0}^{1/e} = \\frac{2}{e}', display: true },
+        { type: 'math', latex: 'A_2 = \\int_{1/e}^{e} \\left(1 - \\ln x\\right) dx', display: true },
+        { type: 'p', text: 'Y acá aparece $\\int \\ln x\\,dx$, que sale por partes con $u = \\ln x$ y $dv = dx$: da $x\\ln x - x$. Entonces una primitiva de $1 - \\ln x$ es $x - (x\\ln x - x) = 2x - x\\ln x$:' },
+        { type: 'math', latex: 'A_2 = \\left.\\left(2x - x\\ln x\\right)\\right|_{1/e}^{e} = \\left(2e - e\\right) - \\left(\\frac{2}{e} + \\frac{1}{e}\\right) = e - \\frac{3}{e}', display: true },
+        { type: 'math', latex: 'A = A_1 + A_2 = \\frac{2}{e} + e - \\frac{3}{e} = e - \\frac{1}{e} \\approx 2{,}35', display: true },
+        { type: 'p', text: 'Mismo resultado, dos integrales en vez de una y una integración por partes de regalo. Por eso conviene mirar la forma del recinto <em>antes</em> de plantear.' },
+
+        { type: 'callout', tone: 'warning', text: 'Detalle del camino largo: en el primer tramo el límite inferior es $x = 0$, donde $\\ln x$ no está definida — pero no importa, porque en ese tramo la curva no es ninguno de los dos bordes: el recinto ahí está limitado por las dos horizontales. Si en cambio el recinto llegara <em>hasta la curva</em> con $x \\to 0$, estaríamos ante una integral impropia y habría que tratarla como tal.' },
+
+        { type: 'p', text: '<strong>El proceso, para rehacerlo desde cero:</strong>' },
+        {
+          type: 'ol',
+          items: [
+            '<strong>Graficar</strong> e identificar los cuatro bordes del recinto: qué lo limita arriba, abajo, a izquierda y a derecha.',
+            '<strong>Hallar las intersecciones</strong> con los sistemas de a pares. Con logaritmos se despeja exponenciando ($\\ln x = k \\Rightarrow x = e^k$); con exponenciales, tomando logaritmo.',
+            '<strong>Elegir el sentido de las franjas</strong>: si el recinto está limitado arriba y abajo por curvas, van verticales ($dx$); si está limitado a izquierda y derecha, van horizontales ($dy$). La regla práctica: el sentido que necesite <em>menos cortes</em>.',
+            'Si elegís $dy$, <strong>despejar $x$</strong> en función de $y$ en cada borde.',
+            '<strong>Plantear e integrar</strong>: derecha menos izquierda entre las dos ordenadas.',
+            '<strong>Verificar</strong> resolviendo por el otro camino, o estimando el área a ojo desde el gráfico (acá el recinto entra cómodo en un rectángulo de $e \\times 2 \\approx 5{,}4$ y ocupa poco menos de la mitad: $2{,}35$ es razonable).',
+          ],
+        },
+        { type: 'callout', tone: 'criollo', text: 'Guardate este ejercicio como el ejemplo de que <strong>elegir la variable de integración es parte del planteo</strong>. Cuando en el enunciado aparecen $y = \\text{constante}$ o el eje $y$ como bordes, probá primero con $dy$: nueve de cada diez veces es el camino corto.' },
       ],
       quiz: {
         tf: [
@@ -3895,6 +3996,8 @@ export default {
           { id: 'tf-20-12', q: 'La fórmula $A = \\int_a^b [f(x)-g(x)]dx$ sale de restarle al área debajo de $f$ el área debajo de $g$, y juntarlas en una sola integral por la propiedad de la suma.', a: true, explain: 'Exacto: como las dos integrales van entre los mismos límites, $\\int_a^b f - \\int_a^b g = \\int_a^b (f-g)$, y lo que sobrevive de la resta es justo la franja entre las dos curvas.' },
           { id: 'tf-20-13', q: 'En la región limitada por $y=2x$, $y=x$ e $y=4-x$ hay que partir la integral aunque ninguna recta cambie de signo.', a: true, explain: 'Sí: se parte en $x=\\frac{4}{3}$, que es donde se cruzan las dos rectas que hacen de techo. El motivo para partir no es un cero de la función, sino el cambio de techo.' },
           { id: 'tf-20-14', q: 'En un recinto cerrado por tres curvas, el techo de cada tramo es siempre la función que toma el valor más grande en ese tramo.', a: false, explain: 'No: el techo es el <em>lado</em> del recinto. En el triángulo del ejercicio, en $x=1$ la recta $y=4-x$ vale 3 y es la más alta de las tres, pero el techo ahí es $y=2x$, que vale 2.' },
+          { id: 'tf-20-15', q: 'Cuando el recinto está limitado a izquierda y derecha, conviene integrar respecto de $y$ con franjas horizontales: $A = \\int_c^d (\\text{derecha}-\\text{izquierda})\\,dy$.', a: true, explain: 'Es la misma idea del techo menos piso, con los ejes intercambiados: hay que despejar las curvas como $x = h(y)$ e integrar entre las ordenadas.' },
+          { id: 'tf-20-16', q: 'El área limitada por $y=\\ln x$, $y=-1$, $y=1$ y $x=0$ solo se puede calcular integrando respecto de $y$.', a: false, explain: 'También sale con franjas verticales, pero hay que partir en $x=\\frac{1}{e}$ y resolver $\\int \\ln x\\,dx$ por partes. El resultado es el mismo, $e-\\frac{1}{e}$; el camino con $dy$ es una sola integral inmediata.' },
         ],
         mc: [
           {
@@ -4031,6 +4134,30 @@ export default {
             correctIndex: 0,
             explain: 'Con tres curvas hay tres pares posibles y cada sistema da un vértice. Ordenadas de menor a mayor, las abscisas extremas son $a$ y $b$, y las intermedias marcan dónde cambia el techo o el piso.',
           },
+          {
+            id: 'mc-20-13',
+            q: 'Área limitada por $y = \\ln x$, $y = -1$, $y = 1$ y $x = 0$:',
+            options: [
+              '$e - \\dfrac{1}{e}$',
+              '$e + \\dfrac{1}{e}$',
+              '$\\dfrac{2}{e}$',
+              '$2e$',
+            ],
+            correctIndex: 0,
+            explain: 'Con franjas horizontales: $x_{der} = e^y$, $x_{izq} = 0$, entre $y=-1$ e $y=1$. $A = \\int_{-1}^{1} e^y dy = e - e^{-1} \\approx 2{,}35$.',
+          },
+          {
+            id: 'mc-20-14',
+            q: 'Para integrar respecto de $y$ la curva $y = \\ln x$, ¿cómo se despeja?',
+            options: [
+              '$x = e^{y}$',
+              '$x = \\dfrac{1}{y}$',
+              '$x = \\ln y$',
+              '$x = y^{e}$',
+            ],
+            correctIndex: 0,
+            explain: 'Se exponencian los dos miembros: $e^{y} = e^{\\ln x} = x$.',
+          },
         ],
         ms: [
           {
@@ -4087,6 +4214,10 @@ export default {
         { id: 'fc-20-23', front: 'Vértices del triángulo $y=2x$, $y=x$, $y=4-x$', back: 'Tres sistemas de a pares: $2x=x \\Rightarrow P(0;0)$; $2x=4-x \\Rightarrow x=\\frac{4}{3} \\Rightarrow Q\\left(\\frac{4}{3};\\frac{8}{3}\\right)$; $x=4-x \\Rightarrow x=2 \\Rightarrow R(2;2)$.' },
         { id: 'fc-20-24', front: 'Área del triángulo $y=2x$, $y=x$, $y=4-x$', back: 'Se parte en $x=\\frac{4}{3}$ (cambia el techo). $A_1 = \\int_0^{4/3}(2x-x)dx = \\frac{8}{9}$, $A_2 = \\int_{4/3}^{2}(4-x-x)dx = \\frac{4}{9}$. Total $A = \\frac{4}{3}$.' },
         { id: 'fc-20-25', front: 'Receta para recintos con tres o más curvas', back: '1) Graficar. 2) Resolver todos los sistemas de a pares y anotar los vértices. 3) Ordenar las abscisas: las extremas son $a$ y $b$, las del medio son cortes. 4) Identificar techo y piso por tramo. 5) Una integral por tramo, techo menos piso, y sumar. 6) Verificar (si es polígono, con geometría).' },
+        { id: 'fc-20-26', front: 'Área con franjas horizontales', back: '$A = \\int_c^d \\left[x_{\\text{der}}(y) - x_{\\text{izq}}(y)\\right] dy$. Las curvas van despejadas como $x = h(y)$ y los límites son ordenadas. Conviene cuando el recinto está limitado a izquierda y derecha.' },
+        { id: 'fc-20-27', front: '¿Cuándo integrar en $dy$ en vez de $dx$?', back: 'Cuando entre los bordes del recinto aparecen rectas horizontales ($y = $ cte) o el eje $y$. Regla práctica: elegir el sentido de las franjas que necesite menos cortes.' },
+        { id: 'fc-20-28', front: 'Área limitada por $y=\\ln x$, $y=-1$, $y=1$, $x=0$', back: 'Cortes: $\\ln x = -1 \\Rightarrow x = \\frac{1}{e}$ y $\\ln x = 1 \\Rightarrow x = e$. Con franjas horizontales, $x_{der} = e^y$ y $x_{izq} = 0$: $A = \\int_{-1}^{1} e^y dy = e - \\frac{1}{e} \\approx 2{,}35$.' },
+        { id: 'fc-20-29', front: 'Primitiva de $\\ln x$', back: 'Por partes con $u = \\ln x$, $dv = dx$: $\\int \\ln x\\,dx = x\\ln x - x + C$. Aparece si el área con $y=\\ln x$ se hace con franjas verticales.' },
       ],
     },
 
