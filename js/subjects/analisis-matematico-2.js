@@ -940,6 +940,7 @@ export default {
           ],
         },
         { type: 'callout', tone: 'criollo', text: 'Acá pasa algo lindo: el mínimo y el máximo <em>relativos</em> terminan siendo también los <em>absolutos</em>. No siempre es así — pasa porque la función se aplana contra la asíntota $y = 0$ y nunca vuelve a superar esos valores. Por eso el paso 7 va después del gráfico: el conjunto imagen lo leés del dibujo, no lo adivinás.' },
+        { type: 'callout', tone: 'info', text: 'Este mismo estudio de signo reaparece —en versión corta— cuando hay que calcular áreas con integrales definidas. En <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a> vas a ver que antes de integrar siempre se determina dónde la función es positiva y dónde negativa, porque el área se calcula distinto en cada tramo. Ahí casi nunca hace falta el estudio completo: alcanza con las raíces y el signo.' },
       ],
       quiz: {
         tf: [
@@ -2592,6 +2593,7 @@ export default {
 
         { type: 'callout', tone: 'criollo', text: 'Dos costumbres que te salvan el parcial. Primera: <strong>toda integral indefinida se verifica derivando</strong>. Si derivás tu resultado y no te vuelve el integrando, está mal — no hace falta que te lo diga la clave. Segunda: <strong>no te comas la $C$</strong>. En la indefinida siempre va; en la definida no, porque se cancela sola al restar.' },
         { type: 'callout', tone: 'warning', text: 'La tabla es de funciones <strong>simples</strong>. Si adentro hay una función compuesta ($\\cos(3x+4)$, $e^{\\sqrt{x}}$, $(5x^2+3x)^5$) no se aplica directo: ahí arrancan los métodos de integración de las secciones que siguen.' },
+        { type: 'callout', tone: 'info', text: 'Estas primitivas inmediatas son las que se usan después en el cálculo de áreas. Por ejemplo, la de $x^2$ resuelve sola el ejercicio de final de la parábola $y = x^2-6x+8$ que está en <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a>: lo difícil de esos ejercicios nunca es la integral, es el planteo previo.' },
       ],
       quiz: {
         tf: [
@@ -2837,6 +2839,7 @@ export default {
         { type: 'math', latex: '2\\int e^x \\cos x = e^x(\\cos x + \\operatorname{sen} x) \\;\\rightarrow\\; \\int e^x \\cos x\\, dx = \\frac{e^x}{2}(\\cos x + \\operatorname{sen} x) + C', display: true },
 
         { type: 'callout', tone: 'criollo', text: 'Tres patrones para reconocer de una: (1) <strong>polinomio por exponencial o trigonométrica</strong> → $u$ = el polinomio, y repetís partes tantas veces como el grado; (2) <strong>logaritmo o arco solos</strong> → $u$ = ese bicho y $dv = dx$; (3) <strong>exponencial por trigonométrica</strong> → la integral vuelve a aparecer, la pasás al primer miembro y despejás. Si no cae en ninguno de los tres, probablemente no era por partes.' },
+        { type: 'callout', tone: 'info', text: 'Ojo con este método en el cálculo de áreas: el ejercicio de final $y = x\,e^x$ en $[-1;2]$ —resuelto en <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a>— se resuelve por partes, pero <strong>antes</strong> hay que hacer el estudio de signo y partir la integral en $x = 0$. Si vas directo a partes de $-1$ a $2$, el resultado no es el área.' },
       ],
       quiz: {
         tf: [
@@ -3459,6 +3462,7 @@ export default {
             'Stewart, J. (2018). <em>Cálculo: Trascendentes tempranas</em> (8va. ed.). México: Cengage Learning (pp. 378-391, 428-435).',
           ],
         },
+        { type: 'callout', tone: 'info', text: 'Barrow es la herramienta; el cálculo de áreas es la aplicación que más se toma. En <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a> están las propiedades, los cuatro casos y tres ejercicios de final resueltos paso a paso: dos con cambio de signo y uno de área entre curvas con los límites sacados de un sistema de ecuaciones.' },
       ],
       quiz: {
         tf: [
@@ -3557,7 +3561,7 @@ export default {
       id: '20',
       unit: 'integral-definida',
       title: 'Propiedades y cálculo de áreas',
-      criollo: 'Ahora la parte que más se toma: calcular áreas. La regla mental es una sola — <strong>el área nunca es negativa</strong>. Así que si la función está por debajo del eje, la integral te va a dar negativa y tenés que cambiarle el signo. Y si la función cruza el eje dentro del intervalo, no te queda otra que partir la integral en los puntos de corte y tratar cada pedazo por separado. Ese es el error clásico: integrar de una punta a la otra y comerse la cancelación.',
+      criollo: 'Ahora la parte que más se toma: calcular áreas. La regla mental es una sola — <strong>el área nunca es negativa</strong>. Así que si la función está por debajo del eje, la integral te va a dar negativa y tenés que cambiarle el signo. Y si la función cruza el eje dentro del intervalo, no te queda otra que partir la integral en los puntos de corte y tratar cada pedazo por separado. Ese es el error clásico: integrar de una punta a la otra y comerse la cancelación. Al final de la unidad hay tres ejercicios de final resueltos paso a paso, ordenados de más fácil a más difícil: dos de cambio de signo (una parábola y uno con exponencial) y uno de área entre curvas donde los límites salen de un sistema de ecuaciones.',
       blocks: [
         { type: 'h3', text: 'Propiedades de la integral definida' },
         {
@@ -3597,6 +3601,209 @@ export default {
         { type: 'math', latex: '= \\left.\\left(-\\frac{2}{3}x^3 + 8x\\right)\\right|_{-2}^{2} = \\left(-\\frac{2}{3}\\cdot 8 + 16\\right) - \\left(-\\frac{2}{3}(-8) - 16\\right) = \\frac{64}{3}', display: true },
 
         { type: 'callout', tone: 'criollo', text: 'Para el área entre curvas hay un paso que el apunte no escribe pero que siempre hay que hacer: <strong>encontrar los puntos de intersección</strong>, porque son los límites de integración. En el ejemplo, $x^2-4 = -x^2+4$ te da $x = \\pm 2$, y de ahí salen el $-2$ y el $2$. Y el orden importa: va $\\int (\\text{la de arriba} - \\text{la de abajo})$. Si te da negativo, las pusiste al revés.' },
+
+        { type: 'h3', text: 'Por qué la fórmula es techo menos piso' },
+        { type: 'p', text: 'El caso d) está escrito como una resta de dos áreas, y conviene ver de dónde sale. Si $f$ y $g$ se cortan en $x = a$ y $x = b$, y entre esos dos puntos $f$ va por arriba, entonces:' },
+        {
+          type: 'ul',
+          items: [
+            '$\\displaystyle\\int_a^b f(x)\\,dx$ es el área que queda <strong>debajo de $f$</strong> entre $a$ y $b$.',
+            '$\\displaystyle\\int_a^b g(x)\\,dx$ es el área que queda <strong>debajo de $g$</strong> entre $a$ y $b$.',
+            'La segunda está enteramente contenida en la primera, así que al restarlas sobrevive exactamente la franja que hay <strong>entre las dos curvas</strong>: la región que buscamos.',
+          ],
+        },
+        { type: 'p', text: 'Y como las dos integrales van entre los mismos límites, por la propiedad 2 se juntan en una sola:' },
+        { type: 'math', latex: 'A = \\int_a^b f(x)\\,dx - \\int_a^b g(x)\\,dx = \\int_a^b \\left[f(x) - g(x)\\right] dx', display: true },
+        { type: 'p', text: 'Esa es la forma en que conviene usarla: <strong>una sola integral</strong>, con $f$ el <strong>techo</strong> y $g$ el <strong>piso</strong>. Pensalo por franjas verticales: en cada $x$ del intervalo, la altura de la franja es $f(x) - g(x)$, y la integral suma todas esas alturas a lo largo de $[a;b]$.' },
+        { type: 'math', latex: 'A = \\int_a^b \\underbrace{\\left[\\,\\overbrace{f(x)}^{\\text{techo}} - \\overbrace{g(x)}^{\\text{piso}}\\,\\right]}_{\\text{altura de la franja}} dx', display: true },
+        {
+          type: 'plot',
+          caption: 'Región limitada por $f(x) = 4-x^2$ (techo) y $g(x) = x^2-2x$ (piso). Se cortan en $x = -1$ y $x = 2$: entre esos dos valores, la altura de cada franja vertical es $f(x)-g(x)$.',
+          height: 400,
+          domain: [-2.2, 3.2],
+          range: [-2.2, 5.2],
+          curves: [
+            { fn: (x) => 4 - x * x, d1: (x) => -2 * x, label: 'f(x) = 4 - x²  (techo)', color: 'steel', width: 2.2 },
+            { fn: (x) => x * x - 2 * x, d1: (x) => 2 * x - 2, label: 'g(x) = x² - 2x  (piso)', color: 'accent', width: 2.2 },
+          ],
+          vlines: [
+            { x: -1, label: 'a = -1', color: 'muted' },
+            { x: 2, label: 'b = 2', color: 'muted' },
+          ],
+          points: [
+            { x: -1, on: 0, label: '', color: 'ink', guides: false },
+            { x: 2, on: 0, label: '', color: 'ink', guides: false },
+          ],
+          annotations: [
+            { x: 0.5, y: 1.6, text: 'altura = f - g', color: 'forest', align: 'center' },
+          ],
+        },
+        { type: 'callout', tone: 'warning', text: 'Dos cosas que se confunden seguido: <strong>(1)</strong> no se calculan dos áreas por separado para después restarlas con valor absoluto — se arma una sola integral con la diferencia. <strong>(2)</strong> No importa si la región está por debajo del eje $x$: la altura de la franja sigue siendo techo menos piso, así que la fórmula no cambia y no hay que partir en los ceros de $f$ ni de $g$. Los ceros de cada función no juegan ningún papel acá; los únicos puntos que importan son aquellos <em>donde las curvas se cruzan entre sí</em>.' },
+        {
+          type: 'ol',
+          items: [
+            '<strong>Hallar $a$ y $b$</strong> resolviendo el sistema entre las dos ecuaciones. Es la parte que da trabajo.',
+            '<strong>Decidir techo y piso</strong> evaluando las dos funciones en un valor de prueba interior.',
+            '<strong>Plantear</strong> $A = \\displaystyle\\int_a^b (\\text{techo} - \\text{piso})\\,dx$.',
+            '<strong>Resolver</strong> la integral con Barrow. El resultado tiene que dar positivo; si da negativo, invertiste techo y piso.',
+          ],
+        },
+        { type: 'callout', tone: 'criollo', text: 'Toda la dificultad de estos ejercicios está en el paso 1. Una vez que tenés $a$ y $b$, lo que queda es una integral polinómica de las más fáciles de la materia. Por eso vale la pena hacer el sistema con calma y verificar las soluciones reemplazando: si te equivocás ahí, el resto de la cuenta está perfecto y el resultado igual está mal.' },
+
+        { type: 'h3', text: 'Los límites de integración salen de un sistema de ecuaciones' },
+        { type: 'p', text: 'En el caso d) el enunciado casi nunca te da los extremos $a$ y $b$: te da las dos funciones y nada más. Los límites de integración son las abscisas de los <strong>puntos de intersección</strong> de las curvas, y esos puntos son la solución del sistema formado por las dos ecuaciones.' },
+        { type: 'math', latex: '\\begin{cases} y = f(x) \\\\ y = g(x) \\end{cases} \\;\\Longrightarrow\\; f(x) = g(x) \\;\\Longrightarrow\\; f(x) - g(x) = 0', display: true },
+        { type: 'p', text: 'Como en los dos puntos la $y$ es la misma, se iguala una función con la otra y se despeja: las raíces $x_1$ y $x_2$ de esa ecuación son los límites de integración. Recién ahí se plantea el área:' },
+        { type: 'math', latex: 'A = \\int_{x_1}^{x_2} \\left[f(x) - g(x)\\right] dx \\qquad \\text{con } f \\text{ la de arriba y } g \\text{ la de abajo}', display: true },
+        { type: 'callout', tone: 'info', text: 'Para saber cuál va arriba no hace falta pensar mucho: tomás <strong>un valor de prueba</strong> entre $x_1$ y $x_2$, lo evaluás en las dos funciones y la que da más grande es la de arriba. Si la restás al revés te va a dar el área en negativo — es la señal de que las invertiste.' },
+
+        { type: 'h3', text: 'Ejercicio de final — área de la región limitada por $y = x$ e $y = x^2$' },
+        { type: 'p', text: 'Calcular el área de la región limitada por las gráficas de $y = x$ e $y = x^2$. Notá que el enunciado no da ningún intervalo: los extremos hay que sacarlos del sistema.' },
+
+        { type: 'p', text: '<strong>Paso 1 — Puntos de intersección.</strong> Se arma el sistema con las dos ecuaciones y se iguala:' },
+        { type: 'math', latex: '\\begin{cases} y = x \\\\ y = x^2 \\end{cases} \\;\\Longrightarrow\\; x = x^2 \\;\\Longrightarrow\\; 0 = x^2 - x \\;\\Longrightarrow\\; x(x-1) = 0', display: true },
+        { type: 'math', latex: 'x_1 = 0 \\qquad \\lor \\qquad x_2 = 1', display: true },
+        { type: 'p', text: 'Las curvas se cortan en $(0;0)$ y en $(1;1)$. Esos son los límites de integración.' },
+
+        { type: 'p', text: '<strong>Paso 2 — Cuál va arriba.</strong> Se toma un valor de prueba adentro del intervalo, por ejemplo $x = \\frac{1}{2}$:' },
+        {
+          type: 'table',
+          caption: 'Valor de prueba en $x = \\tfrac{1}{2}$ para decidir el orden de la resta.',
+          headers: ['Función', 'Valor en $x = \\tfrac{1}{2}$', '¿Dónde queda?'],
+          rows: [
+            ['$y = x$ (la recta)', '$\\tfrac{1}{2} = 0{,}5$', 'arriba'],
+            ['$y = x^2$ (la parábola)', '$\\tfrac{1}{4} = 0{,}25$', 'abajo'],
+          ],
+        },
+        {
+          type: 'plot',
+          caption: 'La recta $y = x$ y la parábola $y = x^2$ se cortan en $(0;0)$ y $(1;1)$. Entre esos dos puntos la recta va por encima: la región es esa lente finita que queda entre las dos.',
+          height: 380,
+          domain: [-0.45, 1.55],
+          range: [-0.35, 1.75],
+          curves: [
+            { fn: (x) => x, d1: () => 1, label: 'y = x', color: 'steel', width: 2.2 },
+            { fn: (x) => x * x, d1: (x) => 2 * x, label: 'y = x²', color: 'accent', width: 2.2 },
+          ],
+          points: [
+            { x: 0, on: 0, label: '(0; 0)', color: 'ink', guides: false },
+            { x: 1, on: 0, label: '(1; 1)', color: 'ink', guides: true },
+          ],
+          annotations: [
+            { x: 0.5, y: 0.42, text: 'región', color: 'forest', align: 'center' },
+          ],
+        },
+
+        { type: 'p', text: '<strong>Paso 3 — Planteo y cálculo.</strong> Va la de arriba menos la de abajo, entre $0$ y $1$:' },
+        { type: 'math', latex: 'A = \\int_{0}^{1} \\left(x - x^2\\right) dx = \\left.\\left(\\frac{x^2}{2} - \\frac{x^3}{3}\\right)\\right|_{0}^{1} = \\left(\\frac{1}{2} - \\frac{1}{3}\\right) - 0', display: true },
+        { type: 'math', latex: 'A = \\frac{3-2}{6} = \\frac{1}{6} \\approx 0{,}167', display: true },
+
+        { type: 'callout', tone: 'criollo', text: 'Fijate que acá <strong>no</strong> hubo que estudiar el signo de cada función por separado: en el área entre curvas lo que importa es el signo de la <em>diferencia</em> $f - g$, no el de cada una. Por eso da igual que un pedazo de la región esté abajo del eje $x$ — mientras la de arriba siga siendo la de arriba, la fórmula es la misma y no hay que partir nada. Solo partís si las curvas <strong>se cruzan</strong> adentro del intervalo, o sea si aparece una tercera solución del sistema.' },
+
+        { type: 'h3', text: 'Ejercicio de final — área de $y = x^2 - 6x + 8$ en $[0;6]$' },
+        { type: 'p', text: 'Calcular el área del recinto limitado por la gráfica de $f(x) = x^2 - 6x + 8$, el eje $x$, $x = 0$ y $x = 6$.' },
+        { type: 'callout', tone: 'info', text: 'Este es el caso c) en su versión más limpia: una parábola cuyas dos raíces caen adentro del intervalo. No hace falta ningún estudio de función fino — con hallar las raíces y mirar que la parábola abre hacia arriba ya sabés el signo en cada tramo.' },
+
+        { type: 'p', text: '<strong>Paso 1 — Raíces y signo.</strong> Se buscan los ceros de $f$ dentro del intervalo, que son los puntos donde hay que cortar:' },
+        { type: 'math', latex: 'x^2 - 6x + 8 = 0 \\;\\Longrightarrow\\; x = \\frac{6 \\pm \\sqrt{36-32}}{2} = \\frac{6 \\pm 2}{2} \\;\\Longrightarrow\\; x_1 = 2,\\quad x_2 = 4', display: true },
+        { type: 'p', text: 'Las dos raíces pertenecen a $[0;6]$, así que el intervalo queda partido en tres tramos. Como $a = 1 > 0$ la parábola es cóncava hacia arriba: es positiva por afuera de las raíces y negativa entre ellas.' },
+        {
+          type: 'table',
+          caption: 'Signo de $f(x) = x^2 - 6x + 8$ en $[0;6]$.',
+          headers: ['Tramo', 'Valor de prueba', 'Signo de $f$', 'Cómo se calcula el área'],
+          rows: [
+            ['$[0;2]$', '$f(1) = 1-6+8 = 3$', '$f > 0$', 'caso a): $A_1 = \\displaystyle\\int_{0}^{2} f$'],
+            ['$[2;4]$', '$f(3) = 9-18+8 = -1$', '$f < 0$', 'caso b): $A_2 = -\\displaystyle\\int_{2}^{4} f$'],
+            ['$[4;6]$', '$f(5) = 25-30+8 = 3$', '$f > 0$', 'caso a): $A_3 = \\displaystyle\\int_{4}^{6} f$'],
+          ],
+        },
+        {
+          type: 'plot',
+          caption: 'La parábola $y = x^2-6x+8$ en $[0;6]$: entra por $(0;8)$, baja cruzando el eje en $x=2$, toca el mínimo en el vértice $(3;-1)$ y vuelve a subir cruzando en $x=4$ hasta $(6;8)$.',
+          height: 380,
+          domain: [-0.6, 6.6],
+          range: [-2.2, 9],
+          curves: [
+            { fn: (x) => x * x - 6 * x + 8, d1: (x) => 2 * x - 6, label: 'f(x) = x² - 6x + 8', color: 'ink', width: 2.2 },
+          ],
+          vlines: [
+            { x: 0, label: 'x = 0', color: 'steel' },
+            { x: 2, label: 'x = 2', color: 'accent', dash: false },
+            { x: 4, label: 'x = 4', color: 'accent', dash: false },
+            { x: 6, label: 'x = 6', color: 'steel' },
+          ],
+          annotations: [
+            { x: 1, y: 4.2, text: 'f > 0', color: 'forest', align: 'center' },
+            { x: 3, y: -1.7, text: 'f < 0', color: 'accent', align: 'center' },
+            { x: 5, y: 4.2, text: 'f > 0', color: 'forest', align: 'center' },
+          ],
+        },
+
+        { type: 'p', text: '<strong>Paso 2 — La primitiva.</strong> Es una polinómica, sale directo con la tabla de inmediatas:' },
+        { type: 'math', latex: 'F(x) = \\int (x^2-6x+8)\\,dx = \\frac{x^3}{3} - 3x^2 + 8x', display: true },
+
+        { type: 'p', text: '<strong>Paso 3 — Los tres tramos.</strong>' },
+        { type: 'math', latex: 'A_1 = \\int_{0}^{2} f = \\left(\\frac{8}{3} - 12 + 16\\right) - 0 = \\frac{20}{3}', display: true },
+        { type: 'math', latex: 'A_2 = -\\int_{2}^{4} f = -\\left[\\left(\\frac{64}{3} - 48 + 32\\right) - \\frac{20}{3}\\right] = -\\left(-\\frac{4}{3}\\right) = \\frac{4}{3}', display: true },
+        { type: 'math', latex: 'A_3 = \\int_{4}^{6} f = \\left(72 - 108 + 48\\right) - \\left(\\frac{64}{3} - 48 + 32\\right) = 12 - \\left(\\frac{64}{3} - 16\\right) = 28 - \\frac{64}{3} = \\frac{20}{3}', display: true },
+
+        { type: 'p', text: '<strong>Paso 4 — Área total.</strong>' },
+        { type: 'math', latex: 'A = A_1 + A_2 + A_3 = \\frac{20}{3} + \\frac{4}{3} + \\frac{20}{3} = \\frac{44}{3} \\approx 14{,}67', display: true },
+
+        { type: 'callout', tone: 'warning', text: 'Integrando de corrido daría $\\int_{0}^{6} (x^2-6x+8)\\,dx = 12$, y el área es $\\frac{44}{3} \\approx 14{,}67$. La diferencia son $\\frac{8}{3} = 2A_2$: el tramo del medio se restó en vez de sumarse.' },
+        { type: 'callout', tone: 'criollo', text: 'Truco para ahorrar una integral: la parábola es simétrica respecto de su vértice $x = 3$, y el intervalo $[0;6]$ también está centrado en 3. Por eso $A_1 = A_3 = \\frac{20}{3}$ — calculás uno solo y lo duplicás. En el final eso son dos minutos menos y una cuenta menos donde equivocarte.' },
+
+        { type: 'h3', text: 'Ejercicio de final — área de $y = x\\,e^x$ en $[-1;2]$' },
+        { type: 'p', text: 'Calcular el área del recinto limitado por la gráfica de $f(x) = x\\,e^x$, el eje $x$, $x = -1$ y $x = 2$.' },
+        { type: 'callout', tone: 'warning', text: 'Este es el ejercicio donde más gente se come el error: ven la integral $\\int_{-1}^{2} x e^x\\,dx$, se acuerdan de integración por partes y la resuelven de una punta a la otra. <strong>Mal.</strong> Antes de integrar hay que hacer el <strong>estudio de signo</strong> de la función en el intervalo, porque si cambia de signo la integral directa devuelve una <em>diferencia</em> de áreas, no el área.' },
+
+        { type: 'p', text: '<strong>Paso 1 — Estudio del signo de $f$ en $[-1;2]$.</strong> Como $e^x > 0$ para todo $x$, el signo de $f(x) = x\\,e^x$ es exactamente el signo de $x$. El único cero es $x = 0$, y cae <em>adentro</em> del intervalo de integración: hay que partir ahí.' },
+        {
+          type: 'table',
+          caption: 'Signo de $f(x) = x\\,e^x$ en el intervalo de integración.',
+          headers: ['Intervalo', 'Signo de $x$', 'Signo de $e^x$', 'Signo de $f(x)$', 'Cómo se calcula el área'],
+          rows: [
+            ['$[-1;0)$', 'negativo', 'positivo', '$f(x) < 0$', 'caso b): $A_1 = -\\displaystyle\\int_{-1}^{0} f$'],
+            ['$x = 0$', '$0$', 'positivo', '$f(0) = 0$', 'punto de corte con el eje $x$'],
+            ['$(0;2]$', 'positivo', 'positivo', '$f(x) > 0$', 'caso a): $A_2 = \\displaystyle\\int_{0}^{2} f$'],
+          ],
+        },
+        {
+          type: 'plot',
+          caption: 'La curva $y = x\\,e^x$ entre $x = -1$ y $x = 2$. Cruza el eje en $x = 0$: el tramo de la izquierda queda por debajo (área chica) y el de la derecha, por encima (área grande).',
+          height: 380,
+          domain: [-1.5, 2.15],
+          range: [-1.2, 8.8],
+          curves: [
+            { fn: (x) => x * Math.exp(x), d1: (x) => (x + 1) * Math.exp(x), label: 'f(x) = x·eˣ', color: 'ink', width: 2.2 },
+          ],
+          vlines: [
+            { x: -1, label: 'x = -1', color: 'steel' },
+            { x: 0, label: 'x = 0', color: 'accent', dash: false },
+            { x: 2, label: 'x = 2', color: 'steel' },
+          ],
+          annotations: [
+            { x: -0.5, y: -0.8, text: 'f < 0', color: 'accent', align: 'center' },
+            { x: 1.15, y: 3.2, text: 'f > 0', color: 'forest', align: 'center' },
+          ],
+        },
+
+        { type: 'p', text: '<strong>Paso 2 — La primitiva, por partes.</strong> Con $u = x$ y $dv = e^x dx$ (o sea $du = dx$, $v = e^x$):' },
+        { type: 'math', latex: '\\int x\\,e^x\\,dx = x\\,e^x - \\int e^x\\,dx = x\\,e^x - e^x + C = e^x(x-1) + C', display: true },
+        { type: 'p', text: 'Llamamos $F(x) = e^x(x-1)$ y la usamos en los dos tramos.' },
+
+        { type: 'p', text: '<strong>Paso 3 — Tramo negativo $[-1;0]$.</strong> Ahí $f < 0$, así que el área es el opuesto de la integral:' },
+        { type: 'math', latex: 'A_1 = -\\int_{-1}^{0} x\\,e^x\\,dx = -\\Big[\\,e^x(x-1)\\,\\Big]_{-1}^{0} = -\\Big[\\,e^0(0-1) - e^{-1}(-1-1)\\,\\Big]', display: true },
+        { type: 'math', latex: 'A_1 = -\\left(-1 + \\frac{2}{e}\\right) = 1 - \\frac{2}{e} \\approx 0{,}264', display: true },
+
+        { type: 'p', text: '<strong>Paso 4 — Tramo positivo $[0;2]$.</strong> Ahí $f > 0$, el área es la integral tal cual:' },
+        { type: 'math', latex: 'A_2 = \\int_{0}^{2} x\\,e^x\\,dx = \\Big[\\,e^x(x-1)\\,\\Big]_{0}^{2} = e^2(2-1) - e^0(0-1) = e^2 + 1 \\approx 8{,}389', display: true },
+
+        { type: 'p', text: '<strong>Paso 5 — Área total.</strong> Se suman los dos tramos:' },
+        { type: 'math', latex: 'A = A_1 + A_2 = \\left(1 - \\frac{2}{e}\\right) + \\left(e^2 + 1\\right) = e^2 + 2 - \\frac{2}{e} \\approx 8{,}653', display: true },
+
+        { type: 'callout', tone: 'warning', text: 'Comprobá la diferencia: integrando de una sola vez sale $\\int_{-1}^{2} x e^x\\,dx = e^2 + \\frac{2}{e} \\approx 8{,}125$, que <strong>no</strong> es el área. Faltan exactamente $2A_1 \\approx 0{,}528$, porque el tramo negativo entró restando en vez de sumar.' },
+        { type: 'callout', tone: 'criollo', text: 'La receta para cualquier área con exponenciales, logaritmos o productos del tipo $x \\cdot g(x)$: primero <strong>signo</strong>, después <strong>primitiva</strong>. Y para el signo casi nunca hace falta derivar nada — acá alcanzó con ver que $e^x$ es siempre positiva, así que la función hereda el signo de $x$. Si el enunciado te da un intervalo que contiene un cero de la función, te lo puso a propósito.' },
       ],
       quiz: {
         tf: [
@@ -3605,6 +3812,13 @@ export default {
           { id: 'tf-20-3', q: 'Si $f$ es negativa en $[a;b]$, el área se calcula como el opuesto de la integral, o bien como su valor absoluto.', a: true, explain: 'Es el caso b): $A = -\\int_a^b f(x)dx$ o $A = \\left|\\int_a^b f(x)dx\\right|$.' },
           { id: 'tf-20-4', q: 'Si $f$ toma valores positivos y negativos en el intervalo, se integra de $a$ a $b$ de una sola vez.', a: false, explain: 'Hay que determinar los puntos de intersección con el eje $x$ dentro del intervalo y aplicar las definiciones a) y b) según corresponda, partiendo la integral.' },
           { id: 'tf-20-5', q: 'El área entre dos curvas se calcula como $\\int_a^b [f(x)-g(x)]dx$.', a: true, explain: 'Es la diferencia entre las áreas de cada función, que por la propiedad de la suma se puede escribir como una sola integral.' },
+          { id: 'tf-20-6', q: 'Para calcular el área encerrada por $y = x\\,e^x$ en $[-1;2]$ alcanza con resolver $\\int_{-1}^{2} x e^x dx$ por partes.', a: false, explain: 'No: la función cambia de signo en $x = 0$, que está dentro del intervalo. Hay que partir en dos tramos y tomar el opuesto del negativo. La integral directa da $e^2 + \\frac{2}{e} \\approx 8{,}125$, mientras que el área es $e^2 + 2 - \\frac{2}{e} \\approx 8{,}653$.' },
+          { id: 'tf-20-7', q: 'El signo de $f(x) = x\\,e^x$ coincide con el signo de $x$.', a: true, explain: 'Porque $e^x > 0$ para todo $x$: el factor exponencial nunca cambia el signo del producto.' },
+          { id: 'tf-20-8', q: 'El área limitada por $y = x^2-6x+8$, el eje $x$, $x=0$ y $x=6$ vale $12$.', a: false, explain: '$12$ es el valor de la integral de corrido. Como la parábola es negativa entre sus raíces $x=2$ y $x=4$, hay que partir en tres tramos: el área es $\\frac{44}{3} \\approx 14{,}67$.' },
+          { id: 'tf-20-9', q: 'Para hallar los límites de integración en un área entre dos curvas se resuelve el sistema formado por las dos ecuaciones.', a: true, explain: 'Se igualan las dos funciones ($f(x) = g(x)$, o sea $f(x)-g(x)=0$) y las raíces de esa ecuación son las abscisas de los puntos de intersección, que hacen de límites.' },
+          { id: 'tf-20-10', q: 'En el área entre $y=x$ e $y=x^2$ hay que analizar por separado el signo de cada función.', a: false, explain: 'No: en el área entre curvas lo que importa es el signo de la diferencia $f-g$. Basta con determinar cuál va arriba con un valor de prueba. El área es $\\int_0^1 (x-x^2)dx = \\frac{1}{6}$.' },
+          { id: 'tf-20-11', q: 'Si la región entre dos curvas queda por debajo del eje $x$, hay que partir la integral en los ceros de las funciones.', a: false, explain: 'No. En el área entre curvas la altura de cada franja es techo menos piso, independientemente de dónde esté el eje $x$. Los únicos puntos que obligan a partir son aquellos donde las curvas se cruzan entre sí.' },
+          { id: 'tf-20-12', q: 'La fórmula $A = \\int_a^b [f(x)-g(x)]dx$ sale de restarle al área debajo de $f$ el área debajo de $g$, y juntarlas en una sola integral por la propiedad de la suma.', a: true, explain: 'Exacto: como las dos integrales van entre los mismos límites, $\\int_a^b f - \\int_a^b g = \\int_a^b (f-g)$, y lo que sobrevive de la resta es justo la franja entre las dos curvas.' },
         ],
         mc: [
           {
@@ -3645,6 +3859,78 @@ export default {
             correctIndex: 0,
             explain: 'Es la quinta propiedad, la que habilita el cálculo de áreas cuando la función cambia de signo.',
           },
+          {
+            id: 'mc-20-5',
+            q: 'Área del recinto limitado por $f(x) = x\\,e^x$, el eje $x$, $x = -1$ y $x = 2$:',
+            options: [
+              '$e^2 + 2 - \\dfrac{2}{e}$',
+              '$e^2 + \\dfrac{2}{e}$',
+              '$e^2 + 1$',
+              '$e^2 - 1$',
+            ],
+            correctIndex: 0,
+            explain: 'Se parte en $x = 0$: $A_1 = -\\int_{-1}^{0} = 1 - \\frac{2}{e}$ y $A_2 = \\int_0^2 = e^2 + 1$. La suma da $e^2 + 2 - \\frac{2}{e} \\approx 8{,}653$. La opción $e^2 + \\frac{2}{e}$ es el resultado de integrar de corrido, que no es el área.',
+          },
+          {
+            id: 'mc-20-6',
+            q: '¿Cuál es una primitiva de $x\\,e^x$?',
+            options: [
+              '$e^x(x-1)$',
+              '$e^x(x+1)$',
+              '$\\dfrac{x^2}{2}e^x$',
+              '$x\\,e^x$',
+            ],
+            correctIndex: 0,
+            explain: 'Por partes con $u = x$ y $dv = e^x dx$: $\\int x e^x dx = x e^x - \\int e^x dx = e^x(x-1) + C$. Derivando $e^x(x-1)$ se recupera $x e^x$.',
+          },
+          {
+            id: 'mc-20-7',
+            q: 'Área limitada por $f(x) = x^2 - 6x + 8$, el eje $x$, $x = 0$ y $x = 6$:',
+            options: [
+              '$\\dfrac{44}{3}$',
+              '$12$',
+              '$\\dfrac{20}{3}$',
+              '$\\dfrac{4}{3}$',
+            ],
+            correctIndex: 0,
+            explain: 'Las raíces $x=2$ y $x=4$ parten el intervalo: $A_1 = \\frac{20}{3}$, $A_2 = \\frac{4}{3}$ y $A_3 = \\frac{20}{3}$. Total $\\frac{44}{3}$. El $12$ es la integral de corrido, que no es el área.',
+          },
+          {
+            id: 'mc-20-8',
+            q: '¿Cómo se obtienen los límites de integración del área encerrada entre $y = x$ e $y = x^2$?',
+            options: [
+              'Resolviendo el sistema: $x = x^2 \\Rightarrow x(x-1)=0 \\Rightarrow x_1=0,\\; x_2=1$',
+              'Igualando cada función a cero por separado',
+              'Tomando el dominio completo de las dos funciones',
+              'Derivando ambas funciones e igualando las derivadas',
+            ],
+            correctIndex: 0,
+            explain: 'Los límites son las abscisas de los puntos de intersección, y esos salen del sistema $\\begin{cases} y=x \\\\ y=x^2 \\end{cases}$, que al igualar da $x = x^2$.',
+          },
+          {
+            id: 'mc-20-9',
+            q: 'Área de la región limitada por $y = x$ e $y = x^2$:',
+            options: [
+              '$\\dfrac{1}{6}$',
+              '$\\dfrac{1}{2}$',
+              '$\\dfrac{1}{3}$',
+              '$\\dfrac{5}{6}$',
+            ],
+            correctIndex: 0,
+            explain: 'Se cortan en $x=0$ y $x=1$, y entre ellos la recta está arriba: $\\int_0^1 (x-x^2)dx = \\frac{1}{2}-\\frac{1}{3} = \\frac{1}{6}$.',
+          },
+          {
+            id: 'mc-20-10',
+            q: 'En un área entre dos curvas, ¿qué representa $f(x) - g(x)$ para cada $x$ del intervalo?',
+            options: [
+              'La altura de la franja vertical: techo menos piso',
+              'El ancho de la franja vertical',
+              'La distancia de la curva al eje $x$',
+              'La pendiente de la región en ese punto',
+            ],
+            correctIndex: 0,
+            explain: 'La integral suma las alturas de todas las franjas verticales a lo largo de $[a;b]$; cada altura es la distancia entre el techo y el piso.',
+          },
         ],
         ms: [
           {
@@ -3684,6 +3970,19 @@ export default {
         { id: 'fc-20-6', front: 'Ejemplo: área de $\\frac{1}{2}x^2$ entre 1 y 3', back: '$\\int_1^3 \\frac{1}{2}x^2 dx = \\left.\\frac{x^3}{6}\\right|_1^3 = \\frac{13}{3}$.' },
         { id: 'fc-20-7', front: 'Ejemplo: área de $x^2-2x-3$ entre 1 y 5', back: 'La función se anula en $x=3$: se parte ahí, se toma el opuesto del tramo negativo $[1;3]$ y se suma el tramo positivo $[3;5]$. Resultado: 24.' },
         { id: 'fc-20-8', front: 'Ejemplo: área entre $x^2-4$ y $-x^2+4$', back: 'Se cortan en $x = \\pm 2$: $\\int_{-2}^{2}(-2x^2+8)dx = \\left.\\left(-\\frac{2}{3}x^3+8x\\right)\\right|_{-2}^{2} = \\frac{64}{3}$.' },
+        { id: 'fc-20-9', front: 'Área de $y = x\\,e^x$ en $[-1;2]$ — ¿por dónde se empieza?', back: 'Por el <strong>estudio de signo</strong>, no por la integral. Como $e^x > 0$ siempre, $f$ tiene el signo de $x$: negativa en $[-1;0)$ y positiva en $(0;2]$. Se parte en $x = 0$.' },
+        { id: 'fc-20-10', front: 'Primitiva de $x\\,e^x$', back: 'Por partes con $u = x$, $dv = e^x dx$: $\\int x e^x dx = x e^x - e^x + C = e^x(x-1) + C$.' },
+        { id: 'fc-20-11', front: 'Área de $y = x\\,e^x$ en $[-1;2]$ — resultado', back: '$A_1 = -\\int_{-1}^{0} = 1 - \\frac{2}{e} \\approx 0{,}264$ y $A_2 = \\int_{0}^{2} = e^2 + 1 \\approx 8{,}389$. Total: $A = e^2 + 2 - \\frac{2}{e} \\approx 8{,}653$.' },
+        { id: 'fc-20-12', front: '¿Qué pasa si integrás $x e^x$ de $-1$ a $2$ de corrido?', back: 'Da $e^2 + \\frac{2}{e} \\approx 8{,}125$, que no es el área: el tramo negativo resta en vez de sumar. Faltan $2A_1 \\approx 0{,}528$.' },
+        { id: 'fc-20-13', front: 'Área de $y = x^2-6x+8$ en $[0;6]$ — planteo', back: 'Las raíces $x=2$ y $x=4$ caen dentro del intervalo y la parábola abre hacia arriba: positiva en $[0;2]$ y $[4;6]$, negativa en $[2;4]$. $A = \\int_0^2 f - \\int_2^4 f + \\int_4^6 f$.' },
+        { id: 'fc-20-14', front: 'Área de $y = x^2-6x+8$ en $[0;6]$ — resultado', back: 'Con $F(x) = \\frac{x^3}{3}-3x^2+8x$: $A_1 = \\frac{20}{3}$, $A_2 = \\frac{4}{3}$, $A_3 = \\frac{20}{3}$. Total $A = \\frac{44}{3} \\approx 14{,}67$ (la integral de corrido daría $12$).' },
+        { id: 'fc-20-15', front: '¿De dónde salen los límites de integración en el área entre dos curvas?', back: 'Del sistema $\\begin{cases} y = f(x) \\\\ y = g(x) \\end{cases}$: se igualan las funciones, $f(x)-g(x)=0$, y las raíces $x_1$ y $x_2$ son las abscisas de los puntos de intersección.' },
+        { id: 'fc-20-16', front: '¿Cómo se sabe cuál función va arriba?', back: 'Con un valor de prueba entre $x_1$ y $x_2$: se evalúan las dos y la que da mayor es la de arriba. Si el área te da negativa, las restaste al revés.' },
+        { id: 'fc-20-17', front: 'Área entre $y=x$ e $y=x^2$', back: 'Sistema: $x = x^2 \\Rightarrow x(x-1)=0 \\Rightarrow x_1=0$, $x_2=1$. La recta va arriba: $A = \\int_0^1 (x-x^2)dx = \\frac{1}{2}-\\frac{1}{3} = \\frac{1}{6}$.' },
+        { id: 'fc-20-18', front: '¿De dónde sale $A = \\int_a^b (f-g)\\,dx$?', back: 'Del área debajo de $f$ menos el área debajo de $g$ entre los mismos límites: la segunda está contenida en la primera, así que al restar queda la franja entre las dos curvas. Por la propiedad de la suma, las dos integrales se juntan en una sola.' },
+        { id: 'fc-20-19', front: 'Techo y piso', back: 'En $A = \\int_a^b (f-g)\\,dx$, $f$ es el <strong>techo</strong> (la de arriba) y $g$ el <strong>piso</strong> (la de abajo). Para cada $x$, $f(x)-g(x)$ es la altura de la franja vertical.' },
+        { id: 'fc-20-20', front: '¿La región debajo del eje $x$ cambia algo en el área entre curvas?', back: 'No. La altura de la franja sigue siendo techo menos piso. Los ceros de $f$ y de $g$ no importan: solo se parte si las curvas se cruzan entre sí adentro del intervalo.' },
+        { id: 'fc-20-21', front: 'Receta del área entre curvas (4 pasos)', back: '1) Hallar $a$ y $b$ con el sistema entre las dos ecuaciones. 2) Decidir techo y piso con un valor de prueba interior. 3) Plantear $A = \\int_a^b (\\text{techo}-\\text{piso})dx$. 4) Resolver por Barrow; si da negativo, están invertidas.' },
       ],
     },
 
