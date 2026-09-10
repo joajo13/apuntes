@@ -3462,7 +3462,7 @@ export default {
             'Stewart, J. (2018). <em>Cálculo: Trascendentes tempranas</em> (8va. ed.). México: Cengage Learning (pp. 378-391, 428-435).',
           ],
         },
-        { type: 'callout', tone: 'info', text: 'Barrow es la herramienta; el cálculo de áreas es la aplicación que más se toma. En <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a> están las propiedades, los cuatro casos y tres ejercicios de final resueltos paso a paso: dos con cambio de signo y uno de área entre curvas con los límites sacados de un sistema de ecuaciones.' },
+        { type: 'callout', tone: 'info', text: 'Barrow es la herramienta; el cálculo de áreas es la aplicación que más se toma. En <a href="seccion.html?subject=analisis-matematico-2&amp;id=20">Propiedades y cálculo de áreas</a> están las propiedades, los cuatro casos y cuatro ejercicios de final resueltos paso a paso: dos con cambio de signo y dos de área entre curvas, con los límites sacados de sistemas de ecuaciones.' },
       ],
       quiz: {
         tf: [
@@ -3561,7 +3561,7 @@ export default {
       id: '20',
       unit: 'integral-definida',
       title: 'Propiedades y cálculo de áreas',
-      criollo: 'Ahora la parte que más se toma: calcular áreas. La regla mental es una sola — <strong>el área nunca es negativa</strong>. Así que si la función está por debajo del eje, la integral te va a dar negativa y tenés que cambiarle el signo. Y si la función cruza el eje dentro del intervalo, no te queda otra que partir la integral en los puntos de corte y tratar cada pedazo por separado. Ese es el error clásico: integrar de una punta a la otra y comerse la cancelación. Al final de la unidad hay tres ejercicios de final resueltos paso a paso, ordenados de más fácil a más difícil: dos de cambio de signo (una parábola y uno con exponencial) y uno de área entre curvas donde los límites salen de un sistema de ecuaciones.',
+      criollo: 'Ahora la parte que más se toma: calcular áreas. La regla mental es una sola — <strong>el área nunca es negativa</strong>. Así que si la función está por debajo del eje, la integral te va a dar negativa y tenés que cambiarle el signo. Y si la función cruza el eje dentro del intervalo, no te queda otra que partir la integral en los puntos de corte y tratar cada pedazo por separado. Ese es el error clásico: integrar de una punta a la otra y comerse la cancelación. Al final de la unidad hay cuatro ejercicios de final resueltos paso a paso, ordenados de más fácil a más difícil: dos de cambio de signo (una parábola y uno con exponencial) y dos de área entre curvas, donde los límites salen de resolver sistemas de ecuaciones.',
       blocks: [
         { type: 'h3', text: 'Propiedades de la integral definida' },
         {
@@ -3804,6 +3804,80 @@ export default {
 
         { type: 'callout', tone: 'warning', text: 'Comprobá la diferencia: integrando de una sola vez sale $\\int_{-1}^{2} x e^x\\,dx = e^2 + \\frac{2}{e} \\approx 8{,}125$, que <strong>no</strong> es el área. Faltan exactamente $2A_1 \\approx 0{,}528$, porque el tramo negativo entró restando en vez de sumar.' },
         { type: 'callout', tone: 'criollo', text: 'La receta para cualquier área con exponenciales, logaritmos o productos del tipo $x \\cdot g(x)$: primero <strong>signo</strong>, después <strong>primitiva</strong>. Y para el signo casi nunca hace falta derivar nada — acá alcanzó con ver que $e^x$ es siempre positiva, así que la función hereda el signo de $x$. Si el enunciado te da un intervalo que contiene un cero de la función, te lo puso a propósito.' },
+
+        { type: 'h3', text: 'Ejercicio de final — área del triángulo limitado por $y = 2x$, $y = x$ e $y = 4-x$' },
+        { type: 'p', text: 'Calcular el área de la región limitada por las rectas $y = 2x$, $y = x$ e $y = 4-x$.' },
+        { type: 'callout', tone: 'info', text: 'Este ejercicio agrega una vuelta de tuerca: son <strong>tres</strong> curvas, no dos. Cuando el recinto está cerrado por tres o más funciones, el techo (o el piso) <strong>cambia</strong> en algún punto interior, y ahí hay que partir la integral — aunque ninguna función cambie de signo y aunque nada cruce el eje $x$.' },
+
+        { type: 'p', text: '<strong>Paso 1 — Todos los puntos de intersección, de a pares.</strong> Con tres rectas hay tres sistemas para resolver, uno por cada par. Cada solución es un vértice del recinto.' },
+        {
+          type: 'table',
+          caption: 'Los tres sistemas, uno por cada par de rectas.',
+          headers: ['Sistema', 'Se igualan', 'Se despeja', 'Vértice'],
+          rows: [
+            ['$\\begin{cases} y = 2x \\\\ y = x \\end{cases}$', '$2x = x$', '$x = 0$', '$P = (0;\\,0)$'],
+            ['$\\begin{cases} y = 2x \\\\ y = 4-x \\end{cases}$', '$2x = 4-x$', '$3x = 4 \\Rightarrow x = \\tfrac{4}{3}$', '$Q = \\left(\\tfrac{4}{3};\\,\\tfrac{8}{3}\\right)$'],
+            ['$\\begin{cases} y = x \\\\ y = 4-x \\end{cases}$', '$x = 4-x$', '$2x = 4 \\Rightarrow x = 2$', '$R = (2;\\,2)$'],
+          ],
+        },
+        { type: 'p', text: 'La ordenada de cada vértice sale de reemplazar la $x$ hallada en cualquiera de las dos ecuaciones del sistema (tiene que dar lo mismo en las dos — es una buena verificación gratis).' },
+
+        {
+          type: 'plot',
+          caption: 'Las tres rectas y el triángulo $PQR$. Fijate que el techo del recinto es $y = 2x$ hasta $x = \\tfrac{4}{3}$ y pasa a ser $y = 4-x$ desde ahí hasta $x = 2$; el piso es siempre $y = x$.',
+          height: 400,
+          domain: [-0.5, 4.4],
+          range: [-0.5, 4.2],
+          curves: [
+            { fn: (x) => 2 * x, d1: () => 2, label: 'y = 2x', color: 'steel', width: 2.2 },
+            { fn: (x) => x, d1: () => 1, label: 'y = x', color: 'forest', width: 2.2 },
+            { fn: (x) => 4 - x, d1: () => -1, label: 'y = 4 - x', color: 'accent', width: 2.2 },
+          ],
+          vlines: [
+            { x: 4 / 3, label: 'x = 4/3', color: 'muted' },
+            { x: 2, label: 'x = 2', color: 'muted' },
+          ],
+          points: [
+            { x: 0, on: 1, label: 'P', color: 'ink', guides: false },
+            { x: 4 / 3, on: 0, label: 'Q', color: 'ink', guides: false },
+            { x: 2, on: 1, label: 'R', color: 'ink', guides: false },
+          ],
+          annotations: [
+            { x: 0.9, y: 1.35, text: 'A₁', color: 'ochre', align: 'center' },
+            { x: 1.7, y: 1.9, text: 'A₂', color: 'ochre', align: 'center' },
+          ],
+        },
+
+        { type: 'p', text: '<strong>Paso 2 — Ordenar las abscisas y ver dónde cambia el techo.</strong> Los tres vértices tienen abscisas $0 < \\tfrac{4}{3} < 2$. Los extremos ($0$ y $2$) son los límites de integración; la del medio ($\\tfrac{4}{3}$) es el punto donde hay que <strong>partir</strong>, porque es justo donde se cruzan las dos rectas que hacen de techo.' },
+        { type: 'p', text: 'La forma segura de determinar el techo: entre las dos rectas que limitan por arriba, el recinto queda debajo de <strong>la más baja de las dos</strong> en cada tramo. O sea, el techo es $\\min(2x,\\;4-x)$ y el piso es $y = x$:' },
+        { type: 'math', latex: '\\text{techo}(x) = \\begin{cases} 2x & \\text{si } 0 \\leq x \\leq \\tfrac{4}{3} \\\\[2pt] 4-x & \\text{si } \\tfrac{4}{3} \\leq x \\leq 2 \\end{cases} \\qquad \\text{piso}(x) = x', display: true },
+        { type: 'callout', tone: 'warning', text: 'No caigas en el reflejo de tomar "la función más alta del plano" como techo. En $x = 1$, por ejemplo, $y = 4-x$ vale $3$ y es la más alta de las tres, pero <strong>no</strong> es el techo ahí: el triángulo está limitado arriba por $y = 2x$, que vale $2$. El techo de un recinto cerrado es el <em>lado</em> del recinto, no el máximo de las funciones. Por eso conviene apoyarse en el gráfico o razonar con el mínimo, como recién.' },
+
+        { type: 'p', text: '<strong>Paso 3 — Primer tramo: $\\left[0;\\tfrac{4}{3}\\right]$.</strong> Techo $y = 2x$, piso $y = x$, así que la altura de la franja es $2x - x = x$:' },
+        { type: 'math', latex: 'A_1 = \\int_{0}^{4/3} \\left(2x - x\\right) dx = \\int_{0}^{4/3} x\\,dx = \\left.\\frac{x^2}{2}\\right|_{0}^{4/3} = \\frac{1}{2}\\cdot\\frac{16}{9} = \\frac{8}{9}', display: true },
+
+        { type: 'p', text: '<strong>Paso 4 — Segundo tramo: $\\left[\\tfrac{4}{3};2\\right]$.</strong> Techo $y = 4-x$, piso $y = x$, altura $4-x-x = 4-2x$:' },
+        { type: 'math', latex: 'A_2 = \\int_{4/3}^{2} \\left(4 - 2x\\right) dx = \\left.\\left(4x - x^2\\right)\\right|_{4/3}^{2} = \\left(8-4\\right) - \\left(\\frac{16}{3} - \\frac{16}{9}\\right)', display: true },
+        { type: 'math', latex: 'A_2 = 4 - \\frac{48-16}{9} = 4 - \\frac{32}{9} = \\frac{36-32}{9} = \\frac{4}{9}', display: true },
+
+        { type: 'p', text: '<strong>Paso 5 — Área total.</strong>' },
+        { type: 'math', latex: 'A = A_1 + A_2 = \\frac{8}{9} + \\frac{4}{9} = \\frac{12}{9} = \\frac{4}{3} \\approx 1{,}33', display: true },
+
+        { type: 'callout', tone: 'info', text: 'Verificación gratis: como el recinto es un triángulo, se puede chequear con geometría elemental. La base $PR$ mide $\\sqrt{2^2+2^2} = 2\\sqrt{2}$ y la distancia de $Q$ a la recta $y = x$ es $\\frac{|8/3 - 4/3|}{\\sqrt{2}} = \\frac{4/3}{\\sqrt{2}}$, así que $A = \\frac{1}{2} \\cdot 2\\sqrt{2} \\cdot \\frac{4/3}{\\sqrt{2}} = \\frac{4}{3}$. Coincide. Siempre que el recinto sea un polígono, hacé este control: cuesta un minuto y te salva de un error de signo.' },
+
+        { type: 'p', text: '<strong>El proceso, para rehacerlo desde cero:</strong>' },
+        {
+          type: 'ol',
+          items: [
+            '<strong>Graficar</strong>, aunque sea a mano alzada. Con tres o más curvas es imprescindible para ver qué forma tiene el recinto y qué función limita cada lado.',
+            '<strong>Resolver todos los sistemas de a pares</strong> ($\\binom{3}{2} = 3$ sistemas para tres curvas) y anotar cada vértice completo, con abscisa y ordenada.',
+            '<strong>Ordenar las abscisas</strong> de menor a mayor. La menor y la mayor son los límites de integración $a$ y $b$; las del medio son los puntos de corte donde cambia el techo o el piso.',
+            '<strong>Identificar techo y piso en cada tramo</strong> mirando el gráfico (o con un valor de prueba, cuidando de tomar el lado del recinto y no el máximo de las funciones).',
+            '<strong>Plantear una integral por tramo</strong>, siempre techo menos piso, y sumarlas: $A = \\displaystyle\\int_a^c (\\text{techo}_1 - \\text{piso}) dx + \\int_c^b (\\text{techo}_2 - \\text{piso}) dx$.',
+            '<strong>Verificar</strong>: cada integral tiene que dar positiva, y si el recinto es un polígono, contrastar con geometría.',
+          ],
+        },
+        { type: 'callout', tone: 'criollo', text: 'La moraleja de este ejercicio: <strong>no siempre se parte por los ceros de la función</strong>. Acá ninguna recta cambia de signo en el recinto y sin embargo hay que partir igual, porque lo que cambia es <em>quién hace de techo</em>. Son dos motivos distintos para partir una integral y conviene tenerlos separados en la cabeza: en el caso c) partís donde $f$ corta el eje $x$; en el caso d) partís donde las curvas se cruzan entre sí.' },
       ],
       quiz: {
         tf: [
@@ -3819,6 +3893,8 @@ export default {
           { id: 'tf-20-10', q: 'En el área entre $y=x$ e $y=x^2$ hay que analizar por separado el signo de cada función.', a: false, explain: 'No: en el área entre curvas lo que importa es el signo de la diferencia $f-g$. Basta con determinar cuál va arriba con un valor de prueba. El área es $\\int_0^1 (x-x^2)dx = \\frac{1}{6}$.' },
           { id: 'tf-20-11', q: 'Si la región entre dos curvas queda por debajo del eje $x$, hay que partir la integral en los ceros de las funciones.', a: false, explain: 'No. En el área entre curvas la altura de cada franja es techo menos piso, independientemente de dónde esté el eje $x$. Los únicos puntos que obligan a partir son aquellos donde las curvas se cruzan entre sí.' },
           { id: 'tf-20-12', q: 'La fórmula $A = \\int_a^b [f(x)-g(x)]dx$ sale de restarle al área debajo de $f$ el área debajo de $g$, y juntarlas en una sola integral por la propiedad de la suma.', a: true, explain: 'Exacto: como las dos integrales van entre los mismos límites, $\\int_a^b f - \\int_a^b g = \\int_a^b (f-g)$, y lo que sobrevive de la resta es justo la franja entre las dos curvas.' },
+          { id: 'tf-20-13', q: 'En la región limitada por $y=2x$, $y=x$ e $y=4-x$ hay que partir la integral aunque ninguna recta cambie de signo.', a: true, explain: 'Sí: se parte en $x=\\frac{4}{3}$, que es donde se cruzan las dos rectas que hacen de techo. El motivo para partir no es un cero de la función, sino el cambio de techo.' },
+          { id: 'tf-20-14', q: 'En un recinto cerrado por tres curvas, el techo de cada tramo es siempre la función que toma el valor más grande en ese tramo.', a: false, explain: 'No: el techo es el <em>lado</em> del recinto. En el triángulo del ejercicio, en $x=1$ la recta $y=4-x$ vale 3 y es la más alta de las tres, pero el techo ahí es $y=2x$, que vale 2.' },
         ],
         mc: [
           {
@@ -3931,6 +4007,30 @@ export default {
             correctIndex: 0,
             explain: 'La integral suma las alturas de todas las franjas verticales a lo largo de $[a;b]$; cada altura es la distancia entre el techo y el piso.',
           },
+          {
+            id: 'mc-20-11',
+            q: 'Área de la región limitada por $y = 2x$, $y = x$ e $y = 4-x$:',
+            options: [
+              '$\\dfrac{4}{3}$',
+              '$\\dfrac{8}{9}$',
+              '$\\dfrac{4}{9}$',
+              '$4$',
+            ],
+            correctIndex: 0,
+            explain: 'Vértices $P(0;0)$, $Q(\\frac{4}{3};\\frac{8}{3})$ y $R(2;2)$. Se parte en $x=\\frac{4}{3}$: $A_1 = \\int_0^{4/3} x\\,dx = \\frac{8}{9}$ y $A_2 = \\int_{4/3}^{2}(4-2x)dx = \\frac{4}{9}$. Total $\\frac{4}{3}$.',
+          },
+          {
+            id: 'mc-20-12',
+            q: 'Con un recinto cerrado por tres curvas, ¿cuántos sistemas de ecuaciones hay que resolver y para qué sirven las abscisas que salen?',
+            options: [
+              'Tres (uno por par); la menor y la mayor son los límites, las del medio son los puntos de corte',
+              'Uno solo, igualando las tres funciones a la vez',
+              'Tres, pero solo se usa la abscisa más grande',
+              'Ninguno: los límites se leen del gráfico',
+            ],
+            correctIndex: 0,
+            explain: 'Con tres curvas hay tres pares posibles y cada sistema da un vértice. Ordenadas de menor a mayor, las abscisas extremas son $a$ y $b$, y las intermedias marcan dónde cambia el techo o el piso.',
+          },
         ],
         ms: [
           {
@@ -3983,6 +4083,10 @@ export default {
         { id: 'fc-20-19', front: 'Techo y piso', back: 'En $A = \\int_a^b (f-g)\\,dx$, $f$ es el <strong>techo</strong> (la de arriba) y $g$ el <strong>piso</strong> (la de abajo). Para cada $x$, $f(x)-g(x)$ es la altura de la franja vertical.' },
         { id: 'fc-20-20', front: '¿La región debajo del eje $x$ cambia algo en el área entre curvas?', back: 'No. La altura de la franja sigue siendo techo menos piso. Los ceros de $f$ y de $g$ no importan: solo se parte si las curvas se cruzan entre sí adentro del intervalo.' },
         { id: 'fc-20-21', front: 'Receta del área entre curvas (4 pasos)', back: '1) Hallar $a$ y $b$ con el sistema entre las dos ecuaciones. 2) Decidir techo y piso con un valor de prueba interior. 3) Plantear $A = \\int_a^b (\\text{techo}-\\text{piso})dx$. 4) Resolver por Barrow; si da negativo, están invertidas.' },
+        { id: 'fc-20-22', front: '¿Cuándo se parte una integral de área entre curvas?', back: 'Cuando cambia el techo o el piso, o sea donde las curvas se cruzan <strong>entre sí</strong> dentro del intervalo. No se parte por los ceros de las funciones: eso es del caso c), cuando el recinto está limitado por el eje $x$.' },
+        { id: 'fc-20-23', front: 'Vértices del triángulo $y=2x$, $y=x$, $y=4-x$', back: 'Tres sistemas de a pares: $2x=x \\Rightarrow P(0;0)$; $2x=4-x \\Rightarrow x=\\frac{4}{3} \\Rightarrow Q\\left(\\frac{4}{3};\\frac{8}{3}\\right)$; $x=4-x \\Rightarrow x=2 \\Rightarrow R(2;2)$.' },
+        { id: 'fc-20-24', front: 'Área del triángulo $y=2x$, $y=x$, $y=4-x$', back: 'Se parte en $x=\\frac{4}{3}$ (cambia el techo). $A_1 = \\int_0^{4/3}(2x-x)dx = \\frac{8}{9}$, $A_2 = \\int_{4/3}^{2}(4-x-x)dx = \\frac{4}{9}$. Total $A = \\frac{4}{3}$.' },
+        { id: 'fc-20-25', front: 'Receta para recintos con tres o más curvas', back: '1) Graficar. 2) Resolver todos los sistemas de a pares y anotar los vértices. 3) Ordenar las abscisas: las extremas son $a$ y $b$, las del medio son cortes. 4) Identificar techo y piso por tramo. 5) Una integral por tramo, techo menos piso, y sumar. 6) Verificar (si es polígono, con geometría).' },
       ],
     },
 
