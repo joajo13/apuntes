@@ -2657,6 +2657,91 @@ export default {
     },
 
     {
+      id: '62',
+      unit: 'integracion',
+      title: 'TP · Integrales indefinidas. Inmediatas y por descomposición',
+      criollo: 'Este es el práctico que va antes de sustitución, partes y fracciones simples. Primero resolvés ocho integrales con la tabla y descomponiendo el integrando. Después reconstruís una función a partir de su derivada segunda y los datos que te dan, así que las constantes también forman parte del ejercicio.',
+      blocks: [
+        {
+          type: 'callout',
+          tone: 'info',
+          text: 'Trabajo práctico de la <strong>unidad 03 de Blackboard</strong>. Las consignas están transcriptas del PDF original, disponible en el visor de PDFs de esta materia. Son <strong>11 ítems</strong>: 1.a–h y los ejercicios 2, 3 y 4. En el plan de parciales esta guía se llama <strong>I0</strong>.',
+        },
+        { type: 'h3', text: 'Ejercicio 1 · Integrales inmediatas y por descomposición' },
+        { type: 'p', text: 'Resolver las siguientes integrales en forma inmediata o por descomposición:' },
+        {
+          type: 'ul',
+          items: [
+            '$a)\\; \\displaystyle\\int \\frac{-2}{x^3}\\,dx =$',
+            '$b)\\; \\displaystyle\\int \\frac{1}{\\sqrt[3]{x^4}}\\,dx =$',
+            '$c)\\; \\displaystyle\\int \\sqrt[3]{(x^{-2})^5}\\,dx =$',
+            '$d)\\; \\displaystyle\\int \\left(\\frac{x}{3}+\\frac{3}{x}\\right)\\,dx =$',
+            '$e)\\; \\displaystyle\\int 2^x e^x\\,dx =$',
+            '$f)\\; \\displaystyle\\int 3(x-2)^2\\,dx =$',
+            '$g)\\; \\displaystyle\\int \\frac{3x^4-\\sqrt{x}}{2x}\\,dx =$',
+            '$h)\\; \\displaystyle\\int \\left(5x-\\sqrt[3]{x}\\right)^2\\,dx =$',
+          ],
+        },
+        { type: 'h3', text: 'Ejercicio 2 · Reconstruir la función usando dos puntos' },
+        {
+          type: 'p',
+          text: 'Los puntos $(1;-1)$ y $(2;-7)$ pertenecen al gráfico de $f$ y además $f\'\'(x)=-6x+4$ para todo $x\\in\\mathbb{R}$. Definir la función $f$.',
+        },
+        { type: 'h3', text: 'Ejercicio 3 · Reconstruir la función usando una tangente' },
+        {
+          type: 'p',
+          text: 'Si $y=x+2$ es la ecuación de la recta tangente al gráfico de $f$ en $(1;3)$ y $f\'\':\\mathbb{R}\\to\\mathbb{R}$, $f\'\'(x)=6x$, definir $f$.',
+        },
+        { type: 'h3', text: 'Ejercicio 4 · Reconstruir la función usando un máximo' },
+        {
+          type: 'p',
+          text: 'Determinar la función $f$ sabiendo que tiene un máximo en el punto $(1;1)$ y que $f\'\'(x)=2x-4$.',
+        },
+        {
+          type: 'callout',
+          tone: 'criollo',
+          text: 'Resolvé primero sin mirar resultados. Para las integrales del ejercicio 1 tenés la tabla básica en la sección anterior. En los ejercicios 2 a 4, no confundas un dato sobre $f$ con uno sobre $f\'$: anotá qué condición expresa cada punto, tangente o extremo antes de calcular las constantes. Al terminar, comprobá tu función con todos los datos del enunciado.',
+        },
+      ],
+      quiz: {
+        tf: [
+          { id: 'tf-62-1', q: 'En el ejercicio 2, los puntos dados aportan valores de la función f, no de su derivada.', a: true, explain: 'Pertenecen al gráfico de $f$: $f(1)=-1$ y $f(2)=-7$.' },
+          { id: 'tf-62-2', q: 'En el ejercicio 3, la pendiente de la recta tangente dada es 2.', a: false, explain: 'En $y=x+2$, el coeficiente de $x$ es 1. El 2 es la ordenada al origen de la recta.' },
+          { id: 'tf-62-3', q: 'En el ejercicio 4, el punto de máximo indica que f(1)=1.', a: true, explain: 'El punto $(1;1)$ está en el gráfico de la función, por eso fija el valor $f(1)$.' },
+        ],
+        mc: [
+          {
+            id: 'mc-62-1',
+            q: '¿Qué método pide el primer ejercicio de este TP?',
+            options: ['Integración inmediata o por descomposición', 'Integración por partes exclusivamente', 'Integración definida con límites numéricos', 'Integración de funciones de dos variables'],
+            correctIndex: 0,
+            explain: 'La primera consigna pide resolver en forma inmediata o por descomposición.',
+          },
+          {
+            id: 'mc-62-2',
+            q: '¿Qué dato de derivada se deduce de la tangente del ejercicio 3?',
+            options: ['$f\'(1)=3$', '$f\'(1)=2$', '$f\'(1)=1$', '$f\'(1)=6$'],
+            correctIndex: 2,
+            explain: 'La derivada en el punto de tangencia es la pendiente de $y=x+2$, que vale 1.',
+          },
+          {
+            id: 'mc-62-3',
+            q: '¿Qué par de condiciones surge del máximo del ejercicio 4?',
+            options: ['$f(1)=0$ y $f\'(1)=1$', '$f(1)=1$ y $f\'(1)=0$', '$f(0)=1$ y $f\'(0)=1$', '$f(1)=1$ y $f\'\'(1)=0$'],
+            correctIndex: 1,
+            explain: 'El punto fija $f(1)=1$ y, al ser un máximo de esta función derivable, se cumple $f\'(1)=0$.',
+          },
+        ],
+      },
+      flashcards: [
+        { id: 'fc-62-1', front: '¿Qué practica el ejercicio 1 de la guía I0?', back: 'Ocho integrales indefinidas, en forma inmediata o por descomposición.' },
+        { id: 'fc-62-2', front: '¿Qué datos aporta el ejercicio 2?', back: '$f\'\'(x)=-6x+4$, $f(1)=-1$ y $f(2)=-7$.' },
+        { id: 'fc-62-3', front: 'Tangente y=x+2 en (1;3): ¿qué condiciones aporta?', back: '$f(1)=3$ y $f\'(1)=1$, la pendiente de la tangente.' },
+        { id: 'fc-62-4', front: 'Máximo en (1;1): ¿qué condiciones se usan en el ejercicio 4?', back: '$f(1)=1$ y $f\'(1)=0$, junto con la derivada segunda dada.' },
+        { id: 'fc-62-5', front: '¿Cómo comprobás la función reconstruida en los ejercicios 2 a 4?', back: 'Derivándola dos veces y verificando también los puntos, la tangente o el máximo dados, según el ejercicio.' },
+      ],
+    },
+    {
       id: '14',
       unit: 'integracion',
       title: 'Método de sustitución',
@@ -4262,9 +4347,39 @@ export default {
             'd) $f(x) = x + 1$ y $g(x) = x^2 - 1$, con la región sombreada entre los dos puntos de intersección $A$ y $B$.',
           ],
         },
+        {
+          type: 'figure',
+          src: 'images/diagrams/analisis-matematico-2/tp-integrales-definidas-ej5a-region.png',
+          alt: 'Ejercicio 5a: región sombreada bajo la curva cúbica entre x igual a menos uno y x igual a dos',
+          caption: 'Ejercicio 5.a — figura original del TP de integrales definidas, página 1. Tocá la imagen para ampliarla.',
+        },
+        {
+          type: 'figure',
+          src: 'images/diagrams/analisis-matematico-2/tp-integrales-definidas-ej5b-region.png',
+          alt: 'Ejercicio 5b: región sombreada entre la parábola y el eje x, desde menos uno hasta tres',
+          caption: 'Ejercicio 5.b — figura original del TP de integrales definidas, página 2.',
+        },
+        {
+          type: 'figure',
+          src: 'images/diagrams/analisis-matematico-2/tp-integrales-definidas-ej5c-region.png',
+          alt: 'Ejercicio 5c: dos regiones sombreadas de la curva cúbica, una sobre el eje x y otra debajo',
+          caption: 'Ejercicio 5.c — figura original del TP de integrales definidas, página 2.',
+        },
+        {
+          type: 'figure',
+          src: 'images/diagrams/analisis-matematico-2/tp-integrales-definidas-ej5d-region.png',
+          alt: 'Ejercicio 5d: región sombreada entre una recta y una parábola, limitada por las intersecciones A y B',
+          caption: 'Ejercicio 5.d — figura original del TP de integrales definidas, página 2. Las funciones están reescritas arriba porque algunos signos del original son poco legibles.',
+        },
 
         { type: 'h3', text: 'Ejercicio 6' },
         { type: 'p', text: 'La gráfica de las funciones $f(x) = x^5$ y $g(x) = x$ está dada en el PDF. Marcar en el gráfico la región comprendida entre ambas curvas e indicar qué integral debe calcular para encontrar el área de dicha región.' },
+        {
+          type: 'figure',
+          src: 'images/diagrams/analisis-matematico-2/tp-integrales-definidas-ej6-curvas.png',
+          alt: 'Ejercicio 6: gráficas originales de f de x igual a x elevado a cinco y g de x igual a x, sin marcar la región pedida',
+          caption: 'Ejercicio 6 — figura original del TP de integrales definidas, página 3. Marcá la región antes de elegir una integral.',
+        },
         {
           type: 'ul',
           items: [
@@ -5487,7 +5602,19 @@ export default {
             'b) La región $D$ está limitada por la parábola punteada $y = -x^2 + 4$ (indicada en el gráfico) y por una recta oblicua, tomando la parte interior a la parábola.',
           ],
         },
-        { type: 'callout', tone: 'info', text: 'Los dos gráficos de este ejercicio están en el PDF original del TP. Acá quedan descriptos: la clave para resolverlo es asociar cada tipo de borde con la operación que lo genera (borde punteado excluido $\\rightarrow$ logaritmo o denominador; borde lleno incluido $\\rightarrow$ raíz de índice par).' },
+        {
+          type: 'figure',
+          src: 'images/diagrams/analisis-matematico-2/tp-dos-variables-ej2a-dominio.png',
+          alt: 'Ejercicio 2a: dominio D indicado en la intersección de dos regiones rayadas, con circunferencia y recta de fronteras punteadas',
+          caption: 'Ejercicio 2.a — figura original del TP de funciones de dos variables, página 1. Conserva las marcas de los ejes y las fronteras punteadas. Tocá para ampliar.',
+        },
+        {
+          type: 'figure',
+          src: 'images/diagrams/analisis-matematico-2/tp-dos-variables-ej2b-dominio.png',
+          alt: 'Ejercicio 2b: dominio D señalado en la intersección de las regiones rayadas de una parábola y una recta, con fronteras punteadas',
+          caption: 'Ejercicio 2.b — figura original del TP de funciones de dos variables, página 2. Usá la región marcada D, no la unión de los rayados.',
+        },
+        { type: 'callout', tone: 'info', text: 'Los dos gráficos del PDF original del TP se reproducen arriba, además de las descripciones. La clave para resolverlo es asociar cada tipo de borde con la operación que lo genera (borde punteado excluido $\\rightarrow$ logaritmo o denominador; borde lleno incluido $\\rightarrow$ raíz de índice par).' },
 
         { type: 'h3', text: 'Curvas de nivel — Ejercicio 3' },
         { type: 'p', text: 'Determinar gráfica y analíticamente 3 curvas de nivel para las siguientes funciones:' },
@@ -7497,6 +7624,7 @@ export default {
     { key: 'regla-lhopital', label: 'Apunte · Regla de L\'Hôpital (y Práctico 0)', path: 'pdfs/analisis-matematico-2/0-regla-de-lhopital.pdf' },
     { key: 'resolucion-tp1', label: 'Resolución TP 1 · Extremos relativos. Concavidad y convexidad', path: 'pdfs/analisis-matematico-2/1-resolucion-tp-extremos-relativos-concavidad.pdf' },
     { key: 'resolucion-tp2', label: 'Resolución TP 2 · Estudio completo de funciones. Extremos condicionados', path: 'pdfs/analisis-matematico-2/2-resolucion-tp-estudio-completo-extremos-condicionados.pdf' },
+    { key: 'tp-integrales-inmediatas', label: 'TP · Integrales indefinidas. Inmediatas y por descomposición (U03)', path: 'pdfs/analisis-matematico-2/3-tp-integrales-inmediatas-descomposicion.pdf' },
     { key: 'metodos-integracion', label: 'Apunte · Métodos de integración', path: 'pdfs/analisis-matematico-2/4-metodos-de-integracion.pdf' },
     { key: 'tp-integrales-indefinidas-2', label: 'TP · Integrales indefinidas (2da. parte)', path: 'pdfs/analisis-matematico-2/4-tp-integrales-indefinidas-2da-parte.pdf' },
     { key: 'resolucion-tp-integrales-indefinidas-2', label: 'Resolución TP · Integrales indefinidas (2da. parte)', path: 'pdfs/analisis-matematico-2/4-resolucion-tp-integrales-indefinidas-2da-parte.pdf' },

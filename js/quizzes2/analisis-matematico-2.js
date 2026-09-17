@@ -6,6 +6,54 @@
  * Generado para autoevaluación: opciones homogéneas, sin pistas de forma.
  */
 export default {
+  "62": {
+    "quiz2": {
+      "tf": [
+        { "id": "tf2-62-1", "q": "En el ejercicio 2, se conocen valores de f en dos abscisas distintas.", "a": true, "explain": "Los puntos dados son $(1;-1)$ y $(2;-7)$, ambos del gráfico de $f$." },
+        { "id": "tf2-62-2", "q": "La recta tangente del ejercicio 3 determina únicamente un valor de f, pero no de su derivada.", "a": false, "explain": "El punto de tangencia determina $f(1)=3$ y la pendiente de la recta determina $f'(1)=1$." },
+        { "id": "tf2-62-3", "q": "Para comprobar la reconstrucción del ejercicio 4 alcanza con verificar la derivada segunda.", "a": false, "explain": "También hay que verificar el punto $(1;1)$ y la condición de máximo indicada por la consigna." }
+      ],
+      "mc": [
+        {
+          "id": "mc2-62-1",
+          "q": "¿Qué consigna proporciona datos sobre una recta tangente?",
+          "options": ["Ejercicio 1", "Ejercicio 2", "Ejercicio 3", "Ejercicio 4"],
+          "correctIndex": 2,
+          "explain": "El ejercicio 3 da la tangente $y=x+2$ en $(1;3)$."
+        },
+        {
+          "id": "mc2-62-2",
+          "q": "¿Cuál de estas condiciones corresponde al ejercicio 2?",
+          "options": ["$f(2)=-7$", "$f'(2)=-7$", "$f''(2)=-7$", "$f(-7)=2$"],
+          "correctIndex": 0,
+          "explain": "El par $(2;-7)$ pertenece al gráfico de $f$, no al de sus derivadas."
+        },
+        {
+          "id": "mc2-62-3",
+          "q": "¿Qué dato distingue al ejercicio 4 del ejercicio 2?",
+          "options": ["Una integral con dos límites numéricos", "Dos puntos de abscisas distintas", "Una recta tangente especificada", "Un punto que además es un máximo"],
+          "correctIndex": 3,
+          "explain": "En el ejercicio 4, $(1;1)$ no es solo un punto del gráfico, también es un máximo."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-62-1",
+          "q": "Seleccioná los datos que corresponden al ejercicio 3.",
+          "options": ["$f(1)=3$", "$f'(1)=1$", "$f''(x)=6x$", "$f'(1)=2$"],
+          "correctIndexes": [0, 1, 2],
+          "explain": "El punto da el valor 3, la tangente tiene pendiente 1 y la derivada segunda está indicada explícitamente."
+        }
+      ]
+    },
+    "flashcards2": [
+      { "id": "fc2-62-1", "front": "¿Por qué no se pueden omitir las constantes al reconstruir f?", "back": "Porque deben ajustarse a los datos de puntos, tangentes o extremos dados en los ejercicios 2 a 4." },
+      { "id": "fc2-62-2", "front": "En esta guía, ¿qué diferencia hay entre el ejercicio 1 y los ejercicios 2 a 4?", "back": "El 1 pide primitivas. Los demás piden definir una función concreta a partir de su derivada segunda y condiciones adicionales." },
+      { "id": "fc2-62-3", "front": "En el ejercicio 3, ¿qué representan 1 y 2 en y=x+2?", "back": "1 es la pendiente de la tangente y 2 su ordenada al origen. La pendiente determina la derivada en el punto de tangencia." },
+      { "id": "fc2-62-4", "front": "¿Qué condiciones de valor se usan en el ejercicio 2?", "back": "$f(1)=-1$ y $f(2)=-7$, porque ambos puntos pertenecen al gráfico de $f$." },
+      { "id": "fc2-62-5", "front": "¿Qué condición de derivada aporta el máximo del ejercicio 4?", "back": "$f'(1)=0$. Además hay que satisfacer $f(1)=1$ y comprobar que el punto es un máximo." }
+    ]
+  },
   "10": {
     "quiz2": {
       "tf": [
