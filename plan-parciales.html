@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Plan de estudio del 19 de septiembre al 1 de octubre: Análisis Matemático II y Laboratorio I. Cronograma, guías completas, lecturas y simulacros." />
+  <title>Plan de parciales — Apuntes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/extra.css" />
+  <link rel="stylesheet" href="css/plan-parciales.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+  <a class="plan-skip" href="#cronograma">Ir al cronograma</a>
+  <main class="plan-shell">
+    <header class="plan-hero">
+      <p class="eyebrow">Edición de estudio · Septiembre / octubre 2026</p>
+      <div class="plan-hero-grid">
+        <div>
+          <h1 class="display-title">Llegar con<br><em>práctica.</em></h1>
+          <p class="plan-intro">Plan de parciales · Análisis Matemático II + Laboratorio I</p>
+        </div>
+        <div class="plan-dates">
+          <p class="eyebrow">Dos fechas. Una ruta.</p>
+          <div><span class="plan-date">25 <small>SEP</small></span><p><strong>Laboratorio I</strong><br><span>Java · horario a confirmar</span></p></div>
+          <div><span class="plan-date">01 <small>OCT</small></span><p><strong>Análisis II</strong><br><span>18:45 · hora de Argentina</span></p></div>
+        </div>
+      </div>
+      <div class="plan-facts">
+        <p><strong>19 sep</strong><span>Comienzo por estudio completo</span></p>
+        <p><strong>2–3 h</strong><span>Por día, incluyendo pausas</span></p>
+        <p><strong>Domingos libres</strong><span>Rescate solo si hace falta</span></p>
+        <a class="plan-download" href="pdfs/planes/cuadernillo-analisis-parcial-2026-10-01.pdf#page=8" target="_blank" rel="noopener">Abrir cuadernillo <span>20 páginas · empezá en la 8 ↗</span></a>
+      </div>
+    </header>
+
+    <nav class="plan-nav" aria-label="Apartados del plan">
+      <a href="#cronograma">01 · Día a día</a>
+      <a href="#ejercitacion">02 · Ejercitación</a>
+      <a href="#manual">03 · Cómo estudiar</a>
+    </nav>
+
+    <aside class="plan-notice">
+      <strong>Primero dominar un caso de cada tipo; después, completar variantes.</strong>
+      <p>El cronograma prioriza lo esencial. Las 8 guías completas tienen 148 ítems, más 5 extras: no prometemos que entren todos en estas horas. Las casillas registran trabajo corregido, no garantizan estar listo para rendir.</p>
+    </aside>
+
+    <section id="cronograma" class="plan-section" aria-labelledby="calendar-title">
+      <div class="plan-section-heading"><div><p class="eyebrow">01 / La ruta priorizada</p><h2 id="calendar-title">Una cosa a la vez.</h2></div><p>19 de septiembre → 1 de octubre<br>Los días 17 y 18 no acumulan deuda.</p></div>
+      <div class="plan-progress-line"><span id="day-progress">Cargando cronograma…</span><span>28 h 40 min antes del 1/10, con pausas</span></div>
+      <progress id="day-progress-bar" max="1" value="0" aria-label="Bloques diarios completados"></progress>
+      <div class="plan-calendar-grid">
+        <nav id="plan-days" class="plan-day-list" aria-label="Elegir día"></nav>
+        <article id="plan-day" class="plan-day-detail" aria-live="polite" aria-atomic="false"></article>
+      </div>
+      <p id="save-status" class="plan-storage" role="status"></p>
+      <p class="plan-footnote">Carga base: Análisis 16 h 30 min · Java 9 h · Pausas 3 h 10 min. Los dos domingos opcionales suman hasta 6 h; el repaso del 1/10 (40 min) va aparte. No incluye tiempo de exámenes.</p>
+    </section>
+
+    <section id="ejercitacion" class="plan-section" aria-labelledby="exercises-title">
+      <div class="plan-section-heading"><div><p class="eyebrow">02 / El banco completo</p><h2 id="exercises-title">Del intento al dominio.</h2></div><p>Enunciados, lectura y corrección<br>en el orden de este plan.</p></div>
+      <div class="plan-exercise-intro"><p>Seguí <strong>D2 → I0 → I1 → ID → IM → V2</strong>. P0 y D1 son refuerzos, no requisitos para arrancar. Primero hacé los ítems del día; después las variantes. Abrí «Enunciados» para ver la guía en los apuntes, con sus figuras originales.</p><p id="exercise-progress" class="plan-exercise-count"></p></div>
+      <p class="plan-footnote">Marcá solo lo que resolviste, corregiste y podés explicar. Una tilde de bloque diario no completa automáticamente sus ejercicios. Algunos ítems agrupan varios apartados: completalos todos.</p>
+      <p class="plan-footnote">La referencia a «PLAN.md» en la portada del cuadernillo corresponde al cronograma de esta página. El orden físico del PDF se conserva; tu recorrido empieza en D2, página 8.</p>
+      <div id="plan-guides" class="plan-guides"></div>
+      <div class="plan-java-entry"><p class="eyebrow">Laboratorio I</p><h3>Java se aprende haciéndolo correr.</h3><p>Las sesiones compactas A–E están en cada día del cronograma. Abajo tenés las fichas ampliadas J1–J7, las lecturas de U7 y el simulacro: son consulta, no horas extra obligatorias.</p><a class="btn btn-accent" href="#manual">Ir a las fichas y al método ↓</a><a class="btn-ghost" href="materia.html?subject=laboratorio-1">Abrir apuntes de Java →</a></div>
+    </section>
+
+    <section id="manual" class="plan-section" aria-labelledby="manual-title">
+      <div class="plan-section-heading"><div><p class="eyebrow">03 / La mesa de trabajo</p><h2 id="manual-title">Estudiar para que quede.</h2></div><p>Lecturas, práctica, simulacros,<br>recuperación y advertencias.</p></div>
+      <p class="plan-manual-intro">Buscá el apartado que necesitás. Los materiales de Blackboard requieren tu sesión. Las consignas propias están diferenciadas del material de cátedra.</p>
+      <div id="plan-chapters"></div>
+    </section>
+    <footer class="plan-footer"><p>Plan personal de estudio · Septiembre 2026<br>Fuentes de Blackboard consultadas el 17/9. Alcance del examen sujeto a confirmación de cátedra.</p><a href="index.html">Volver a Apuntes ↑</a></footer>
+    <noscript><p>Activá JavaScript para ver el cronograma y guardar progreso. Podés abrir el <a href="pdfs/planes/cuadernillo-analisis-parcial-2026-10-01.pdf">cuadernillo completo de Análisis</a> sin JavaScript.</p></noscript>
+  </main>
+  <script type="module" src="js/plan-parciales.js"></script>
+</body>
+</html>

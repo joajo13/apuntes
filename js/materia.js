@@ -24,10 +24,25 @@ if (!subject) {
     eyebrow.innerHTML = bits.map((b) => `<span>${b}</span>`).join(' · ');
   }
 
+  renderPlanEntry();
   renderPartialsEntry();
   renderSections();
   renderResumenEntry();
   renderAutoevalEntry();
+}
+
+function renderPlanEntry() {
+  const host = document.getElementById('materia-plan');
+  if (!host) return;
+  if (!['analisis-matematico-2', 'laboratorio-1'].includes(subject.id)) { host.remove(); return; }
+  host.innerHTML = `<a href="plan-parciales.html" class="folio-card" style="display:block;">
+    <div class="folio-card-body">
+      <p class="eyebrow mb-3">19 sep → 1 oct · Plan de parciales</p>
+      <h2 class="folio-card-title">Tu próxima sesión de estudio</h2>
+      <p class="folio-card-dek">Cronograma diario de Análisis II y Laboratorio I, ejercitación ordenada, lecturas y cuadernillo. Con progreso guardado en este navegador.</p>
+      <p class="meta mt-4" style="color:var(--accent)">Abrir el plan →</p>
+    </div>
+  </a>`;
 }
 
 function renderAutoevalEntry() {
