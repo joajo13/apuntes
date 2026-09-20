@@ -106,9 +106,9 @@ test('all five compact Java sessions retain their drill times', () => {
   assert.ok(data.DAYS, 'calendar available');
   const expected = {
     '2026-09-19': [10, 25, 20, 15],
-    '2026-09-21': [20, 20, 20, 35, 15],
-    '2026-09-22': [30, 35, 20, 15, 10],
-    '2026-09-23': [15, 15, 60, 20],
+    '2026-09-21': [15, 15, 20, 25, 20, 15],
+    '2026-09-22': [20, 25, 45, 20],
+    '2026-09-23': [15, 55, 20, 20],
     '2026-09-24': [20, 70, 30],
   };
   for (const [date, minutes] of Object.entries(expected)) {
@@ -125,11 +125,24 @@ test('reference chapters retain all substantive material with hidden diagnostic 
   for (const id of ['empeza', 'cobertura', 'refuerzo', 'lecturas', 'recorrido', 'java', 'metodo', 'alternativas', 'simulacro', 'erratas', 'pendientes']) assert.ok(ids.includes(id), id);
   const html = content.CHAPTERS.map(chapter => chapter.html).join('\n');
   assert.match(html, /<details[^>]*>[\s\S]*DF1[\s\S]*0,61[\s\S]*2,025[\s\S]*<\/details>/);
-  for (let index = 1; index <= 7; index++) assert.match(html, new RegExp(`J${index}`));
+  for (let index = 1; index <= 4; index++) assert.match(html, new RegExp(`J${index}`));
   assert.match(html, /120 minutos continuos/);
   assert.match(html, /28–40 horas/);
   assert.match(html, /22\/9 a las 20:00/);
-  assert.match(html, /22 y 23/);
+  assert.match(html, /S40 inclusive/);
+  assert.match(html, /segundo parcial/);
+});
+
+test('Java route follows the confirmed cutoff at composition over inheritance', () => {
+  const scheduled = data.DAYS.flatMap(day => day.tasks).filter(task => task.subject === 'java').map(task => task.html).join('\n');
+  const javaGuide = content.CHAPTERS.find(chapter => chapter.id === 'java').html;
+  for (const id of [18, 19, 20, 21, 22, 23, 24, 25, 35, 36, 37, 38, 39, 40]) {
+    assert.match(scheduled, new RegExp(`subject=laboratorio-1&amp;id=${id}(?:\\D|$)`), `scheduled S${id}`);
+  }
+  assert.match(scheduled, /preguntas 1–3 solamente/);
+  assert.match(javaGuide, /composición por sobre la herencia/);
+  assert.match(javaGuide, /No forman parte de esta ruta/);
+  assert.doesNotMatch(scheduled, /subject=laboratorio-1&amp;id=(46|47|48|49)(?:\\D|$)/);
 });
 
 test('public data contains no machine paths, private audits or executable markup', async () => {
@@ -143,14 +156,8 @@ test('public data contains no machine paths, private audits or executable markup
     "https://palermo.blackboard.com/ultra/courses/_96316_1/file/_5725041_1?courseId=_96316_1",
     "https://palermo.blackboard.com/ultra/courses/_96316_1/file/_5725042_1?courseId=_96316_1",
     "https://palermo.blackboard.com/ultra/courses/_96316_1/file/_5725045_1?courseId=_96316_1",
-    "https://palermo.blackboard.com/ultra/courses/_95920_1/file/_5651386_1?courseId=_95920_1",
-    "https://palermo.blackboard.com/ultra/courses/_95920_1/file/_5651387_1?courseId=_95920_1",
-    "https://palermo.blackboard.com/ultra/courses/_95920_1/file/_5651388_1?courseId=_95920_1",
     "https://www.psychologicalscience.org/journals/psychological-science/j.1467-9280.2006.01693.x/",
     "https://www.psychologicalscience.org/journals/psychological-science/0956797615617778/",
-    "https://dev.java/learn/generics/wildcards/",
-    "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashSet.html",
-    "https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html",
     "https://palermo.blackboard.com/ultra/courses/_96316_1/outline",
     "https://palermo.blackboard.com/ultra/courses/_95920_1/outline"
   ];
@@ -160,8 +167,7 @@ test('public data contains no machine paths, private audits or executable markup
 test('mixed-subject errata route each section to the correct matter', () => {
   const html = content.CHAPTERS.find(chapter => chapter.id === 'erratas').html;
   for (const id of [18, 37, 38]) assert.match(html, new RegExp(`subject=analisis-matematico-2&amp;id=${id}`));
-  assert.match(html, /subject=laboratorio-1&amp;id=49/);
-  assert.doesNotMatch(html, /subject=laboratorio-1&amp;id=(18|37|38)/);
+  assert.doesNotMatch(html, /subject=laboratorio-1/);
 });
 
 test('reference prose does not promise progress states the checkboxes do not have', () => {
