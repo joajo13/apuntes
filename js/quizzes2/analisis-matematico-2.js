@@ -6,6 +6,441 @@
  * Generado para autoevaluación: opciones homogéneas, sin pistas de forma.
  */
 export default {
+  "63": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-63-1",
+          "q": "Para una función afín $f(x)=mx+b$, el diferencial y el cambio real coinciden para cualquier paso.",
+          "a": true,
+          "explain": "Ambos valen $m\\,dx$: la gráfica y su tangente son la misma recta."
+        },
+        {
+          "id": "tf2-63-2",
+          "q": "Si $f'(x_0)=0$, entonces la función no puede cambiar al pasar de $x_0$ a un punto cercano.",
+          "a": false,
+          "explain": "Con $f(x)=x^2$ y $x_0=0$, el diferencial es cero pero el cambio real es $(dx)^2$."
+        },
+        {
+          "id": "tf2-63-3",
+          "q": "Si $f'(x_0)>0$ y $dx<0$, entonces $dy<0$.",
+          "a": true,
+          "explain": "El producto de la pendiente positiva por el paso negativo es negativo."
+        },
+        {
+          "id": "tf2-63-4",
+          "q": "La notación $dy/dx$ significa el cociente exacto $\\Delta y/\\Delta x$ para todo incremento no nulo.",
+          "a": false,
+          "explain": "Es notación de la derivada. Un cociente de incrementos reales para un paso finito puede ser distinto de la derivada en el punto inicial."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-63-1",
+          "q": "Si $f(x)=3x^2-4x+2$, ¿cuál es su diferencial?",
+          "options": [
+            "$(6x-4)\\,dx$",
+            "$(3x^2-4x+2)\\,dx$",
+            "$(6x-4)$",
+            "$(6x+2)\\,dx$"
+          ],
+          "correctIndex": 0,
+          "explain": "Primero se deriva: la derivada es 6x−4. Para el diferencial se multiplica ese resultado por dx."
+        },
+        {
+          "id": "mc2-63-2",
+          "q": "Si $f(x)=x^2$, $x_0=-1$ y $dx=0{,}02$, ¿qué valor de $f(-0{,}98)$ predice la tangente?",
+          "options": [
+            "$1{,}04$",
+            "$0{,}96$",
+            "$0{,}9604$",
+            "$-0{,}04$"
+          ],
+          "correctIndex": 1,
+          "explain": "La pendiente es $-2$, así que $dy=-0{,}04$. Se suma al valor inicial 1 y se obtiene $0{,}96$; $0{,}9604$ es el valor real."
+        },
+        {
+          "id": "mc2-63-3",
+          "q": "Para $f(x)=x^2$ en $x_0=0$ con $dx=0{,}1$, ¿cuál es el par $(dy,\\Delta y)$?",
+          "options": [
+            "$(0,0)$",
+            "$(0{,}01,0)$",
+            "$(0,0{,}01)$",
+            "$(0{,}1,0{,}1)$"
+          ],
+          "correctIndex": 2,
+          "explain": "La pendiente inicial es cero, pero $f(0{,}1)-f(0)=0{,}01$."
+        },
+        {
+          "id": "mc2-63-4",
+          "q": "¿Cuál es el diferencial de $f(x)=x\\cos x$?",
+          "options": [
+            "$(\\cos x+x\\sin x)\\,dx$",
+            "$-\\sin x\\,dx$",
+            "$-x\\sin x\\,dx$",
+            "$(\\cos x-x\\sin x)\\,dx$"
+          ],
+          "correctIndex": 3,
+          "explain": "La regla del producto da $f'(x)=1\\cdot\\cos x+x(-\\sin x)$. Luego se multiplica por $dx$."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-63-1",
+          "q": "Para estimar $\\sqrt{8{,}94}$ desde $x_0=9$, marcá todos los datos o resultados correctos.",
+          "options": [
+            "$dx=-0{,}06$",
+            "$f'(9)=6$",
+            "$dy=-0{,}01$",
+            "$\\sqrt{8{,}94}\\approx2{,}99$",
+            "$\\sqrt{8{,}94}=2{,}99$ exactamente"
+          ],
+          "correctIndexes": [
+            0,
+            2,
+            3
+          ],
+          "explain": "$f'(9)=1/6$, de modo que $dy=(-0{,}06)/6=-0{,}01$. La estimación es $3-0{,}01=2{,}99$, pero $2{,}99^2=8{,}9401$ y no $8{,}94$."
+        },
+        {
+          "id": "ms2-63-2",
+          "q": "¿Qué pasos ayudan a usar correctamente una aproximación lineal?",
+          "options": [
+            "Elegir un punto cercano donde la función sea derivable",
+            "Usar siempre el valor absoluto del incremento",
+            "Calcular la derivada en el punto de partida",
+            "Sumar el diferencial al valor inicial de la función",
+            "Tratar toda estimación obtenida como una igualdad exacta"
+          ],
+          "correctIndexes": [
+            0,
+            2,
+            3
+          ],
+          "explain": "Se necesita una pendiente bien definida, calculada en el punto elegido, y un incremento con su signo. Al valor inicial se le suma el cambio estimado."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-63-1",
+        "front": "¿Cómo elegís el incremento cuando conocés el valor nuevo de x?",
+        "back": "Restás punto nuevo menos punto inicial: $dx=x_{\\mathrm{nuevo}}-x_0$. Conservá el signo."
+      },
+      {
+        "id": "fc2-63-2",
+        "front": "¿Cuándo coincide la aproximación por tangente con la función en todo su recorrido?",
+        "back": "En una función afín $f(x)=mx+b$, porque su gráfica ya es una recta y $\\Delta y=dy=m\\,dx$."
+      },
+      {
+        "id": "fc2-63-3",
+        "front": "¿Una tangente horizontal obliga a que el cambio real sea cero?",
+        "back": "No. Para $f(x)=x^2$ en 0, $dy=0$ pero $\\Delta y=(dx)^2$."
+      },
+      {
+        "id": "fc2-63-4",
+        "front": "¿Qué expresa $dy/dx$ cuando $y=f(x)$?",
+        "back": "Es una notación de la derivada $f'(x)$. No es, en general, el cociente de incrementos reales de un paso finito."
+      },
+      {
+        "id": "fc2-63-5",
+        "front": "¿Cómo se comparan los errores en el cambio y en el valor final?",
+        "back": "La diferencia es la misma: $\\Delta y-dy=f(x_0+dx)-[f(x_0)+dy]$. Ambos comparan la curva con la tangente para el mismo paso."
+      },
+      {
+        "id": "fc2-63-6",
+        "front": "¿Qué necesitás revisar antes de usar la tangente para estimar?",
+        "back": "Que el punto inicial sea interior al dominio y allí exista la derivada; que el punto nuevo siga en el dominio y sea cercano al inicial."
+      }
+    ]
+  },
+  "64": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-64-1",
+          "q": "Como $\\ln7$ es un logaritmo, su primitiva respecto de $x$ es $1/7$.",
+          "a": false,
+          "explain": "$\\ln7$ es una constante. Su primitiva es $x\\ln7+C$; la derivada de $1/7$ sería cero."
+        },
+        {
+          "id": "tf2-64-2",
+          "q": "Un denominador común puede dividir a cada término de una suma del numerador, respetando su dominio.",
+          "a": true,
+          "explain": "La identidad $(A+B)/D=A/D+B/D$ es válida donde $D\\ne0$. Así se puede obtener una suma de integrandos más simples."
+        },
+        {
+          "id": "tf2-64-3",
+          "q": "El integrando $1/\\sqrt{1-x^2}$ está definido en los dos extremos $x=-1$ y $x=1$.",
+          "a": false,
+          "explain": "En ambos extremos la raíz del denominador vale cero. El intervalo real de definición es abierto: $(-1,1)$."
+        },
+        {
+          "id": "tf2-64-4",
+          "q": "Al integrar $1/x$, la constante en $(-\\infty,0)$ puede ser distinta de la constante en $(0,\\infty)$.",
+          "a": true,
+          "explain": "La condición de que dos primitivas difieran en una constante se aplica en cada intervalo conectado del dominio. No exige unir las constantes a través de un punto excluido."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-64-1",
+          "q": "¿Cuál es una familia de primitivas de $(5x-2)^2$?",
+          "options": [
+            "$\\frac{25}{3}x^3-10x^2+4x+C$",
+            "$\\frac{25}{3}x^3-20x^2+4x+C$",
+            "$\\frac{25}{3}x^3-10x^2-4x+C$",
+            "$\\frac{25}{3}x^3+10x^2+4x+C$"
+          ],
+          "correctIndex": 0,
+          "explain": "Se desarrolla $25x^2-20x+4$ y luego se integra cada término."
+        },
+        {
+          "id": "mc2-64-2",
+          "q": "Para $x>0$, ¿cuál es el resultado de $\\int(2\\sqrt{x}+3/x^2)\\,dx$?",
+          "options": [
+            "$\\frac43x^{3/2}+\\frac3x+C$",
+            "$\\frac43x^{3/2}-\\frac3x+C$",
+            "$\\frac23x^{3/2}-\\frac3x+C$",
+            "$\\frac43x^{3/2}-\\frac3{x^2}+C$"
+          ],
+          "correctIndex": 1,
+          "explain": "Los exponentes son $1/2$ y $-2$. La integración da $2x^{3/2}/(3/2)+3x^{-1}/(-1)+C$."
+        },
+        {
+          "id": "mc2-64-3",
+          "q": "¿Qué familia integra $\\ln2-3\\cos x$?",
+          "options": [
+            "$\\ln2-3\\sin x+C$",
+            "$x\\ln2+3\\sin x+C$",
+            "$x\\ln2-3\\sin x+C$",
+            "$x\\ln2-3\\cos x+C$"
+          ],
+          "correctIndex": 2,
+          "explain": "$\\ln2$ es constante y aporta $x\\ln2$; el otro término aporta $-3\\sin x$."
+        },
+        {
+          "id": "mc2-64-4",
+          "q": "En $(-1,1)$, ¿qué familia integra $3/\\sqrt{1-x^2}+2/(1+x^2)$?",
+          "options": [
+            "$3\\arccos x+2\\arctan x+C$",
+            "$3\\arcsin x-2\\arctan x+C$",
+            "$3\\arccos x-2\\arctan x+C$",
+            "$3\\arcsin x+2\\arctan x+C$"
+          ],
+          "correctIndex": 3,
+          "explain": "Las dos entradas de tabla se suman con sus coeficientes. La primera exige $\\arcsin$ con signo positivo."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-64-1",
+          "q": "¿Qué controles por derivación son correctos? Seleccioná todos los que correspondan.",
+          "options": [
+            "$\\frac{d}{dx}(x^3/3)=x^3$",
+            "$\\frac{d}{dx}(\\tan x-\\arctan x)=\\sec^2x-\\frac1{1+x^2}$",
+            "$\\frac{d}{dx}(x\\ln3)=\\ln x$",
+            "$\\frac{d}{dx}(-\\ln|x|)=-1/x$ para $x\\ne0$",
+            "$\\frac{d}{dx}(2\\sqrt{x})=\\sqrt{x}$ para $x>0$"
+          ],
+          "correctIndexes": [
+            1,
+            3
+          ],
+          "explain": "La segunda igualdad usa las derivadas de tangente y arcotangente; la cuarta es válida a ambos lados de cero. Las otras derivadas son $x^2$, $\\ln3$ y $1/\\sqrt{x}$, respectivamente."
+        },
+        {
+          "id": "ms2-64-2",
+          "q": "¿Qué afirmaciones sobre el uso de las fórmulas son correctas? Puede no haber ninguna.",
+          "options": [
+            "Para $a=1$ se usa sin cambios $a^x/\\ln a$",
+            "Para $n=-1$ se usa sin cambios $x^{n+1}/(n+1)$",
+            "Cancelar un denominador siempre recupera los puntos excluidos del integrando original",
+            "La primitiva de $1/\\sqrt{1-x^2}$ permite integrar allí también en $x=1$",
+            "La fórmula real para $1/\\sqrt{1-x^2}$ sigue siendo válida con $x>1$"
+          ],
+          "correctIndexes": [],
+          "explain": "Ninguna. Las dos primeras generan denominador cero; simplificar no redefine el integrando original; y la raíz del último integrando exige estrictamente $-1<x<1$."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-64-1",
+        "front": "¿Por qué $\\ln7$ sale como factor constante pero $\\ln x$ no?",
+        "back": "El valor de $\\ln7$ no cambia al variar $x$. El de $\\ln x$ sí depende de la variable."
+      },
+      {
+        "id": "fc2-64-2",
+        "front": "¿Cuándo conviene desarrollar un producto antes de integrar?",
+        "back": "Cuando el desarrollo lo convierte en una suma finita de términos reconocibles por tabla. Por ejemplo, el cuadrado de un polinomio."
+      },
+      {
+        "id": "fc2-64-3",
+        "front": "¿Qué diferencia hay entre repartir el denominador e integrar un cociente por separado?",
+        "back": "Repartir un denominador común conserva una igualdad algebraica del integrando. Dividir dos primitivas no es una propiedad de integración."
+      },
+      {
+        "id": "fc2-64-4",
+        "front": "¿Qué pasa con un punto excluido después de cancelar un factor?",
+        "back": "Sigue excluido del dominio del integrando original. Se trabaja en sus intervalos de definición aunque una expresión simplificada pueda extenderse a ese punto."
+      },
+      {
+        "id": "fc2-64-5",
+        "front": "¿Por qué $\\arcsin x$ y $-\\arccos x$ sirven para el mismo integrando?",
+        "back": "En $(-1,1)$ ambas derivan a $1/\\sqrt{1-x^2}$. Difieren en la constante $\\pi/2$."
+      },
+      {
+        "id": "fc2-64-6",
+        "front": "¿Qué dos controles cierran una integral por descomposición?",
+        "back": "Derivar la respuesta para recuperar el integrando original y verificar que se respetan las restricciones de su dominio."
+      }
+    ]
+  },
+  "65": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-65-1",
+          "q": "En 1f, $(x-2)^3+C$ y $x^3-6x^2+12x+K$ describen la misma familia de primitivas.",
+          "a": true,
+          "explain": "Al desarrollar aparece −8; se incorpora en la constante con $K=C-8$."
+        },
+        {
+          "id": "tf2-65-2",
+          "q": "En 1d, la misma constante debe usarse obligatoriamente a ambos lados de cero.",
+          "a": false,
+          "explain": "El dominio está separado en dos intervalos. La derivada no obliga a relacionar sus constantes."
+        },
+        {
+          "id": "tf2-65-3",
+          "q": "La función del ejercicio 4 tiene máximo absoluto igual a 1 en toda $\\mathbb R$.",
+          "a": false,
+          "explain": "Es una cúbica con coeficiente principal positivo: crece sin cota al ir hacia $+\\infty$. El máximo de $(1,1)$ es local."
+        },
+        {
+          "id": "tf2-65-4",
+          "q": "La primitiva propuesta en 1h es derivable en cero y su derivada allí vale 0.",
+          "a": true,
+          "explain": "El cociente incremental tiende a cero desde ambos lados; coincide con el integrando en cero."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-65-1",
+          "q": "¿Cuál es la respuesta de 1c, escrita con raíz cúbica real?",
+          "options": [
+            "$-\\frac{3}{7\\sqrt[3]{x^7}}+C$",
+            "$-\\frac{7}{3\\sqrt[3]{x^3}}+C$",
+            "$\\frac{3}{7\\sqrt[3]{x^7}}+C$",
+            "$-\\frac{3}{10\\sqrt[3]{x^{10}}}+C$"
+          ],
+          "correctIndex": 0,
+          "explain": "El exponente −10/3 pasa a −7/3 y se divide por −7/3."
+        },
+        {
+          "id": "mc2-65-2",
+          "q": "¿Cuál es el término cruzado al desarrollar el cuadrado de 1h?",
+          "options": [
+            "$-5x\\sqrt[3]{x}$",
+            "$-10x\\sqrt[3]{x}$",
+            "$+10x\\sqrt[3]{x}$",
+            "$-10\\sqrt[3]{x}$"
+          ],
+          "correctIndex": 1,
+          "explain": "En $(a-b)^2$, el término cruzado es $-2ab$; aquí $a=5x$ y $b=\\sqrt[3]{x}$."
+        },
+        {
+          "id": "mc2-65-3",
+          "q": "Para la función publicada $g(x)=x^3+2x$ del ejercicio 3, ¿cuál es $g'(1)$?",
+          "options": [
+            "$1$",
+            "$3$",
+            "$5$",
+            "$6$"
+          ],
+          "correctIndex": 2,
+          "explain": "$g'(x)=3x^2+2$, por lo que $g'(1)=5$. Ese valor contradice la pendiente de la tangente dada."
+        },
+        {
+          "id": "mc2-65-4",
+          "q": "¿Cuál es el dominio real del integrando original de 1g?",
+          "options": [
+            "$\\mathbb R$",
+            "$[0,\\infty)$",
+            "$\\mathbb R\\setminus\\{0\\}$",
+            "$(0,\\infty)$"
+          ],
+          "correctIndex": 3,
+          "explain": "La raíz cuadrada exige $x\\ge0$ y el denominador exige $x\\ne0$."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-65-1",
+          "q": "Seleccioná las afirmaciones correctas sobre los dominios y las raíces.",
+          "options": [
+            "1b admite un intervalo de trabajo con $x<0$",
+            "1c admite $x=0$",
+            "1d sirve para $x<0$ usando $\\ln|x|$",
+            "1h admite toda la recta real",
+            "1g admite números reales negativos"
+          ],
+          "correctIndexes": [
+            0,
+            2,
+            3
+          ],
+          "explain": "Las raíces cúbicas son reales también para entradas negativas. 1c excluye cero; 1g requiere $x>0$."
+        },
+        {
+          "id": "ms2-65-2",
+          "q": "¿Qué cambios bastan para corregir la pendiente de la respuesta publicada del ejercicio 3? Puede no haber ninguno.",
+          "options": [
+            "Sumar una constante a $x^3+2x$",
+            "Restar una constante a $x^3+2x$",
+            "Escribir $x^3+2x+C$ sin fijar $C$",
+            "Cambiar el orden de los términos a $2x+x^3$",
+            "Comprobar solo que el valor en $x=1$ es 3"
+          ],
+          "correctIndexes": [],
+          "explain": "Ninguno cambia la derivada $3x^2+2$. Hay que ajustar el término lineal y luego el término constante: $x^3-2x+4$."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-65-1",
+        "front": "¿Por qué se escribe raíz cúbica real en los resultados?",
+        "back": "Para que $x^{m/3}$ signifique $(\\sqrt[3]{x})^m$ también cuando $x<0$, sin usar potencias complejas principales."
+      },
+      {
+        "id": "fc2-65-2",
+        "front": "¿Cómo se simplifica el integrando de 1g?",
+        "back": "Como $\\frac32x^3-\\frac12x^{-1/2}$, para $x>0$. Su primitiva es $3x^4/8-\\sqrt{x}+C$."
+      },
+      {
+        "id": "fc2-65-3",
+        "front": "¿Por qué 1h necesita una comprobación especial en cero?",
+        "back": "La derivada de la raíz cúbica aislada no es finita allí. Se verifica la fórmula completa por el cociente incremental, cuyo límite vale 0."
+      },
+      {
+        "id": "fc2-65-4",
+        "front": "¿Qué dato no fija la derivada segunda de una función?",
+        "back": "No fija las dos constantes: si $f''$ está dada, las funciones reconstruidas todavía pueden diferir en $Ax+B$."
+      },
+      {
+        "id": "fc2-65-5",
+        "front": "¿Qué confirma que dos primitivas son equivalentes en un intervalo?",
+        "back": "Que difieren en una constante. Por ejemplo, $(x-2)^3$ y $x^3-6x^2+12x$ difieren en −8."
+      },
+      {
+        "id": "fc2-65-6",
+        "front": "¿Cómo verificás la tangente una vez hallada la función?",
+        "back": "Usás $y=f(a)+f'(a)(x-a)$. En el ejercicio 3 da $3+1(x-1)=x+2$."
+      }
+    ]
+  },
   "62": {
     "quiz2": {
       "tf": [
