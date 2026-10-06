@@ -3917,4 +3917,882 @@ export default {
       { id: 'fc2-41-6', front: 'Bibliografía complementaria de la unidad', back: 'Grossman, S. y Flores Godoy, J. J. (2019). Álgebra Lineal (8ª ed.), McGraw-Hill Interamericana, capítulos 3.3 y 3.4. eBooks 7-24.' },
     ],
   },
+  "42": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-42-1",
+          "q": "Dos puntos iguales alcanzan para obtener un director no nulo mediante su diferencia.",
+          "a": false,
+          "explain": "La diferencia de un punto consigo mismo es cero y no fija una dirección."
+        },
+        {
+          "id": "tf2-42-2",
+          "q": "En una recta con director $(0,0,5)$, las coordenadas $x$ e $y$ permanecen constantes.",
+          "a": true,
+          "explain": "Solo la coordenada z tiene un coeficiente no nulo para el parámetro."
+        },
+        {
+          "id": "tf2-42-3",
+          "q": "Cambiar $\\mathbf v$ por $3\\mathbf v$ y mantener $P$ produce siempre una recta distinta.",
+          "a": false,
+          "explain": "Para un director no nulo, el conjunto de puntos sigue siendo el mismo porque el parámetro recorre todos los reales."
+        },
+        {
+          "id": "tf2-42-4",
+          "q": "En $x=-2+4t$, $y=1-t$, $z=3+2t$, el punto $(2,0,5)$ se obtiene con $t=1$.",
+          "a": true,
+          "explain": "Sustituir t=1 da exactamente las tres coordenadas indicadas."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-42-1",
+          "q": "La recta $(x,y,z)=(-1,3,0)+t(2,-2,1)$ contiene uno de estos puntos. ¿Cuál?",
+          "options": [
+            "$(3,-1,1)$",
+            "$(1,1,0)$",
+            "$(3,-1,2)$",
+            "$(-3,1,-1)$"
+          ],
+          "correctIndex": 2,
+          "explain": "t=2 produce (3,−1,2); las demás opciones mezclan coordenadas de valores de t distintos."
+        },
+        {
+          "id": "mc2-42-2",
+          "q": "Para $x=4$, $y=-2+3t$, $z=1+t$, ¿qué escritura elimina correctamente $t$?",
+          "options": [
+            "$x=4,\\quad\\frac{y+2}{3}=z-1$",
+            "$x=4,\\quad\\frac{y-2}{3}=z+1$",
+            "$x=0,\\quad\\frac{y+2}{3}=z-1$",
+            "$x=4,\\quad3(y+2)=z-1$"
+          ],
+          "correctIndex": 0,
+          "explain": "La primera coordenada queda fija; de las otras dos obtenés t=(y+2)/3=z−1."
+        },
+        {
+          "id": "mc2-42-3",
+          "q": "¿Cuál puede ser otro director de la recta con director $(3,-1,2)$?",
+          "options": [
+            "$(6,-2,-4)$",
+            "$(3,1,2)$",
+            "$(0,0,0)$",
+            "$(-6,2,-4)$"
+          ],
+          "correctIndex": 3,
+          "explain": "La última opción es −2 veces el director original y sigue siendo no nula."
+        },
+        {
+          "id": "mc2-42-4",
+          "q": "En $(x,y,z)=(2,-3,1)+t(1,2,-2)$, ¿qué valor de $t$ da el punto $(0,-7,5)$?",
+          "options": [
+            "$t=-1$",
+            "$t=-2$",
+            "$t=2$",
+            "$t=3$"
+          ],
+          "correctIndex": 1,
+          "explain": "De x=2+t sale t=−2; y y z también dan −7 y 5."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-42-1",
+          "q": "Marcá las representaciones de la recta $x=1+2t$, $y=3$, $z=-2+t$.",
+          "options": [
+            "$(x,y,z)=(1,3,-2)+s(2,0,1)$",
+            "$y=3,\\quad\\frac{x-1}{2}=z+2$",
+            "$(x,y,z)=(3,3,-1)+s(-2,0,-1)$",
+            "$y=0,\\quad\\frac{x-1}{2}=z+2$",
+            "$(x,y,z)=(1,3,-2)+s(1,0,2)$"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2
+          ],
+          "explain": "Las tres primeras conservan punto y dirección, o usan otro punto de la misma recta. La cuarta fija otro y; la quinta tiene otra dirección."
+        },
+        {
+          "id": "ms2-42-2",
+          "q": "Para $P=(0,2,-1)$ y $\\mathbf v=(0,4,0)$, ¿qué conclusiones son válidas?",
+          "options": [
+            "$x=0$ para todo punto de la recta",
+            "$z=-1$ para todo punto de la recta",
+            "$y$ puede ser cualquier número real",
+            "La recta contiene $(0,0,-1)$",
+            "La forma simétrica exige dividir por cero"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explain": "Las coordenadas x y z quedan fijas. La expresión y=2+4t toma todos los reales, incluido 0 con t=−1/2."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-42-1",
+        "front": "¿Qué significa un parámetro compartido?",
+        "back": "Las tres coordenadas se calculan con el mismo número $t$ para obtener un único punto."
+      },
+      {
+        "id": "fc2-42-2",
+        "front": "Chequeo rápido del punto de apoyo",
+        "back": "Poné $t=0$: la ecuación vectorial o paramétrica debe devolver el punto elegido."
+      },
+      {
+        "id": "fc2-42-3",
+        "front": "¿Multiplicar el director por −1 cambia la recta?",
+        "back": "No. Conserva su dirección geométrica y revierte el sentido del parámetro."
+      },
+      {
+        "id": "fc2-42-4",
+        "front": "Recta con director (0,0,2)",
+        "back": "Las dos primeras coordenadas quedan fijas y la tercera recorre todos los reales."
+      },
+      {
+        "id": "fc2-42-5",
+        "front": "¿Un punto que cumple solo dos paramétricas pertenece?",
+        "back": "Todavía no lo sabés: también debe cumplir la tercera con el mismo $t$."
+      },
+      {
+        "id": "fc2-42-6",
+        "front": "Diferencia entre punto y director",
+        "back": "El punto ubica la recta; el director indica sus desplazamientos y no puede ser cero."
+      }
+    ]
+  },
+  "43": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-43-1",
+          "q": "Si $(2,-1,3)$ es normal a un plano, $(4,-2,6)$ también puede usarse como normal.",
+          "a": true,
+          "explain": "Un múltiplo no nulo conserva la perpendicularidad a los desplazamientos del plano."
+        },
+        {
+          "id": "tf2-43-2",
+          "q": "En $x+2y-z=6$, el número $6$ es la tercera componente de una normal.",
+          "a": false,
+          "explain": "La normal que se lee en los coeficientes es (1,2,−1); el 6 es la constante."
+        },
+        {
+          "id": "tf2-43-3",
+          "q": "El plano $x=-3$ permite cualquier valor de $y$ y de $z$.",
+          "a": true,
+          "explain": "La única restricción es que la primera coordenada sea −3."
+        },
+        {
+          "id": "tf2-43-4",
+          "q": "Al pasar $2x-y+z=5$ a la forma con cero a la derecha, el término independiente es $+5$.",
+          "a": false,
+          "explain": "Queda 2x−y+z−5=0, con término independiente −5."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-43-1",
+          "q": "Para $P_0=(-1,2,0)$ y $\\mathbf n=(3,1,-2)$, ¿cuánto vale $d$ en $3x+y-2z=d$?",
+          "options": [
+            "$d=1$",
+            "$d=5$",
+            "$d=-1$",
+            "$d=-5$"
+          ],
+          "correctIndex": 2,
+          "explain": "El producto escalar da 3·(−1)+1·2−2·0=−1."
+        },
+        {
+          "id": "mc2-43-2",
+          "q": "¿Qué ecuación punto-normal usa correctamente $P_0=(1,-2,4)$ y $\\mathbf n=(2,3,-1)$?",
+          "options": [
+            "$2(x-1)+3(y+2)-(z-4)=0$",
+            "$2(x+1)+3(y-2)-(z+4)=0$",
+            "$2(x-1)+3(y-2)-(z-4)=0$",
+            "$2(x-1)+3(y+2)+(z-4)=0$"
+          ],
+          "correctIndex": 0,
+          "explain": "Cada paréntesis resta la coordenada del punto; la tercera componente de la normal es −1."
+        },
+        {
+          "id": "mc2-43-3",
+          "q": "¿Qué plano tiene normal $(0,1,0)$ y pasa por $(2,-4,1)$?",
+          "options": [
+            "$x=2$",
+            "$z=1$",
+            "$y=4$",
+            "$y=-4$"
+          ],
+          "correctIndex": 3,
+          "explain": "La condición punto-normal es y−(−4)=0, es decir, y=−4."
+        },
+        {
+          "id": "mc2-43-4",
+          "q": "¿Qué ecuación describe el mismo plano que $x-2y+3z=4$?",
+          "options": [
+            "$2x-4y+6z=4$",
+            "$-x+2y-3z=-4$",
+            "$-x+2y+3z=-4$",
+            "$x-2y+3z=-4$"
+          ],
+          "correctIndex": 1,
+          "explain": "La segunda opción multiplica ambos lados de la ecuación original por −1."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-43-1",
+          "q": "El plano tiene normal $(1,2,-1)$ y contiene $P=(0,1,1)$. Marcá las afirmaciones válidas.",
+          "options": [
+            "Su ecuación es $x+2y-z=1$",
+            "El punto $(1,0,0)$ pertenece",
+            "El punto $(0,0,0)$ pertenece",
+            "El vector $(2,4,-2)$ es otra normal",
+            "Su ecuación es $x+2y-z=0$"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            3
+          ],
+          "explain": "La constante es 0+2−1=1. El punto (1,0,0) la cumple y la normal doble es válida; el origen no pertenece."
+        },
+        {
+          "id": "ms2-43-2",
+          "q": "Marcá los puntos que pertenecen al plano $-x+y+z=2$; puede no haber ninguno.",
+          "options": [
+            "$(0,0,0)$",
+            "$(1,1,1)$",
+            "$(2,1,1)$",
+            "$(0,1,2)$",
+            "$(-1,2,1)$"
+          ],
+          "correctIndexes": [],
+          "explain": "El lado izquierdo toma los valores 0, 1, 0, 3 y 4, respectivamente. Ninguno es 2."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-43-1",
+        "front": "¿Qué expresa (X−P)·n=0?",
+        "back": "Que el desplazamiento desde $P$ hasta $X$ es perpendicular a la normal $\\mathbf n$."
+      },
+      {
+        "id": "fc2-43-2",
+        "front": "¿La normal puede tener ceros?",
+        "back": "Sí. Puede tener una o dos componentes nulas; lo que no puede ser es el vector cero."
+      },
+      {
+        "id": "fc2-43-3",
+        "front": "Cambio de signo del término independiente",
+        "back": "$ax+by+cz=d$ equivale a $ax+by+cz-d=0$."
+      },
+      {
+        "id": "fc2-43-4",
+        "front": "Normal de un plano z=k",
+        "back": "Podés usar $(0,0,1)$: solo la tercera coordenada queda fija."
+      },
+      {
+        "id": "fc2-43-5",
+        "front": "Chequeo de una ecuación obtenida",
+        "back": "Reemplazá el punto dado y comprobá que los coeficientes formen una normal proporcional a la indicada."
+      },
+      {
+        "id": "fc2-43-6",
+        "front": "Multiplicar la ecuación de un plano",
+        "back": "Un factor no nulo conserva el plano si multiplicás todos los términos y ambos lados."
+      }
+    ]
+  },
+  "44": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-44-1",
+          "q": "Los planos $2x-y+z=3$ y $-4x+2y-2z=-6$ son coincidentes.",
+          "a": true,
+          "explain": "Toda la segunda ecuación es −2 veces la primera, incluida la constante."
+        },
+        {
+          "id": "tf2-44-2",
+          "q": "Para obtener una normal por tres puntos, podés usar el producto escalar de los dos desplazamientos.",
+          "a": false,
+          "explain": "El producto escalar da un número; necesitás el producto vectorial no nulo para obtener una normal."
+        },
+        {
+          "id": "tf2-44-3",
+          "q": "Si usás otro de los tres puntos como apoyo, debés conservar las coordenadas del punto anterior en los paréntesis.",
+          "a": false,
+          "explain": "La ecuación punto-normal resta las coordenadas del punto que elegiste en ese paso."
+        },
+        {
+          "id": "tf2-44-4",
+          "q": "Con normales no nulas, un producto vectorial entre normales igual a cero indica orientaciones paralelas.",
+          "a": true,
+          "explain": "El producto vectorial cero equivale a que las normales sean proporcionales."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-44-1",
+          "q": "Para $A=(1,0,0)$, $B=(1,1,0)$ y $C=(1,0,2)$, ¿qué ecuación corresponde al plano?",
+          "options": [
+            "$y=1$",
+            "$z=1$",
+            "$x=1$",
+            "$x=0$"
+          ],
+          "correctIndex": 2,
+          "explain": "Los puntos son no colineales y comparten x=1; una normal es (1,0,0)."
+        },
+        {
+          "id": "mc2-44-2",
+          "q": "¿Cuál es el producto $(2,0,0)\\times(0,0,3)$?",
+          "options": [
+            "$(0,-6,0)$",
+            "$(0,6,0)$",
+            "$(6,0,0)$",
+            "$(0,0,6)$"
+          ],
+          "correctIndex": 0,
+          "explain": "La componente y vale 0·0−2·3=−6; las otras dos son cero."
+        },
+        {
+          "id": "mc2-44-3",
+          "q": "¿Qué plano es paralelo y distinto de $2x+y-z=4$?",
+          "options": [
+            "$4x+2y-2z=8$",
+            "$2x-y-z=4$",
+            "$x+2y-z=4$",
+            "$4x+2y-2z=3$"
+          ],
+          "correctIndex": 3,
+          "explain": "La última normal es el doble, pero la constante no es 8. La primera opción representa el mismo plano."
+        },
+        {
+          "id": "mc2-44-4",
+          "q": "Los puntos $A=(0,1,0)$, $B=(1,2,1)$ y $C=(2,3,2)$ tienen desplazamientos proporcionales. ¿Qué concluís?",
+          "options": [
+            "Determinan un plano único",
+            "No determinan un plano único",
+            "Producen una normal no nula",
+            "Son tres puntos no alineados"
+          ],
+          "correctIndex": 1,
+          "explain": "B−A=(1,1,1) y C−A=(2,2,2); los tres puntos están en una recta."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-44-1",
+          "q": "Para $A=(0,0,0)$, $B=(1,0,1)$ y $C=(0,1,1)$, marcá las afirmaciones correctas.",
+          "options": [
+            "$B-A=(1,0,1)$",
+            "$C-A=(0,1,1)$",
+            "$(-1,-1,1)$ es una normal",
+            "El plano es $x+y-z=0$",
+            "El plano es $x+y+z=0$"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explain": "El producto vectorial es (−1,−1,1). La ecuación equivalente x+y−z=0 contiene los tres puntos; la última no contiene B ni C."
+        },
+        {
+          "id": "ms2-44-2",
+          "q": "Compará $\\pi_1:x+3y-2z=5$ y $\\pi_2:-2x-6y+4z=7$. Marcá las conclusiones válidas.",
+          "options": [
+            "Las normales tienen factor $-2$",
+            "El producto vectorial de normales es cero",
+            "Los planos son coincidentes",
+            "Los planos son paralelos distintos",
+            "Para coincidir, la segunda constante sería $-10$"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "explain": "Las normales son proporcionales con factor −2; como 7 no es −10, los planos son distintos."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-44-1",
+        "front": "¿Por qué dos desplazamientos dan una normal?",
+        "back": "Su producto vectorial es perpendicular a ambos; si no es cero, sirve como normal del plano que generan."
+      },
+      {
+        "id": "fc2-44-2",
+        "front": "¿Qué pasa al invertir el producto vectorial?",
+        "back": "La normal cambia de signo. El plano sigue siendo el mismo si usás correctamente la ecuación punto-normal."
+      },
+      {
+        "id": "fc2-44-3",
+        "front": "Puntos alineados y unicidad",
+        "back": "Tres puntos alineados pertenecen a muchos planos; por sí solos no seleccionan uno único."
+      },
+      {
+        "id": "fc2-44-4",
+        "front": "Cambiar el punto de apoyo al escribir un plano",
+        "back": "Restá las coordenadas del nuevo punto en los tres paréntesis; la ecuación final debe ser equivalente."
+      },
+      {
+        "id": "fc2-44-5",
+        "front": "Normales proporcionales, constantes no proporcionales",
+        "back": "Los planos tienen la misma orientación, pero son paralelos distintos."
+      },
+      {
+        "id": "fc2-44-6",
+        "front": "Cómo revisar una normal copiada de una ecuación",
+        "back": "Leé, en orden, los coeficientes de $x$, $y$ y $z$ con sus signos. La constante no forma parte de la normal."
+      }
+    ]
+  },
+  "45": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-45-1",
+          "q": "Los planos $z=2$ y $3z=6$ tienen como intersección una única recta.",
+          "a": false,
+          "explain": "Son dos ecuaciones del mismo plano; su intersección es el plano completo."
+        },
+        {
+          "id": "tf2-45-2",
+          "q": "Cambiar el orden de las normales en el producto vectorial conserva la recta si mantenés un punto común.",
+          "a": true,
+          "explain": "La dirección cambia de signo, pero el conjunto de puntos de la recta sigue siendo el mismo."
+        },
+        {
+          "id": "tf2-45-3",
+          "q": "Tres vectores coplanares deben ser paralelos entre sí.",
+          "a": false,
+          "explain": "Pueden incluir dos direcciones independientes; por ejemplo, $(1,0,0)$, $(0,1,0)$ y $(1,1,0)$."
+        },
+        {
+          "id": "tf2-45-4",
+          "q": "Un producto triple no nulo impide que los tres vectores estén en un plano por el origen.",
+          "a": true,
+          "explain": "El producto triple no nulo indica tres vectores linealmente independientes."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-45-1",
+          "q": "¿Cuál es una dirección de la intersección de $x=1$ y $z=3$?",
+          "options": [
+            "$(1,0,0)$",
+            "$(1,0,1)$",
+            "$(0,0,1)$",
+            "$(0,1,0)$"
+          ],
+          "correctIndex": 3,
+          "explain": "La coordenada $y$ es libre; variar en dirección $(0,1,0)$ conserva $x=1$ y $z=3$."
+        },
+        {
+          "id": "mc2-45-2",
+          "q": "Si $\\mathbf u=(1,0,1)$, $\\mathbf v=(0,1,1)$ y $\\mathbf w=(2,1,k)$, ¿cuándo son coplanares?",
+          "options": [
+            "$k=1$",
+            "$k=2$",
+            "$k=3$",
+            "$k=4$"
+          ],
+          "correctIndex": 2,
+          "explain": "El producto vectorial es $(-1,-1,1)$ y el triple vale $-2-1+k$, que se anula en $k=3$."
+        },
+        {
+          "id": "mc2-45-3",
+          "q": "¿Qué punto está en ambos planos $x-z=2$ y $y+z=5$?",
+          "options": [
+            "$(2,5,1)$",
+            "$(3,4,1)$",
+            "$(3,5,1)$",
+            "$(1,4,1)$"
+          ],
+          "correctIndex": 1,
+          "explain": "Para $(3,4,1)$, $3-1=2$ y $4+1=5$."
+        },
+        {
+          "id": "mc2-45-4",
+          "q": "¿Qué relación tienen $2x+y-z=4$ y $-6x-3y+3z=-12$?",
+          "options": [
+            "Son coincidentes",
+            "Son paralelos distintos",
+            "Se cortan en una recta",
+            "Se cortan en un punto"
+          ],
+          "correctIndex": 0,
+          "explain": "La segunda ecuación es exactamente $-3$ veces la primera, incluido el término independiente."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-45-1",
+          "q": "Si $(\\mathbf u\\times\\mathbf v)\\cdot\\mathbf w\\neq0$, marcá lo que podés asegurar.",
+          "options": [
+            "Los tres vectores son independientes.",
+            "Los tres vectores son coplanares.",
+            "Ninguno de los tres vectores es nulo.",
+            "El producto vectorial inicial es nulo.",
+            "Ningún par de esos vectores es paralelo."
+          ],
+          "correctIndexes": [
+            0,
+            2,
+            4
+          ],
+          "explain": "Un triple no nulo equivale a independencia lineal de los tres; excluye vectores nulos y pares paralelos."
+        },
+        {
+          "id": "ms2-45-2",
+          "q": "Para los planos $x=2$ e $y=-1$, elegí las parametrizaciones de su intersección.",
+          "options": [
+            "$\\mathbf X=(2,-1,0)+t(0,0,1)$",
+            "$\\mathbf X=(2,-1,3)+t(0,0,-2)$",
+            "$\\mathbf X=(2,-1,0)+t(1,0,0)$",
+            "$\\mathbf X=(2,1,0)+t(0,0,1)$",
+            "$\\mathbf X=(0,-1,2)+t(0,0,1)$"
+          ],
+          "correctIndexes": [
+            0,
+            1
+          ],
+          "explain": "La intersección tiene $x=2$, $y=-1$ y $z$ libre. Las dos primeras recorren todos esos puntos; las demás violan alguna coordenada fija."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-45-1",
+        "front": "¿Puede una intersección de dos planos ser exactamente un punto?",
+        "back": "No, en $\\mathbb R^3$ dos planos válidos pueden compartir una recta, coincidir o no compartir puntos."
+      },
+      {
+        "id": "fc2-45-2",
+        "front": "¿Por qué una dirección común es ortogonal a ambas normales?",
+        "back": "Porque desplazarte en esa dirección debe mantenerte dentro de cada plano."
+      },
+      {
+        "id": "fc2-45-3",
+        "front": "¿Qué control hacés si al fijar una coordenada aparece una contradicción?",
+        "back": "No descartes la intersección todavía: esa coordenada puede no ser libre. Resolvé el sistema e identificá una variable libre real."
+      },
+      {
+        "id": "fc2-45-4",
+        "front": "¿Qué representa el valor absoluto del producto triple?",
+        "back": "El volumen del paralelepípedo generado por los tres vectores. Volumen cero corresponde a coplanaridad."
+      },
+      {
+        "id": "fc2-45-5",
+        "front": "¿Qué diferencia hay entre producto vectorial y producto triple?",
+        "back": "El producto vectorial devuelve un vector. Al hacer su producto escalar con el tercero, obtenés un número: el producto triple."
+      },
+      {
+        "id": "fc2-45-6",
+        "front": "¿Qué ecuación describe el plano generado por dos vectores independientes?",
+        "back": "$(\\mathbf u\\times\\mathbf v)\\cdot\\mathbf X=0$. Es un plano por el origen con normal no nula."
+      }
+    ]
+  },
+  "46": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-46-1",
+          "q": "Si $(P-R)\\times\\mathbf v=0$ y $\\mathbf v\\neq0$, el punto $P$ pertenece a la recta $R+t\\mathbf v$.",
+          "a": true,
+          "explain": "El desplazamiento es paralelo a la dirección, incluido el caso de desplazamiento cero."
+        },
+        {
+          "id": "tf2-46-2",
+          "q": "Cambiar $(P-R)\\times\\mathbf v$ por $\\mathbf v\\times(P-R)$ cambia la distancia.",
+          "a": false,
+          "explain": "El producto cambia de signo pero mantiene su norma, por lo que la distancia no cambia."
+        },
+        {
+          "id": "tf2-46-3",
+          "q": "El denominador del parámetro del pie es $\\mathbf v\\cdot\\mathbf v$.",
+          "a": true,
+          "explain": "Sale de imponer $(P-R-t\\mathbf v)\\cdot\\mathbf v=0$ y despejar $t$."
+        },
+        {
+          "id": "tf2-46-4",
+          "q": "Si el producto escalar $(P-R)\\cdot\\mathbf v$ es cero, la distancia también debe ser cero.",
+          "a": false,
+          "explain": "El producto cero hace que $R$ sea el pie; la distancia puede ser positiva y vale $\\|P-R\\|$."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-46-1",
+          "q": "¿Cuál es la distancia de $P=(3,4,7)$ al eje $z$?",
+          "options": [
+            "$4$",
+            "$5$",
+            "$7$",
+            "$\\sqrt{74}$"
+          ],
+          "correctIndex": 1,
+          "explain": "El pie es $(0,0,7)$; la distancia es $\\sqrt{3^2+4^2}=5$."
+        },
+        {
+          "id": "mc2-46-2",
+          "q": "Para $r:\\mathbf X=(1,0,0)+t(2,0,0)$ y $P=(5,3,0)$, ¿cuánto vale $t_*$?",
+          "options": [
+            "$\\frac12$",
+            "$1$",
+            "$3$",
+            "$2$"
+          ],
+          "correctIndex": 3,
+          "explain": "$P-R=(4,3,0)$ y $t_*=(8)/(4)=2$."
+        },
+        {
+          "id": "mc2-46-3",
+          "q": "¿Cuál es la distancia de $P=(2,-1,4)$ a $r:\\mathbf X=(2,-1,0)+t(0,0,2)$?",
+          "options": [
+            "$0$",
+            "$2$",
+            "$4$",
+            "$8$"
+          ],
+          "correctIndex": 0,
+          "explain": "$P$ pertenece a la recta: obtenés ese punto con $t=2$, así que la distancia es cero."
+        },
+        {
+          "id": "mc2-46-4",
+          "q": "Si $\\|(P-R)\\times\\mathbf v\\|=10$ y $\\mathbf v=(0,3,4)$, ¿cuál es la distancia?",
+          "options": [
+            "$1$",
+            "$5$",
+            "$2$",
+            "$10$"
+          ],
+          "correctIndex": 2,
+          "explain": "La norma de la dirección es $5$, por lo que la distancia resulta $10/5=2$."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-46-1",
+          "q": "Para $P=(0,3,4)$ y el eje $x$, marcá las afirmaciones verdaderas.",
+          "options": [
+            "La distancia mínima es $3$.",
+            "El pie perpendicular es $(3,0,0)$.",
+            "El punto dado pertenece a la recta.",
+            "La distancia mínima es $7$.",
+            "El parámetro del pie vale siempre $5$."
+          ],
+          "correctIndexes": [],
+          "explain": "Ninguna es verdadera. El pie es $(0,0,0)$ y la distancia es $\\sqrt{9+16}=5$. Para la parametrización usual, el parámetro del pie es cero."
+        },
+        {
+          "id": "ms2-46-2",
+          "q": "Para $r:\\mathbf X=(0,1,0)+t(1,0,0)$ y $P=(2,4,0)$, elegí las igualdades correctas.",
+          "options": [
+            "$P-R=(2,3,0)$",
+            "$t_*=2$",
+            "$M=(2,1,0)$",
+            "$\\operatorname{dist}(P,r)=\\sqrt{13}$",
+            "$\\|(P-R)\\times\\mathbf v\\|=2$"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2
+          ],
+          "explain": "La dirección es $(1,0,0)$: $t_*=2$, el pie es $(2,1,0)$ y la distancia es $3$. El producto vectorial es $(0,0,-3)$, de norma $3$."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-46-1",
+        "front": "¿Por qué la distancia es una altura?",
+        "back": "Porque el área $\\|(P-R)\\times\\mathbf v\\|$ es base $\\|\\mathbf v\\|$ por altura perpendicular a la recta."
+      },
+      {
+        "id": "fc2-46-2",
+        "front": "¿Qué obtenés si usás una dirección unitaria?",
+        "back": "El denominador de la fórmula de distancia vale $1$, así que alcanza con la norma del producto vectorial."
+      },
+      {
+        "id": "fc2-46-3",
+        "front": "¿Qué significa $(P-R)\\cdot\\mathbf v=0$?",
+        "back": "Que $R$ ya es el pie perpendicular de $P$ sobre la recta. La distancia es $\\|P-R\\|$."
+      },
+      {
+        "id": "fc2-46-4",
+        "front": "¿Cómo cambia el parámetro del pie al duplicar la dirección?",
+        "back": "Se divide por dos. El pie geométrico y la distancia no cambian."
+      },
+      {
+        "id": "fc2-46-5",
+        "front": "¿Qué revisás antes de usar un punto como base de la recta?",
+        "back": "Que realmente pertenezca a ella. Un punto arbitrario puede producir una recta paralela distinta."
+      },
+      {
+        "id": "fc2-46-6",
+        "front": "¿Qué dos datos necesitás si querés la distancia a partir del pie?",
+        "back": "El punto dado $P$ y su pie perpendicular $M$: calculás la norma de $P-M$."
+      }
+    ]
+  },
+  "47": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-47-1",
+          "q": "La ecuación $0x+0y+0z=1$ define un plano al que se aplica la fórmula de distancia.",
+          "a": false,
+          "explain": "No define un plano: es una igualdad imposible y su supuesto vector normal es cero."
+        },
+        {
+          "id": "tf2-47-2",
+          "q": "Si $P$ no pertenece al plano, el vector que une su pie perpendicular con $P$ es paralelo a una normal del plano.",
+          "a": true,
+          "explain": "El desplazamiento no nulo desde el pie hasta $P$ sigue la dirección perpendicular al plano."
+        },
+        {
+          "id": "tf2-47-3",
+          "q": "Quitar el valor absoluto siempre mantiene correcta la distancia punto-plano.",
+          "a": false,
+          "explain": "La evaluación puede ser negativa; sin valor absoluto obtendrías una distancia con signo."
+        },
+        {
+          "id": "tf2-47-4",
+          "q": "Si un punto está en el plano, su pie perpendicular es el mismo punto.",
+          "a": true,
+          "explain": "El factor $\\mathbf n\\cdot P-d$ se anula, así que la fórmula del pie da $H=P$."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-47-1",
+          "q": "¿Cuál es la distancia de $P=(-2,1,0)$ al plano $x=1$?",
+          "options": [
+            "$1$",
+            "$-3$",
+            "$3$",
+            "$2$"
+          ],
+          "correctIndex": 2,
+          "explain": "La distancia es $|-2-1|=3$, nunca $-3$."
+        },
+        {
+          "id": "mc2-47-2",
+          "q": "¿Qué denominador corresponde al plano $3x+4y-12z=7$ en la fórmula de distancia?",
+          "options": [
+            "$13$",
+            "$19$",
+            "$\\sqrt{218}$",
+            "$169$"
+          ],
+          "correctIndex": 0,
+          "explain": "La normal es $(3,4,-12)$ y su norma es $\\sqrt{9+16+144}=13$."
+        },
+        {
+          "id": "mc2-47-3",
+          "q": "¿Cuál es la distancia de $P=(1,1,1)$ al plano $x+2y+2z=-1$?",
+          "options": [
+            "$1$",
+            "$\\frac53$",
+            "$3$",
+            "$2$"
+          ],
+          "correctIndex": 3,
+          "explain": "El numerador es $|1+2+2-(-1)|=6$ y el denominador es $3$."
+        },
+        {
+          "id": "mc2-47-4",
+          "q": "¿Cuál es el pie de $P=(2,5,-1)$ sobre el plano $y=2$?",
+          "options": [
+            "$(0,5,-1)$",
+            "$(2,2,-1)$",
+            "$(2,5,0)$",
+            "$(2,-2,-1)$"
+          ],
+          "correctIndex": 1,
+          "explain": "La dirección perpendicular es la del eje $y$; mantenés $x,z$ y llevás $y$ a $2$."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-47-1",
+          "q": "Para $P=(0,0,0)$ y $\\pi:x+2y+2z=6$, marcá las afirmaciones verdaderas.",
+          "options": [
+            "La distancia al plano es $6$.",
+            "La distancia al plano es $-2$.",
+            "La normal $(1,2,2)$ tiene norma $9$.",
+            "El punto pertenece al plano dado.",
+            "El pie perpendicular es $(6,0,0)$."
+          ],
+          "correctIndexes": [],
+          "explain": "Ninguna es correcta. La norma es $3$, la distancia es $2$ y el pie es $(\\frac23,\\frac43,\\frac43)$. El origen no cumple la ecuación."
+        },
+        {
+          "id": "ms2-47-2",
+          "q": "Para un plano válido, ¿qué verificaciones sirven para controlar un pie candidato $H$ desde $P$?",
+          "options": [
+            "Comprobar que $H$ satisface la ecuación del plano.",
+            "Comprobar que $P-H$ es múltiplo de la normal.",
+            "Comprobar que $\\|P-H\\|$ coincide con la distancia.",
+            "Comprobar que $H$ tiene todas sus coordenadas nulas.",
+            "Comprobar que $P-H$ es una normal unitaria."
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2
+          ],
+          "explain": "Las primeras tres verifican pertenencia, perpendicularidad y longitud. El pie no tiene por qué ser el origen y el desplazamiento no tiene por qué tener norma uno."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-47-1",
+        "front": "¿Qué te dice el signo de $\\mathbf n\\cdot P-d$?",
+        "back": "Qué lado ocupa el punto según la orientación de la normal elegida. Para la distancia geométrica tomás valor absoluto."
+      },
+      {
+        "id": "fc2-47-2",
+        "front": "¿Cómo cambia la distancia si toda la ecuación se multiplica por $5$?",
+        "back": "No cambia: tanto el numerador como la norma del denominador se multiplican por $5$."
+      },
+      {
+        "id": "fc2-47-3",
+        "front": "¿Qué distancia tiene $(x_0,y_0,z_0)$ al plano $z=c$?",
+        "back": "$|z_0-c|$."
+      },
+      {
+        "id": "fc2-47-4",
+        "front": "¿Por qué la fórmula del pie lleva la norma al cuadrado?",
+        "back": "Porque despejás cuánto avanzar en dirección $\\mathbf n$; al imponer la ecuación aparece $\\mathbf n\\cdot\\mathbf n=\\|\\mathbf n\\|^2$."
+      },
+      {
+        "id": "fc2-47-5",
+        "front": "¿Qué pasa si solo multiplicás el lado izquierdo de la ecuación?",
+        "back": "En general cambiás el plano. Para mantenerlo tenés que multiplicar también el término independiente por el mismo escalar no nulo."
+      },
+      {
+        "id": "fc2-47-6",
+        "front": "¿Cuándo puede usarse directamente $|\\mathbf n\\cdot P-d|$ como distancia?",
+        "back": "Cuando la ecuación está normalizada y $\\|\\mathbf n\\|=1$."
+      }
+    ]
+  },
 };
