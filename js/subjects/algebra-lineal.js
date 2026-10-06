@@ -18,8 +18,11 @@
  * Unidad '6' (secciones 42-47): síntesis y ejemplos originales de rectas,
  * planos, intersecciones y distancias. Fuentes y erratas indicadas por sección.
  *
+ * Unidad '7' (secciones 54-57): operaciones, axiomas y subespacios,
+ * con ejemplos y autoevaluaciones originales basados en el apunte.
+ *
  * Unidad '8' (secciones 48-53): combinaciones, generación e independencia,
- * con desarrollos originales y correcciones de erratas. Unidad 7 pendiente.
+ * con desarrollos originales y correcciones de erratas.
  *
  * Secciones de práctica (31-34): las guías de ejercitación y las actividades
  * calificadas publicadas en Blackboard, con su desarrollo. Las erratas de la
@@ -39,7 +42,7 @@ export default {
   id: 'algebra-lineal',
   title: 'Álgebra Lineal',
   subtitle: 'Teoría de números, ecuaciones diofánticas e inducción — Apuntes',
-  tagline: 'Divisibilidad · Algoritmo de Euclides · Matrices y determinantes · Ecuaciones diofánticas · Congruencia · Inducción matemática · Rectas y planos · Combinaciones lineales e independencia',
+  tagline: 'Divisibilidad · Algoritmo de Euclides · Matrices y determinantes · Ecuaciones diofánticas · Congruencia · Inducción matemática · Rectas y planos · Espacios vectoriales · Combinaciones lineales e independencia',
   units: {
     '1': 'Números enteros',
     '2': 'Ecuaciones diofánticas y ecuaciones de congruencias',
@@ -47,6 +50,7 @@ export default {
     '4': 'Vectores en el plano',
     '5': 'Vectores en el espacio',
     '6': 'Rectas y planos',
+    '7': 'Espacios vectoriales',
     '8': 'Combinaciones entre vectores',
   },
   sections: [
@@ -7331,6 +7335,1173 @@ export default {
       ]
     },
     {
+      "id": "54",
+      "unit": "7",
+      "title": "Operaciones y axiomas de un espacio vectorial real",
+      "criollo": "Un espacio vectorial es un conjunto donde sumar y multiplicar por números reales funciona con reglas precisas. No alcanza con que los objetos parezcan flechitas: importan el conjunto y sus operaciones.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Para hablar de un espacio vectorial real necesitás un conjunto $V$ y dos operaciones: sumar dos elementos de $V$ y multiplicar un elemento de $V$ por un número real. A los elementos los llamamos vectores; a los números que multiplican, escalares."
+        },
+        {
+          "type": "math",
+          "latex": "+:V\\times V\\longrightarrow V,\\qquad (u,v)\\longmapsto u+v.",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "\\mathbb R\\times V\\longrightarrow V,\\qquad (\\alpha,u)\\longmapsto \\alpha u.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "La palabra “real” indica de dónde salen los escalares: de los números reales. Las reglas que siguen tienen que valer para todos los vectores y todos los escalares correspondientes, no solamente para algunos ejemplos."
+        },
+        {
+          "type": "h3",
+          "text": "Las cinco reglas de la suma",
+          "criollo": "Podés cambiar el orden o agrupar distinto, pero nunca salirte del conjunto."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Regla",
+            "Qué exige"
+          ],
+          "rows": [
+            [
+              "Cerradura",
+              "Si $u,v\\in V$, entonces $u+v\\in V$"
+            ],
+            [
+              "Asociatividad",
+              "$(u+v)+w=u+(v+w)$"
+            ],
+            [
+              "Vector cero",
+              "Existe $\\mathbf0\\in V$ con $u+\\mathbf0=\\mathbf0+u=u$"
+            ],
+            [
+              "Opuesto",
+              "Para cada $u\\in V$ existe $-u\\in V$ con $u+(-u)=\\mathbf0$"
+            ],
+            [
+              "Conmutatividad",
+              "$u+v=v+u$"
+            ]
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Las cinco reglas con escalares",
+          "criollo": "El número multiplica al vector completo y respeta las dos distributivas."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Regla",
+            "Qué exige"
+          ],
+          "rows": [
+            [
+              "Cerradura",
+              "$\\alpha u\\in V$ para $u\\in V$ y $\\alpha\\in\\mathbb R$"
+            ],
+            [
+              "Distribuir sobre vectores",
+              "$\\alpha(u+v)=\\alpha u+\\alpha v$"
+            ],
+            [
+              "Distribuir sobre escalares",
+              "$(\\alpha+\\beta)u=\\alpha u+\\beta u$"
+            ],
+            [
+              "Asociar productos",
+              "$\\alpha(\\beta u)=(\\alpha\\beta)u$"
+            ],
+            [
+              "Escalar identidad",
+              "$1u=u$"
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "criollo",
+          "text": "No confundas las dos distributivas: una reparte un escalar sobre una suma de vectores; la otra reparte una suma de escalares sobre un vector."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo propio: seguir las operaciones",
+          "criollo": "Hacé la cuenta por coordenadas y fijate qué regla aparece."
+        },
+        {
+          "type": "p",
+          "text": "En $\\mathbb R^2$, con las operaciones habituales, tomá $u=(2,-1)$, $v=(-3,4)$ y $\\alpha=-2$."
+        },
+        {
+          "type": "math",
+          "latex": "u+v=(2-3,-1+4)=(-1,3),\\qquad \\alpha u=-2(2,-1)=(-4,2).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Para comprobar la primera distributiva en estos valores, calculá ambos lados por separado:"
+        },
+        {
+          "type": "math",
+          "latex": "\\alpha(u+v)=-2(-1,3)=(2,-6).",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "\\alpha u+\\alpha v=(-4,2)+(6,-8)=(2,-6).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Los resultados coinciden. Esto ilustra la regla; la justificación general para todos los pares se obtiene aplicando las propiedades de los números reales en cada coordenada."
+        },
+        {
+          "type": "h3",
+          "text": "Cómo se decide si realmente es un espacio",
+          "criollo": "Un contraejemplo alcanza para rechazar; varios aciertos no alcanzan para demostrar."
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Identificá el conjunto y las dos operaciones que estás usando",
+            "Revisá que las operaciones no produzcan resultados afuera del conjunto",
+            "Si querés afirmar que es un espacio, justificá todas las reglas",
+            "Si encontrás una regla que falla, mostrala con datos concretos y ya podés descartarlo"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Los axiomas no piden multiplicar dos vectores entre sí. El producto que aparece acá tiene un escalar y un vector."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo (UP), “Espacios vectoriales”, páginas 1–2. Explicaciones, ejemplos y actividades de elaboración original."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "q": "En un espacio vectorial real, los escalares pueden ser negativos.",
+            "a": true,
+            "explain": "Los escalares recorren todos los números reales, incluidos los negativos.",
+            "id": "tf-54-1"
+          },
+          {
+            "q": "La cerradura bajo la suma permite que el resultado quede fuera del conjunto.",
+            "a": false,
+            "explain": "La cerradura exige que la suma vuelva a pertenecer al mismo conjunto.",
+            "id": "tf-54-2"
+          },
+          {
+            "q": "El axioma $1u=u$ debe cumplirse para cada vector del espacio.",
+            "a": true,
+            "explain": "No es una condición para un caso particular: vale para todo u.",
+            "id": "tf-54-3"
+          },
+          {
+            "q": "Para definir un espacio vectorial hay que dar un producto entre dos vectores.",
+            "a": false,
+            "explain": "Se necesitan suma de vectores y multiplicación por escalares.",
+            "id": "tf-54-4"
+          }
+        ],
+        "mc": [
+          {
+            "q": "Si $u=(3,-2)$ y $v=(-1,5)$, ¿cuánto da $u+v$?",
+            "options": [
+              "$(2,3)$",
+              "$(4,-7)$",
+              "$(-3,-10)$",
+              "$(2,-7)$"
+            ],
+            "correctIndex": 0,
+            "explain": "Se suman las componentes: 3−1=2 y −2+5=3.",
+            "id": "mc-54-1"
+          },
+          {
+            "q": "¿Qué igualdad expresa la conmutatividad de la suma?",
+            "options": [
+              "$(u+v)+w=u+(v+w)$",
+              "$u+v=v+u$",
+              "$1u=u$",
+              "$u+(-u)=0$"
+            ],
+            "correctIndex": 1,
+            "explain": "La conmutatividad cambia el orden de los sumandos.",
+            "id": "mc-54-2"
+          },
+          {
+            "q": "¿Cuál es la expansión de $(a+b)u$ que exige un axioma?",
+            "options": [
+              "$(a-b)u$",
+              "$(ab)u$",
+              "$au+bu$",
+              "$au-bu$"
+            ],
+            "correctIndex": 2,
+            "explain": "La suma de los escalares se distribuye: cada uno multiplica al mismo vector.",
+            "id": "mc-54-3"
+          },
+          {
+            "q": "Si $u=(-2,3)$, ¿cuánto vale $-3u$?",
+            "options": [
+              "$(-6,9)$",
+              "$(6,9)$",
+              "$(-6,-9)$",
+              "$(6,-9)$"
+            ],
+            "correctIndex": 3,
+            "explain": "El escalar −3 multiplica las dos coordenadas.",
+            "id": "mc-54-4"
+          }
+        ],
+        "ms": [
+          {
+            "q": "Marcá las exigencias que forman parte de los axiomas.",
+            "options": [
+              "La suma de dos vectores del conjunto permanece en él",
+              "El escalar 1 deja igual a cualquier vector",
+              "Cada vector tiene un opuesto dentro del conjunto",
+              "Todos los vectores tienen componentes positivas",
+              "El conjunto tiene exactamente dos elementos"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "Las primeras tres son axiomas. No se exige positividad ni una cantidad fija de elementos.",
+            "id": "ms-54-1"
+          },
+          {
+            "q": "¿Cuáles son requisitos de los escalares en un espacio vectorial real?",
+            "options": [
+              "Ser siempre positivos",
+              "Ser siempre enteros",
+              "Ser siempre distintos de cero",
+              "Ser siempre mayores que 1",
+              "Ser siempre iguales entre sí"
+            ],
+            "correctIndexes": [],
+            "explain": "Ninguna de esas restricciones corresponde: los escalares pueden ser cualesquiera números reales.",
+            "id": "ms-54-2"
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "front": "¿Qué datos definen la estructura que querés estudiar?",
+          "back": "Un conjunto de vectores, una suma y una multiplicación por escalares.",
+          "id": "fc-54-1"
+        },
+        {
+          "front": "¿Qué quiere decir cerradura?",
+          "back": "Que operar con elementos permitidos produce otro elemento del mismo conjunto.",
+          "id": "fc-54-2"
+        },
+        {
+          "front": "¿En qué se diferencian asociatividad y conmutatividad?",
+          "back": "Asociar cambia los paréntesis; conmutar cambia el orden.",
+          "id": "fc-54-3"
+        },
+        {
+          "front": "¿Cómo actúa el vector cero en la suma?",
+          "back": "No modifica al otro vector: u + 0 = u.",
+          "id": "fc-54-4"
+        },
+        {
+          "front": "¿Qué significa que el espacio sea real?",
+          "back": "Que los escalares pertenecen a los números reales.",
+          "id": "fc-54-5"
+        },
+        {
+          "front": "¿Cuántas reglas deben cumplirse para afirmar que es un espacio con esta definición?",
+          "back": "Las diez; para descartarlo alcanza una que falle.",
+          "id": "fc-54-6"
+        }
+      ]
+    },
+    {
+      "id": "55",
+      "unit": "7",
+      "title": "Ejemplos y propiedades del cero y opuestos",
+      "criollo": "El cero y los opuestos no son detalles sueltos: salen de las reglas del espacio. Separá el número 0 del vector cero, y acordate de que un escalar no nulo no puede convertir un vector no nulo en cero.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Con la suma y el producto por escalares habituales, $\\mathbb R^n$ es un espacio vectorial real. Se opera coordenada por coordenada; el cero tiene todas sus entradas nulas y el opuesto cambia el signo de cada entrada."
+        },
+        {
+          "type": "math",
+          "latex": "u=(u_1,\\ldots,u_n),\\qquad \\mathbf0=(0,\\ldots,0),\\qquad -u=(-u_1,\\ldots,-u_n).",
+          "display": true
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplos que conviene distinguir",
+          "criollo": "Un conjunto chiquito puede funcionar; lo importante es que respete las reglas."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Conjunto y operaciones usuales",
+            "Conclusión y motivo"
+          ],
+          "rows": [
+            [
+              "$\\{\\mathbf0\\}$",
+              "Es el espacio trivial: sumar o multiplicar por escalares siempre devuelve el cero"
+            ],
+            [
+              "$\\{2\\}\\subseteq\\mathbb R$",
+              "No es espacio: 2+2=4 queda fuera del conjunto"
+            ],
+            [
+              "$L=\\{(t,-2t):t\\in\\mathbb R\\}$",
+              "Es una recta por el origen; las operaciones mantienen esa forma"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "En la recta del ejemplo, sumar dos puntos equivale a sumar sus parámetros. Multiplicar por un escalar equivale a multiplicar el parámetro."
+        },
+        {
+          "type": "math",
+          "latex": "(s,-2s)+(t,-2t)=(s+t,-2(s+t)),\\qquad a(t,-2t)=(at,-2at).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Además, el parámetro 0 da el vector cero y el parámetro −t da el opuesto. Las otras igualdades de las operaciones se heredan de las coordenadas reales."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Corrección de lectura: en el ejemplo 7.3 de la fuente, el resultado 2 queda fuera del conjunto que solo contiene a 1. El símbolo de pertenencia impreso allí es una errata."
+        },
+        {
+          "type": "h3",
+          "text": "Cuatro propiedades que salen de los axiomas",
+          "criollo": "Parecen obvias en coordenadas, pero valen en cualquier espacio vectorial real."
+        },
+        {
+          "type": "math",
+          "latex": "\\alpha\\mathbf0=\\mathbf0,\\qquad 0u=\\mathbf0,\\qquad (-1)u=-u.",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "\\alpha u=\\mathbf0\\quad\\Longrightarrow\\quad \\alpha=0\\ \\text{o}\\ u=\\mathbf0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "En la primera igualdad, el cero que se multiplica es un vector; en la segunda, el 0 que multiplica es un número. La última afirmación permite que sean cero ambos a la vez."
+        },
+        {
+          "type": "h3",
+          "text": "Por qué multiplicar por cero da el vector cero",
+          "criollo": "Desarmá el cero como 0 + 0 y después cancelá sumando el opuesto."
+        },
+        {
+          "type": "math",
+          "latex": "0u=(0+0)u=0u+0u.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Sumá el opuesto de $0u$ a ambos lados. Queda el vector cero de un lado y $0u$ del otro. El mismo razonamiento, partiendo de la suma del vector cero consigo mismo, demuestra que cualquier escalar por el vector cero da el vector cero."
+        },
+        {
+          "type": "math",
+          "latex": "[1+(-1)]u=0u=\\mathbf0\\quad\\Longrightarrow\\quad u+(-1)u=\\mathbf0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Así, multiplicar por −1 produce precisamente el opuesto. Si un escalar distinto de cero multiplicado por un vector da cero, multiplicás ambos lados por el inverso de ese escalar y concluís que el vector era cero."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "En el teorema 7.1(ii) de la fuente hay una expresión tipográfica defectuosa. La propiedad correcta es: el escalar 0 por cualquier vector da el vector cero."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo propio con signos",
+          "criollo": "El signo cambia en todas las coordenadas, también donde ya había un negativo."
+        },
+        {
+          "type": "p",
+          "text": "Para $u=(4,-2,1)$ en $\\mathbb R^3$:"
+        },
+        {
+          "type": "math",
+          "latex": "-u=(-4,2,-1),\\qquad u+(-u)=(0,0,0),\\qquad 0u=(0,0,0).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Si $5v=\\mathbf0$, entonces $v=\\mathbf0$ porque 5 no es cero. Si $0v=\\mathbf0$, en cambio, no podés deducir cuál era $v$."
+        },
+        {
+          "type": "h3",
+          "text": "Cuidado con cambiar de operación",
+          "criollo": "Escalar por vector y matriz por matriz no tienen las mismas conclusiones."
+        },
+        {
+          "type": "p",
+          "text": "La propiedad sobre producto cero se refiere a un escalar multiplicando a un vector. No la traslades automáticamente a un producto entre matrices: dos matrices no nulas pueden dar la matriz nula."
+        },
+        {
+          "type": "math",
+          "latex": "A=\\begin{pmatrix}0&3\\\\0&0\\end{pmatrix},\\qquad B=\\begin{pmatrix}0&-4\\\\0&0\\end{pmatrix},\\qquad AB=\\begin{pmatrix}0&0\\\\0&0\\end{pmatrix}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Por ejemplo, la entrada superior derecha del producto vale 0·(−4)+3·0=0. Las otras tres entradas también son cero, aunque ninguna de las matrices originales sea nula."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo (UP), “Espacios vectoriales”, páginas 3–5. Explicaciones, ejemplos y actividades de elaboración original."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "q": "El conjunto formado solamente por el vector cero es un espacio vectorial.",
+            "a": true,
+            "explain": "Con las operaciones heredadas, toda suma y todo producto por un escalar devuelve el cero.",
+            "id": "tf-55-1"
+          },
+          {
+            "q": "Si $0u=0$, necesariamente $u$ es el vector cero.",
+            "a": false,
+            "explain": "Multiplicar por el escalar 0 da cero para cualquier vector.",
+            "id": "tf-55-2"
+          },
+          {
+            "q": "El opuesto de $(3,-5)$ es $(-3,5)$.",
+            "a": true,
+            "explain": "Se cambia el signo de cada coordenada.",
+            "id": "tf-55-3"
+          },
+          {
+            "q": "Si dos matrices tienen producto nulo, una de ellas tiene que ser nula.",
+            "a": false,
+            "explain": "Existen matrices no nulas cuyo producto es nulo; no es la propiedad de escalar por vector.",
+            "id": "tf-55-4"
+          }
+        ],
+        "mc": [
+          {
+            "q": "Si $u=(-1,4,2)$, ¿cuál es $-u$?",
+            "options": [
+              "$(1,-4,-2)$",
+              "$(1,4,2)$",
+              "$(-1,-4,-2)$",
+              "$(0,0,0)$"
+            ],
+            "correctIndex": 0,
+            "explain": "El opuesto invierte el signo de las tres coordenadas.",
+            "id": "mc-55-1"
+          },
+          {
+            "q": "En un espacio vectorial, $-7v=0$. ¿Qué se puede concluir?",
+            "options": [
+              "$v$ tiene siete componentes",
+              "$v=0$",
+              "$v$ puede ser cualquier vector no nulo",
+              "$v=(-7,-7)$"
+            ],
+            "correctIndex": 1,
+            "explain": "Como −7 es distinto de cero, se puede multiplicar por −1/7 y obtener v=0.",
+            "id": "mc-55-2"
+          },
+          {
+            "q": "¿Qué cálculo muestra que el conjunto $\\{3\\}$ no es cerrado bajo la suma?",
+            "options": [
+              "$3+0=3$",
+              "$1\\cdot3=3$",
+              "$3+3=6$",
+              "$3-0=3$"
+            ],
+            "correctIndex": 2,
+            "explain": "Los dos sumandos pertenecen a {3}, pero el resultado 6 no pertenece.",
+            "id": "mc-55-3"
+          },
+          {
+            "q": "Para $u=(5,-2)$, ¿cuánto vale $u+(-1)u$?",
+            "options": [
+              "$(10,-4)$",
+              "$(4,-3)$",
+              "$(-5,2)$",
+              "$(0,0)$"
+            ],
+            "correctIndex": 3,
+            "explain": "Multiplicar por −1 produce el opuesto, que sumado al vector da cero.",
+            "id": "mc-55-4"
+          }
+        ],
+        "ms": [
+          {
+            "q": "¿Qué igualdades valen en todo espacio vectorial real?",
+            "options": [
+              "$0u=\\mathbf0$",
+              "$a\\mathbf0=\\mathbf0$",
+              "$(-1)u=-u$",
+              "$u+\\mathbf0=\\mathbf0$",
+              "$1u=\\mathbf0$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "Las tres primeras son propiedades generales. Las dos últimas solo valen si u es cero.",
+            "id": "ms-55-1"
+          },
+          {
+            "q": "¿Cuáles de estos conjuntos son espacios con las operaciones usuales?",
+            "options": [
+              "$\\mathbb R^2$",
+              "$\\{(0,0)\\}$",
+              "$\\{(t,-3t):t\\in\\mathbb R\\}$",
+              "$\\{(1,1)\\}$",
+              "$\\{2\\}\\subseteq\\mathbb R$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "El plano completo, el espacio trivial y una recta por el origen cumplen las reglas. Los dos conjuntos unitarios no nulos fallan, por ejemplo, en la suma.",
+            "id": "ms-55-2"
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "front": "¿Cuál es el opuesto de un vector escrito por coordenadas?",
+          "back": "El vector que cambia el signo de cada coordenada.",
+          "id": "fc-55-1"
+        },
+        {
+          "front": "¿Qué contiene el espacio trivial?",
+          "back": "Únicamente el vector cero.",
+          "id": "fc-55-2"
+        },
+        {
+          "front": "¿Qué obtenés al multiplicar cualquier vector por el escalar 0?",
+          "back": "El vector cero del espacio.",
+          "id": "fc-55-3"
+        },
+        {
+          "front": "Si a ≠ 0 y au = 0, ¿qué sabés de u?",
+          "back": "Que u es el vector cero.",
+          "id": "fc-55-4"
+        },
+        {
+          "front": "¿Qué hace el escalar −1?",
+          "back": "Transforma cada vector en su opuesto.",
+          "id": "fc-55-5"
+        },
+        {
+          "front": "¿Por qué el producto cero de matrices exige cuidado?",
+          "back": "Porque dos matrices no nulas pueden tener producto nulo; no es un producto de escalar por vector.",
+          "id": "fc-55-6"
+        }
+      ]
+    },
+    {
+      "id": "56",
+      "unit": "7",
+      "title": "Subespacios y criterio de cerradura",
+      "criollo": "Un subespacio es una parte del espacio que sigue funcionando con las mismas operaciones. Primero buscá el cero; después probá suma y multiplicación por cualquier real. Tener el cero ayuda, pero no alcanza.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Un subespacio $H$ de un espacio vectorial $V$ es un subconjunto no vacío que también es un espacio vectorial usando exactamente la suma y el producto por escalares de $V$. No se cambian las operaciones al pasar de $V$ a $H$."
+        },
+        {
+          "type": "h3",
+          "text": "El criterio que evita revisar diez reglas",
+          "criollo": "Las identidades ya vienen del espacio grande; revisá que los resultados sigan adentro."
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Verificá que $H\\subseteq V$ y que no esté vacío",
+            "Tomá dos elementos cualesquiera $u,v\\in H$ y demostrá que $u+v\\in H$",
+            "Tomá $u\\in H$ y un real cualquiera $a$; demostrá que $au\\in H$"
+          ]
+        },
+        {
+          "type": "math",
+          "latex": "H\\ne\\varnothing,\\qquad u,v\\in H\\Rightarrow u+v\\in H,\\qquad u\\in H,\\ a\\in\\mathbb R\\Rightarrow au\\in H.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "¿Dónde aparecen el cero y los opuestos? Como H no está vacío, elegís un vector de H. Multiplicarlo por 0 pone el vector cero en H; multiplicarlo por −1 pone su opuesto en H. Las demás identidades son las mismas que ya valían en V."
+        },
+        {
+          "type": "callout",
+          "tone": "criollo",
+          "text": "Si falta el vector cero, descartá el conjunto enseguida. Si está, todavía tenés que revisar ambas cerraduras."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo propio: una recta en tres coordenadas",
+          "criollo": "La dirección queda fija; solo cambia el parámetro."
+        },
+        {
+          "type": "math",
+          "latex": "H=\\{(2t,-t,3t):t\\in\\mathbb R\\}\\subseteq\\mathbb R^3.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "El parámetro t=0 produce el cero. Para la suma, elegí parámetros s y t independientes. No los obligues a ser iguales."
+        },
+        {
+          "type": "math",
+          "latex": "(2s,-s,3s)+(2t,-t,3t)=(2(s+t),-(s+t),3(s+t))\\in H.",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "a(2t,-t,3t)=(2(at),-(at),3(at))\\in H.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "En la suma, el nuevo parámetro es s+t. En el producto, el nuevo parámetro es at. Como ambos son reales, las dos operaciones conservan la forma requerida y H es un subespacio."
+        },
+        {
+          "type": "p",
+          "text": "Chequeo numérico: con s=2 y t=−1, sumás (4,−2,6)+(−2,1,−3)=(2,−1,3), que corresponde al parámetro 1. Multiplicar (4,−2,6) por −2 da (−8,4,−12), que corresponde al parámetro −4."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Corrección de lectura del ejemplo 7.6: los coeficientes de la dirección deben quedar fijos y solo varía t. En la suma se usa t₁+t₂ en las tres coordenadas; en el producto se usa el mismo αt₁ en las tres. Si la dirección fija es nula, el conjunto es el subespacio trivial, no una recta."
+        },
+        {
+          "type": "h3",
+          "text": "Otro ejemplo propio: una ecuación homogénea",
+          "criollo": "Si el lado derecho es cero, probá que siga siendo cero al operar."
+        },
+        {
+          "type": "math",
+          "latex": "P=\\{(x,y,z)\\in\\mathbb R^3:x-2y+z=0\\}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "El cero cumple la ecuación. Si u y v la cumplen, la expresión de la suma se separa en dos expresiones que valen cero:"
+        },
+        {
+          "type": "math",
+          "latex": "(u_1+v_1)-2(u_2+v_2)+(u_3+v_3)=(u_1-2u_2+u_3)+(v_1-2v_2+v_3)=0.",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "au_1-2au_2+au_3=a(u_1-2u_2+u_3)=0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Así quedan justificadas las dos cerraduras de P."
+        },
+        {
+          "type": "h3",
+          "text": "Dos maneras de fallar",
+          "criollo": "Un contraejemplo bien elegido ahorra cuentas."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Conjunto",
+            "Qué falla"
+          ],
+          "rows": [
+            [
+              "$\\{(x,y):y=2x+1\\}$",
+              "No contiene (0,0), porque 0 ≠ 1"
+            ],
+            [
+              "$\\{(x,y):x\\ge0,\\ y\\ge0\\}$",
+              "Contiene el cero y es cerrado bajo la suma, pero −1·(1,0)=(−1,0) queda afuera"
+            ],
+            [
+              "$\\varnothing$",
+              "No es un subespacio: el criterio requiere un conjunto no vacío"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Tanto el conjunto formado solo por el cero como el espacio V completo son subespacios de V. Ser subespacio no exige ser una parte más chica que V; para eso se agrega la palabra “propio”."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo (UP), “Espacios vectoriales”, páginas 5–6. Explicaciones, ejemplos y actividades de elaboración original."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "q": "Un subespacio usa las mismas operaciones que el espacio que lo contiene.",
+            "a": true,
+            "explain": "La definición exige heredar suma y producto por escalares.",
+            "id": "tf-56-1"
+          },
+          {
+            "q": "Contener el vector cero basta para ser subespacio.",
+            "a": false,
+            "explain": "También se necesitan las cerraduras bajo suma y producto por todos los escalares.",
+            "id": "tf-56-2"
+          },
+          {
+            "q": "El espacio V completo es un subespacio de sí mismo.",
+            "a": true,
+            "explain": "Es no vacío y conserva sus propias operaciones.",
+            "id": "tf-56-3"
+          },
+          {
+            "q": "Un conjunto cerrado solo para escalares positivos ya cumple el criterio completo.",
+            "a": false,
+            "explain": "El criterio exige todos los escalares reales, incluidos cero y los negativos.",
+            "id": "tf-56-4"
+          }
+        ],
+        "mc": [
+          {
+            "q": "¿Qué paso permite descartar inmediatamente la recta $y=3x+2$?",
+            "options": [
+              "Ver que (0,0) no pertenece",
+              "Ver que contiene infinitos puntos",
+              "Ver que tiene pendiente 3",
+              "Ver que pertenece al plano"
+            ],
+            "correctIndex": 0,
+            "explain": "El cero no satisface 0=3·0+2, y todo subespacio debe contenerlo.",
+            "id": "mc-56-1"
+          },
+          {
+            "q": "En $H=\\{(t,-2t,4t):t\\in\\mathbb R\\}$, ¿cuál es el vector de parámetro $t=-1$?",
+            "options": [
+              "$(1,-2,4)$",
+              "$(-1,2,-4)$",
+              "$(-1,-2,4)$",
+              "$(0,0,0)$"
+            ],
+            "correctIndex": 1,
+            "explain": "Reemplazar t=−1 en las tres coordenadas da (−1,2,−4).",
+            "id": "mc-56-2"
+          },
+          {
+            "q": "¿Qué dato falta si ya probaste que H es no vacío y cerrado bajo la suma?",
+            "options": [
+              "Que tenga una cantidad finita de vectores",
+              "Que no contenga al cero",
+              "Que sea cerrado bajo todo producto por un escalar real",
+              "Que sus vectores tengan longitud 1"
+            ],
+            "correctIndex": 2,
+            "explain": "La segunda cerradura es necesaria para aplicar el criterio.",
+            "id": "mc-56-3"
+          },
+          {
+            "q": "¿Qué vector muestra que el primer cuadrante no es cerrado bajo multiplicación por −1?",
+            "options": [
+              "$(0,0)$ multiplicado por −1",
+              "$(0,1)$ multiplicado por 1",
+              "$(1,1)$ multiplicado por 0",
+              "$(1,0)$ multiplicado por −1"
+            ],
+            "correctIndex": 3,
+            "explain": "El resultado (−1,0) tiene una coordenada negativa y queda fuera.",
+            "id": "mc-56-4"
+          }
+        ],
+        "ms": [
+          {
+            "q": "¿Cuáles son subespacios de $\\mathbb R^2$ con operaciones usuales?",
+            "options": [
+              "$\\{(x,0):x\\in\\mathbb R\\}$",
+              "$\\{(0,0)\\}$",
+              "$\\mathbb R^2$",
+              "$\\{(x,1):x\\in\\mathbb R\\}$",
+              "$\\{(x,y):x\\ge0,\\ y\\ge0\\}$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "El eje horizontal, el trivial y el plano completo cumplen el criterio. La recta desplazada no contiene cero; el cuadrante falla con escalares negativos.",
+            "id": "ms-56-1"
+          },
+          {
+            "q": "Para $H=\\{(2t,t,-t):t\\in\\mathbb R\\}$, ¿qué vectores pertenecen?",
+            "options": [
+              "$(0,0,0)$",
+              "$(4,2,-2)$",
+              "$(-2,-1,1)$",
+              "$(2,1,1)$",
+              "$(2,2,-2)$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "Los parámetros 0, 2 y −1 dan los tres primeros. Los demás no respetan simultáneamente las tres coordenadas.",
+            "id": "ms-56-2"
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "front": "¿Qué tres condiciones usás en el criterio de subespacio?",
+          "back": "No vacío, cerrado bajo suma y cerrado bajo multiplicación por cualquier escalar real.",
+          "id": "fc-56-1"
+        },
+        {
+          "front": "¿Qué implica que un conjunto no contenga al vector cero?",
+          "back": "Que no puede ser subespacio con las operaciones heredadas.",
+          "id": "fc-56-2"
+        },
+        {
+          "front": "¿Por qué el criterio incluye que H no sea vacío?",
+          "back": "Para poder elegir un vector de H y obtener el cero multiplicándolo por 0.",
+          "id": "fc-56-3"
+        },
+        {
+          "front": "¿Cómo obtenés los opuestos usando cerradura por escalares?",
+          "back": "Multiplicando cada vector de H por −1.",
+          "id": "fc-56-4"
+        },
+        {
+          "front": "¿Qué queda fijo en H = {(at,bt,ct): t real}?",
+          "back": "Los coeficientes a, b y c; el parámetro t es el que varía.",
+          "id": "fc-56-5"
+        },
+        {
+          "front": "¿Cómo comprobás la suma en una recta de múltiplos de un vector fijo?",
+          "back": "Sumás dos múltiplos con parámetros s y t; el resultado tiene parámetro s+t.",
+          "id": "fc-56-6"
+        }
+      ]
+    },
+    {
+      "id": "57",
+      "unit": "7",
+      "title": "Intersección y unión de subespacios",
+      "criollo": "Intersecar es pedir que un vector esté en los dos conjuntos a la vez. Unir es aceptar que esté en cualquiera. Esa diferencia hace que la intersección siempre conserve el subespacio y la unión pueda fallar al sumar.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Sean $H_1$ y $H_2$ subespacios de un mismo espacio $V$. La intersección exige pertenecer a ambos; la unión exige pertenecer al menos a uno."
+        },
+        {
+          "type": "math",
+          "latex": "u\\in H_1\\cap H_2\\iff u\\in H_1\\ \\text{y}\\ u\\in H_2.",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "u\\in H_1\\cup H_2\\iff u\\in H_1\\ \\text{o}\\ u\\in H_2.",
+          "display": true
+        },
+        {
+          "type": "h3",
+          "text": "Por qué la intersección siempre funciona",
+          "criollo": "Las dos condiciones sobreviven juntas a las operaciones."
+        },
+        {
+          "type": "ol",
+          "items": [
+            "El vector cero está en ambos subespacios, así que $H_1\\cap H_2$ no está vacío",
+            "Si $u,v$ están en la intersección, su suma está en $H_1$ por cerradura y también en $H_2$ por cerradura",
+            "Si $u$ está en la intersección y $a$ es real, $au$ queda en ambos por la cerradura de cada subespacio"
+          ]
+        },
+        {
+          "type": "math",
+          "latex": "H_1,H_2\\text{ subespacios de }V\\quad\\Longrightarrow\\quad H_1\\cap H_2\\text{ subespacio de }V.",
+          "display": true
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "El argumento necesita que los dos conjuntos sean subespacios del mismo espacio y usen las mismas operaciones."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo propio: dos planos, una recta común",
+          "criollo": "Resolvé las dos ecuaciones al mismo tiempo; no alcanza con cumplir una."
+        },
+        {
+          "type": "math",
+          "latex": "H_1=\\{(x,y,z):x-y=0\\},\\qquad H_2=\\{(x,y,z):y+z=0\\}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Ambos son subespacios de R³: contienen el cero y sus ecuaciones homogéneas se conservan al sumar y al multiplicar por escalares. Para encontrar su intersección, de la primera ecuación sale x=y y de la segunda z=−y."
+        },
+        {
+          "type": "math",
+          "latex": "y=t\\quad\\Longrightarrow\\quad (x,y,z)=(t,t,-t),\\qquad t\\in\\mathbb R.",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "H_1\\cap H_2=\\{(t,t,-t):t\\in\\mathbb R\\}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Chequeo: el vector (2,2,−2) cumple 2−2=0 y 2+(−2)=0. El vector (2,2,0) cumple la primera ecuación, pero falla en la segunda: pertenece a H₁ y a la unión, aunque no a la intersección."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Corrección de lectura: en el ejemplo 7.7 de la fuente, la coordenada x de la parametrización final debe conservar el signo negativo que ya aparece en la solución anterior. La verificación correcta se hace reemplazando en las dos ecuaciones."
+        },
+        {
+          "type": "h3",
+          "text": "Por qué la unión puede fallar",
+          "criollo": "Sumar uno de cada conjunto puede llevarte fuera de los dos."
+        },
+        {
+          "type": "math",
+          "latex": "A=\\{(x,0):x\\in\\mathbb R\\},\\qquad B=\\{(0,y):y\\in\\mathbb R\\}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Los dos ejes son subespacios del plano. Su unión contiene puntos que están sobre uno u otro eje; no contiene todos los puntos del plano."
+        },
+        {
+          "type": "math",
+          "latex": "u=(2,0)\\in A,\\qquad v=(0,-3)\\in B,\\qquad u+v=(2,-3)\\notin A\\cup B.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "La suma tiene ambas coordenadas no nulas: no está sobre ninguno de los ejes. Este contraejemplo basta para mostrar que A ∪ B no es un subespacio, aunque sí contiene el cero y es cerrado bajo producto por escalares."
+        },
+        {
+          "type": "h3",
+          "text": "La unión no falla siempre",
+          "criollo": "Si un conjunto ya está adentro del otro, unirlos no agrega nada."
+        },
+        {
+          "type": "p",
+          "text": "Por ejemplo, $\\{\\mathbf0\\}\\subseteq A$. Entonces $A\\cup\\{\\mathbf0\\}=A$, que sí es subespacio. La conclusión correcta es que una unión de subespacios no tiene garantía general de ser subespacio."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Operación",
+            "Cómo se verifica pertenencia",
+            "Qué podés asegurar"
+          ],
+          "rows": [
+            [
+              "Intersección",
+              "Cumplir las condiciones de ambos conjuntos",
+              "Siempre es subespacio si ambos lo son"
+            ],
+            [
+              "Unión",
+              "Cumplir las condiciones de al menos uno",
+              "Hay que revisar la suma; puede fallar"
+            ]
+          ]
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Escribí claramente si buscás intersección o unión",
+            "Para intersección de conjuntos dados por ecuaciones, resolvé todas juntas",
+            "Para rechazar una unión, buscá un vector de cada lado cuya suma quede fuera de ambos",
+            "Comprobá los resultados en las condiciones originales"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo (UP), “Espacios vectoriales”, páginas 6–7. Explicaciones, ejemplos y actividades de elaboración original."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "q": "La intersección de dos subespacios del mismo espacio siempre contiene al vector cero.",
+            "a": true,
+            "explain": "El cero pertenece a ambos, por lo que pertenece a la intersección.",
+            "id": "tf-57-1"
+          },
+          {
+            "q": "Para estar en una intersección alcanza con pertenecer a uno de los dos conjuntos.",
+            "a": false,
+            "explain": "Hay que pertenecer a los dos simultáneamente.",
+            "id": "tf-57-2"
+          },
+          {
+            "q": "La unión de dos subespacios puede no ser cerrada bajo la suma.",
+            "a": true,
+            "explain": "Sumar un vector de cada lado puede producir uno que no pertenezca a ninguno.",
+            "id": "tf-57-3"
+          },
+          {
+            "q": "La unión de dos subespacios nunca es un subespacio.",
+            "a": false,
+            "explain": "Por ejemplo, unir un subespacio con {0} devuelve el mismo subespacio.",
+            "id": "tf-57-4"
+          }
+        ],
+        "mc": [
+          {
+            "q": "Para $H_1: x-y=0$ y $H_2: y+z=0$, ¿qué vector está en la intersección?",
+            "options": [
+              "$(3,3,-3)$",
+              "$(3,3,0)$",
+              "$(0,3,-3)$",
+              "$(3,0,-3)$"
+            ],
+            "correctIndex": 0,
+            "explain": "Cumple 3−3=0 y 3−3=0.",
+            "id": "mc-57-1"
+          },
+          {
+            "q": "¿Cuál es la intersección de los dos ejes coordenados de $\\mathbb R^2$?",
+            "options": [
+              "$\\mathbb R^2$",
+              "$\\{(0,0)\\}$",
+              "$\\{(t,t):t\\in\\mathbb R\\}$",
+              "$\\{(t,-t):t\\in\\mathbb R\\}$"
+            ],
+            "correctIndex": 1,
+            "explain": "El único punto con segunda coordenada cero y primera coordenada cero a la vez es (0,0).",
+            "id": "mc-57-2"
+          },
+          {
+            "q": "¿Qué suma demuestra que la unión de los ejes no es subespacio?",
+            "options": [
+              "$(1,0)+(2,0)=(3,0)$",
+              "$(0,1)+(0,2)=(0,3)$",
+              "$(1,0)+(0,2)=(1,2)$",
+              "$(1,0)+(-1,0)=(0,0)$"
+            ],
+            "correctIndex": 2,
+            "explain": "Los sumandos están en la unión, pero (1,2) no pertenece a ninguno de los ejes.",
+            "id": "mc-57-3"
+          },
+          {
+            "q": "Si $A\\subseteq B$ y ambos son subespacios, ¿cuánto vale $A\\cup B$?",
+            "options": [
+              "$A$",
+              "$\\{0\\}$",
+              "$\\varnothing$",
+              "$B$"
+            ],
+            "correctIndex": 3,
+            "explain": "B ya contiene todos los elementos de A, por lo que la unión es B.",
+            "id": "mc-57-4"
+          }
+        ],
+        "ms": [
+          {
+            "q": "Si H₁ y H₂ son subespacios de V, ¿qué afirmaciones son correctas?",
+            "options": [
+              "Su intersección no es vacía",
+              "Su intersección es cerrada bajo suma",
+              "Su intersección es cerrada bajo escalares",
+              "Su unión siempre es todo V",
+              "Su unión siempre es cerrada bajo suma"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "El criterio garantiza la intersección. La unión no tiene por qué ser todo V ni ser cerrada bajo la suma.",
+            "id": "ms-57-1"
+          },
+          {
+            "q": "Para $A=\\{(x,0)\\}$ y $B=\\{(0,y)\\}$, ¿qué vectores pertenecen a $A\\cup B$?",
+            "options": [
+              "$(4,0)$",
+              "$(0,-2)$",
+              "$(0,0)$",
+              "$(1,1)$",
+              "$(-3,2)$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "La unión exige que al menos una coordenada sea cero, porque el punto debe estar sobre alguno de los ejes.",
+            "id": "ms-57-2"
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "front": "¿Qué significa pertenecer a H₁ ∩ H₂?",
+          "back": "Pertenecer a H₁ y a H₂ al mismo tiempo.",
+          "id": "fc-57-1"
+        },
+        {
+          "front": "¿Qué significa pertenecer a H₁ ∪ H₂?",
+          "back": "Pertenecer al menos a uno de los dos conjuntos.",
+          "id": "fc-57-2"
+        },
+        {
+          "front": "¿Por qué la intersección de subespacios no es vacía?",
+          "back": "Porque contiene al vector cero, que pertenece a ambos.",
+          "id": "fc-57-3"
+        },
+        {
+          "front": "¿Cómo buscás la intersección de dos planos dados por ecuaciones?",
+          "back": "Resolviendo las dos ecuaciones simultáneamente.",
+          "id": "fc-57-4"
+        },
+        {
+          "front": "¿Qué operación suele fallar en una unión de subespacios?",
+          "back": "La suma de un vector de cada subespacio.",
+          "id": "fc-57-5"
+        },
+        {
+          "front": "Si A está contenido en B, ¿qué resulta de A ∪ B?",
+          "back": "B; si B es subespacio, esa unión también lo es.",
+          "id": "fc-57-6"
+        }
+      ]
+    },
+    {
       "id": "48",
       "unit": "8",
       "title": "Combinaciones lineales en vectores y matrices",
@@ -7339,7 +8510,7 @@ export default {
         {
           "type": "callout",
           "tone": "info",
-          "text": "Prerrequisito: este material usa las nociones de espacio vectorial y subespacio de la unidad anterior. La unidad 7, “Espacios vectoriales”, no está incorporada en estos apuntes; acá no se reconstruyen sus axiomas."
+          "text": "Prerrequisito: este material usa las nociones de espacio vectorial y subespacio de la unidad anterior. Podés repasarlas en <a href=\"seccion.html?subject=algebra-lineal&amp;id=54\">Espacios vectoriales, unidad 7</a> antes de seguir con las combinaciones."
         },
         {
           "type": "p",
@@ -7615,7 +8786,7 @@ export default {
         {
           "type": "callout",
           "tone": "info",
-          "text": "Este apartado usa las nociones de espacio vectorial y subespacio de la unidad 7, todavía no incorporada. Se aplica el resultado de la fuente: el espacio generado por vectores de V es un subespacio de V."
+          "text": "Este apartado usa las nociones de espacio vectorial y subespacio de la <a href=\"seccion.html?subject=algebra-lineal&amp;id=56\">unidad 7</a>. Se aplica el resultado de la fuente: el espacio generado por vectores de V es un subespacio de V."
         },
         {
           "type": "h3",

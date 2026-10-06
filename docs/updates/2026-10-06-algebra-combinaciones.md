@@ -2,7 +2,7 @@
 
 Se incorpora la unidad 8 en seis secciones nuevas, 48–53, a partir de «Combinaciones entre vectores» de Universidad de Palermo, archivo `0006_APU_CombinacionesEntreVectores_v1-3.pdf`.
 
-La unidad 7, Espacios vectoriales, permanece pendiente de incorporación. Estas notas usan los conceptos previos necesarios y los desarrollos que sí aparecen en el apunte de unidad 8; no reemplazan ni declaran incorporada la unidad faltante.
+La unidad 7, Espacios vectoriales, se incorporó en las secciones 54–57 y aparece antes de esta unidad en el recorrido de la materia. Los enlaces de prerrequisitos llevan a sus definiciones y al criterio de subespacio. Cada unidad conserva su fuente y sus identificadores.
 
 ## Cobertura
 
