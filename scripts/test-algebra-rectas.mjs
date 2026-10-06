@@ -19,7 +19,7 @@ const newBanks = sections.flatMap(section => [
 
 test('unit six appends six uniquely identified lessons without adding source PDFs', () => {
   assert.equal(subject.units['6'], 'Rectas y planos');
-  assert.deepEqual(subject.sections.slice(-6).map(section => section.id), ids);
+  assert.deepEqual(subject.sections.filter(section => section.unit === '6').map(section => section.id), ids);
   assert.equal(new Set(subject.sections.map(section => section.id)).size, subject.sections.length);
   assert.equal(subject.pdfs.length, 9);
   assert.ok(!subject.pdfs.some(pdf => /rectas|planos/.test(pdf.path)));

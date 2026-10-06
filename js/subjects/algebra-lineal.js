@@ -18,6 +18,9 @@
  * Unidad '6' (secciones 42-47): síntesis y ejemplos originales de rectas,
  * planos, intersecciones y distancias. Fuentes y erratas indicadas por sección.
  *
+ * Unidad '8' (secciones 48-53): combinaciones, generación e independencia,
+ * con desarrollos originales y correcciones de erratas. Unidad 7 pendiente.
+ *
  * Secciones de práctica (31-34): las guías de ejercitación y las actividades
  * calificadas publicadas en Blackboard, con su desarrollo. Las erratas de la
  * cátedra se transcriben tal cual y se marcan con un callout, nunca se
@@ -36,7 +39,7 @@ export default {
   id: 'algebra-lineal',
   title: 'Álgebra Lineal',
   subtitle: 'Teoría de números, ecuaciones diofánticas e inducción — Apuntes',
-  tagline: 'Divisibilidad · Algoritmo de Euclides · Matrices y determinantes · Ecuaciones diofánticas · Congruencia · Inducción matemática · Rectas y planos',
+  tagline: 'Divisibilidad · Algoritmo de Euclides · Matrices y determinantes · Ecuaciones diofánticas · Congruencia · Inducción matemática · Rectas y planos · Combinaciones lineales e independencia',
   units: {
     '1': 'Números enteros',
     '2': 'Ecuaciones diofánticas y ecuaciones de congruencias',
@@ -44,6 +47,7 @@ export default {
     '4': 'Vectores en el plano',
     '5': 'Vectores en el espacio',
     '6': 'Rectas y planos',
+    '8': 'Combinaciones entre vectores',
   },
   sections: [
     {
@@ -7323,6 +7327,1753 @@ export default {
           "id": "fc-47-6",
           "front": "¿Qué cambia si la ecuación aparece como $ax+by+cz+e=0$?",
           "back": "Usás $|ax_0+by_0+cz_0+e|$ en el numerador; equivale a tomar $d=-e$."
+        }
+      ]
+    },
+    {
+      "id": "48",
+      "unit": "8",
+      "title": "Combinaciones lineales en vectores y matrices",
+      "criollo": "Elegís cuánto pesa cada vector, multiplicás y sumás. Con matrices hacés lo mismo casillero por casillero: los coeficientes son números, no coordenadas sueltas.",
+      "blocks": [
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Prerrequisito: este material usa las nociones de espacio vectorial y subespacio de la unidad anterior. La unidad 7, “Espacios vectoriales”, no está incorporada en estos apuntes; acá no se reconstruyen sus axiomas."
+        },
+        {
+          "type": "p",
+          "text": "Una combinación lineal se arma con vectores de un mismo espacio y escalares del campo correspondiente. En estos ejemplos trabajamos con números reales. A cada vector le asignás un coeficiente y después sumás los resultados."
+        },
+        {
+          "type": "math",
+          "latex": "w=a_1v_1+a_2v_2+\\cdots+a_kv_k,\\qquad a_1,\\ldots,a_k\\in\\mathbb R.",
+          "display": true
+        },
+        {
+          "type": "h3",
+          "text": "Qué se puede elegir",
+          "criollo": "Los coeficientes pueden ser positivos, negativos, cero o fracciones."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Un coeficiente multiplica todas las componentes del vector al que acompaña",
+            "No se exige que los coeficientes sumen 1",
+            "Podés usar coeficiente 0 para no aportar un vector a esa combinación",
+            "Con todos los coeficientes iguales a 0, obtenés el vector cero"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo propio en tres coordenadas",
+          "criollo": "Primero multiplicá; después sumá respetando las posiciones."
+        },
+        {
+          "type": "p",
+          "text": "Tomá $u=(1,-1,2)$ y $v=(0,3,1)$. Queremos calcular $2u-v$."
+        },
+        {
+          "type": "math",
+          "latex": "2u-v=(2,-2,4)+(0,-3,-1)=(2,-5,3).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "El signo menos equivale al coeficiente $-1$ de $v$. No cambia solamente la primera coordenada: cambia el signo de las tres."
+        },
+        {
+          "type": "h3",
+          "text": "La misma idea con matrices",
+          "criollo": "Cada matriz funciona como un vector; respetá el tamaño y operá entrada por entrada."
+        },
+        {
+          "type": "p",
+          "text": "Si $A$ y $B$ pertenecen a $M_{2\\times3}(\\mathbb R)$, cualquier combinación $aA+bB$ conserva dos filas y tres columnas."
+        },
+        {
+          "type": "math",
+          "latex": "A=\\begin{pmatrix}1&0&-1\\\\2&1&0\\end{pmatrix},\\qquad B=\\begin{pmatrix}0&2&1\\\\-1&0&3\\end{pmatrix}.",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "3A-2B=\\begin{pmatrix}3&-4&-5\\\\8&3&-6\\end{pmatrix}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Chequeo de la entrada de la segunda fila y primera columna: $3\\cdot2-2\\cdot(-1)=8$. El mismo cálculo se hace en las otras cinco entradas."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "No mezcles tamaños: una matriz de 2 × 3 y otra de 3 × 2 no se pueden sumar con las operaciones habituales, aunque tengan la misma cantidad de entradas."
+        },
+        {
+          "type": "h3",
+          "text": "Calcular y reconocer son dos tareas distintas",
+          "criollo": "A veces te dan los pesos; otras veces tenés que encontrarlos."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Tarea",
+            "Qué está dado",
+            "Qué buscás"
+          ],
+          "rows": [
+            [
+              "Calcular una combinación",
+              "Vectores y coeficientes",
+              "El vector o la matriz resultante"
+            ],
+            [
+              "Reconocer una combinación",
+              "Vectores de partida y un resultado",
+              "Coeficientes que hagan cierta la igualdad"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Para reconocer una combinación, igualás las coordenadas o entradas y resolvés un sistema. Eso se desarrolla en la sección siguiente."
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Verificá que los objetos pertenezcan al mismo espacio",
+            "Multiplicá cada vector o matriz por su coeficiente completo",
+            "Sumá en posiciones correspondientes",
+            "Comprobá al menos una entrada y revisá los signos"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo, “Combinaciones entre vectores”, páginas 1. Archivo de la cátedra: 0006_APU_CombinacionesEntreVectores_v1-3.pdf. Explicaciones, ejemplos y preguntas de elaboración original; las correcciones señaladas se verificaron por sustitución."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "q": "En una combinación lineal, un coeficiente puede valer cero.",
+            "a": true,
+            "explain": "Cero es un escalar permitido y anula el aporte de ese vector.",
+            "id": "tf-48-1"
+          },
+          {
+            "q": "Los coeficientes de toda combinación lineal deben sumar 1.",
+            "a": false,
+            "explain": "La combinación lineal no impone esa condición: los escalares se eligen libremente.",
+            "id": "tf-48-2"
+          },
+          {
+            "q": "Dos matrices de tamaño 2 × 3 producen otra de tamaño 2 × 3 al combinarlas linealmente.",
+            "a": true,
+            "explain": "El producto por escalares y la suma entrada a entrada conservan las dimensiones.",
+            "id": "tf-48-3"
+          },
+          {
+            "q": "Una matriz de 2 × 3 se puede sumar con una de 3 × 2 porque ambas tienen seis entradas.",
+            "a": false,
+            "explain": "Para sumar matrices tienen que coincidir filas y columnas, no solo la cantidad de entradas.",
+            "id": "tf-48-4"
+          }
+        ],
+        "mc": [
+          {
+            "q": "Si $u=(1,-1,2)$ y $v=(0,3,1)$, ¿cuánto vale $2u-v$?",
+            "options": [
+              "$(2,-5,3)$",
+              "$(2,1,5)$",
+              "$(2,-1,3)$",
+              "$(1,-4,1)$"
+            ],
+            "correctIndex": 0,
+            "explain": "Duplicar u da (2,−2,4); restar v da (2,−5,3).",
+            "id": "mc-48-1"
+          },
+          {
+            "q": "Si $u=(2,-1)$ y $v=(1,3)$, ¿cuánto vale $-u+2v$?",
+            "options": [
+              "$(-4,-5)$",
+              "$(0,7)$",
+              "$(4,5)$",
+              "$(0,5)$"
+            ],
+            "correctIndex": 1,
+            "explain": "−u=(−2,1) y 2v=(2,6); la suma es (0,7).",
+            "id": "mc-48-2"
+          },
+          {
+            "q": "Para $A=\\begin{pmatrix}1&2\\\\0&-1\\end{pmatrix}$ y $B=\\begin{pmatrix}0&1\\\\3&2\\end{pmatrix}$, ¿cuál es $A+B$?",
+            "options": [
+              "$\\begin{pmatrix}1&1\\\\3&1\\end{pmatrix}$",
+              "$\\begin{pmatrix}0&2\\\\0&-2\\end{pmatrix}$",
+              "$\\begin{pmatrix}1&3\\\\3&1\\end{pmatrix}$",
+              "$\\begin{pmatrix}1&3\\\\-3&-3\\end{pmatrix}$"
+            ],
+            "correctIndex": 2,
+            "explain": "Se suman entradas correspondientes: 1+0, 2+1, 0+3 y −1+2.",
+            "id": "mc-48-3"
+          },
+          {
+            "q": "Para obtener $(3,3)$ como $a(1,0)+b(0,1)$, ¿qué coeficientes usás?",
+            "options": [
+              "$(a,b)=(0,3)$",
+              "$(a,b)=(3,0)$",
+              "$(a,b)=(1,1)$",
+              "$(a,b)=(3,3)$"
+            ],
+            "correctIndex": 3,
+            "explain": "La combinación es (a,b), por lo que ambas coordenadas deben valer 3.",
+            "id": "mc-48-4"
+          }
+        ],
+        "ms": [
+          {
+            "q": "Para $u=(1,2)$ y $v=(3,0)$, marcá todas las igualdades correctas.",
+            "options": [
+              "$u+v=(4,2)$",
+              "$2u-v=(-1,4)$",
+              "$-u+v=(2,2)$",
+              "$0u+0v=(0,0)$",
+              "$u-2v=(5,2)$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              3
+            ],
+            "explain": "Las tres correctas se verifican por coordenadas. En las restantes, −u+v=(2,−2) y u−2v=(−5,2).",
+            "id": "ms-48-1"
+          },
+          {
+            "q": "¿Cuáles de estas condiciones son obligatorias para los coeficientes de una combinación lineal real?",
+            "options": [
+              "Ser todos positivos",
+              "Ser todos distintos de cero",
+              "Sumar exactamente uno",
+              "Ser todos números enteros",
+              "Ser todos iguales entre sí"
+            ],
+            "correctIndexes": [],
+            "explain": "Ninguna es obligatoria. Cada coeficiente puede ser cualquier número real, independientemente de los demás.",
+            "id": "ms-48-2"
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "front": "¿Qué hacés para formar una combinación lineal?",
+          "back": "Multiplicás cada vector por un escalar y sumás los resultados.",
+          "id": "fc-48-1"
+        },
+        {
+          "front": "¿Puede aparecer un coeficiente negativo?",
+          "back": "Sí. Por ejemplo, −v es la combinación con coeficiente −1.",
+          "id": "fc-48-2"
+        },
+        {
+          "front": "¿Qué produce elegir todos los coeficientes iguales a cero?",
+          "back": "El vector cero del espacio en el que estás trabajando.",
+          "id": "fc-48-3"
+        },
+        {
+          "front": "¿Cómo se combinan linealmente dos matrices del mismo tamaño?",
+          "back": "Multiplicás cada entrada por su coeficiente y sumás entradas de la misma posición.",
+          "id": "fc-48-4"
+        },
+        {
+          "front": "¿Tienen que sumar 1 los coeficientes?",
+          "back": "No. Esa condición no forma parte de la definición de combinación lineal.",
+          "id": "fc-48-5"
+        },
+        {
+          "front": "¿Qué diferencia hay entre calcular y reconocer una combinación?",
+          "back": "Calcular: ya conocés los coeficientes. Reconocer: buscás coeficientes que produzcan un vector objetivo.",
+          "id": "fc-48-6"
+        }
+      ]
+    },
+    {
+      "id": "49",
+      "unit": "8",
+      "title": "Espacio generado y pertenencia mediante sistemas",
+      "criollo": "El generado reúne todo lo que podés fabricar con los vectores dados. Para saber si uno entra, buscá coeficientes: si el sistema cierra, pertenece; si se contradice, queda afuera.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Fijado un conjunto $S=\\{v_1,\\ldots,v_k\\}$, su espacio generado reúne todas las combinaciones lineales posibles. Los vectores de partida quedan fijos; los coeficientes recorren todos los reales."
+        },
+        {
+          "type": "math",
+          "latex": "\\operatorname{gen}(S)=\\left\\{a_1v_1+\\cdots+a_kv_k:a_1,\\ldots,a_k\\in\\mathbb R\\right\\}.",
+          "display": true
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Este apartado usa las nociones de espacio vectorial y subespacio de la unidad 7, todavía no incorporada. Se aplica el resultado de la fuente: el espacio generado por vectores de V es un subespacio de V."
+        },
+        {
+          "type": "h3",
+          "text": "Pertenecer equivale a poder armarlo",
+          "criollo": "No alcanza con que el vector tenga la misma cantidad de coordenadas."
+        },
+        {
+          "type": "math",
+          "latex": "w\\in\\operatorname{gen}\\{v_1,\\ldots,v_k\\}\\quad\\Longleftrightarrow\\quad a_1v_1+\\cdots+a_kv_k=w\\text{ tiene solución}.",
+          "display": true
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Escribí una incógnita escalar por cada vector de partida",
+            "Igualá la combinación al vector que querés comprobar",
+            "Compará coordenadas y armá el sistema",
+            "Si hay al menos una solución, pertenece; si hay contradicción, no pertenece",
+            "Verificá los coeficientes reemplazándolos en la combinación original"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo propio: describir todo el generado",
+          "criollo": "Con coordenadas genéricas descubrís qué condición debe cumplir cualquier vector que entre."
+        },
+        {
+          "type": "p",
+          "text": "Sean $u=(1,0,2)$ y $v=(0,1,-1)$. Buscamos cuándo $(x,y,z)$ puede escribirse como $au+bv$."
+        },
+        {
+          "type": "math",
+          "latex": "au+bv=(a,b,2a-b)=(x,y,z).",
+          "display": true
+        },
+        {
+          "type": "math",
+          "latex": "\\left[\\begin{array}{cc|c}1&0&x\\\\0&1&y\\\\2&-1&z\\end{array}\\right]\\xrightarrow{F_3-2F_1+F_2}\\left[\\begin{array}{cc|c}1&0&x\\\\0&1&y\\\\0&0&z-2x+y\\end{array}\\right].",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Las primeras filas dan $a=x$ y $b=y$. La última exige $z-2x+y=0$. Por eso el generado es exactamente el plano que pasa por el origen con ecuación $z=2x-y$."
+        },
+        {
+          "type": "math",
+          "latex": "\\operatorname{gen}\\{u,v\\}=\\{(x,y,z)\\in\\mathbb R^3:z=2x-y\\}.",
+          "display": true
+        },
+        {
+          "type": "h3",
+          "text": "Dos pruebas concretas",
+          "criollo": "Usá la misma condición; una coordenada que falle ya alcanza para quedar afuera."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Vector objetivo",
+            "Chequeo",
+            "Conclusión"
+          ],
+          "rows": [
+            [
+              "$(2,3,1)$",
+              "$1=2\\cdot2-3$",
+              "Pertenece: coeficientes 2 y 3"
+            ],
+            [
+              "$(2,3,2)$",
+              "$2\\ne2\\cdot2-3$",
+              "No pertenece: la tercera ecuación contradice las anteriores"
+            ]
+          ]
+        },
+        {
+          "type": "math",
+          "latex": "2(1,0,2)+3(0,1,-1)=(2,3,1).",
+          "display": true
+        },
+        {
+          "type": "h3",
+          "text": "Qué forma puede tener un generado",
+          "criollo": "La cantidad de vectores por sí sola no te dice si aparece una recta o un plano."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "El vector cero siempre pertenece: elegí todos los coeficientes iguales a cero",
+            "Un vector no nulo genera la recta de sus múltiplos, que pasa por el origen",
+            "Dos vectores no nulos paralelos generan una misma recta",
+            "Dos vectores no nulos y no paralelos en $\\mathbb R^3$ generan un plano por el origen"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Por ejemplo, $(2,1)$ y $(4,2)$ generan la recta $x=2y$: $a(2,1)+b(4,2)=(2t,t)$, donde $t=a+2b$. Como $t$ puede ser cualquier real, se recorre toda esa recta."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Una solución particular prueba pertenencia. Para demostrar que no pertenece, necesitás justificar que no existe ninguna, por ejemplo mediante una fila 0 = número no nulo."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Nota sobre la fuente, ejemplo 8.5 (p. 2): el primer coeficiente tiene una errata tipográfica. Su expresión correcta es $x/6-2y/3$; no lleva una $y$ adicional al final."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo, “Combinaciones entre vectores”, páginas 2–3. Archivo de la cátedra: 0006_APU_CombinacionesEntreVectores_v1-3.pdf. Explicaciones, ejemplos y preguntas de elaboración original; las correcciones señaladas se verificaron por sustitución."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "q": "El vector cero pertenece a todo espacio generado por una lista de vectores.",
+            "a": true,
+            "explain": "Elegir todos los coeficientes iguales a cero produce el vector cero.",
+            "id": "tf-49-1"
+          },
+          {
+            "q": "Si el sistema de pertenencia tiene infinitas soluciones, el vector queda fuera del generado.",
+            "a": false,
+            "explain": "Tener una o infinitas soluciones implica que existe una combinación que lo produce.",
+            "id": "tf-49-2"
+          },
+          {
+            "q": "Una fila 0 = 4 en el sistema de pertenencia demuestra que el vector no pertenece.",
+            "a": true,
+            "explain": "Esa contradicción hace que el sistema no tenga solución.",
+            "id": "tf-49-3"
+          },
+          {
+            "q": "Dos vectores no nulos paralelos de tres coordenadas generan necesariamente un plano.",
+            "a": false,
+            "explain": "Sus combinaciones quedan sobre la misma recta por el origen.",
+            "id": "tf-49-4"
+          }
+        ],
+        "mc": [
+          {
+            "q": "Para $H=\\operatorname{gen}\\{(1,0,2),(0,1,-1)\\}$, ¿cuál es la condición de pertenencia?",
+            "options": [
+              "$z=2x-y$",
+              "$z=x-2y$",
+              "$z=2x+y$",
+              "$z=x+y$"
+            ],
+            "correctIndex": 0,
+            "explain": "La combinación es (a,b,2a−b); al identificar a=x y b=y queda z=2x−y.",
+            "id": "mc-49-1"
+          },
+          {
+            "q": "¿Cuál de estos vectores pertenece a $\\operatorname{gen}\\{(1,0,2),(0,1,-1)\\}$?",
+            "options": [
+              "$(1,1,2)$",
+              "$(2,3,1)$",
+              "$(0,2,2)$",
+              "$(2,0,1)$"
+            ],
+            "correctIndex": 1,
+            "explain": "Solo (2,3,1) cumple z=2x−y: 1=4−3.",
+            "id": "mc-49-2"
+          },
+          {
+            "q": "¿Qué genera el conjunto $\\{(2,1),(4,2)\\}$?",
+            "options": [
+              "Todo $\\mathbb R^2$",
+              "La recta $y=2x$",
+              "La recta $x=2y$",
+              "Solo el vector cero"
+            ],
+            "correctIndex": 2,
+            "explain": "El segundo vector es el doble del primero; las combinaciones son (2t,t).",
+            "id": "mc-49-3"
+          },
+          {
+            "q": "Si el sistema para representar un vector tiene una fila 0 = −3, ¿qué concluís?",
+            "options": [
+              "El vector pertenece con coeficientes nulos",
+              "El vector pertenece con coeficientes libres",
+              "El vector pertenece con una única elección",
+              "El vector no pertenece al espacio generado"
+            ],
+            "correctIndex": 3,
+            "explain": "La fila es imposible y por eso no existen coeficientes que produzcan el vector.",
+            "id": "mc-49-4"
+          }
+        ],
+        "ms": [
+          {
+            "q": "En $H=\\{(x,y,z):z=2x-y\\}$, ¿qué vectores están incluidos?",
+            "options": [
+              "$(0,0,0)$",
+              "$(1,2,0)$",
+              "$(2,-1,5)$",
+              "$(0,1,1)$",
+              "$(1,0,1)$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              2
+            ],
+            "explain": "Los tres primeros cumplen z=2x−y. Para los otros, se necesitarían z=−1 y z=2, respectivamente.",
+            "id": "ms-49-1"
+          },
+          {
+            "q": "¿Qué situaciones, por sí solas, garantizan que un vector pertenece al generado?",
+            "options": [
+              "El sistema correspondiente tiene una solución",
+              "La cantidad de coordenadas coincide",
+              "La reducción incluye una fila 0 = 1",
+              "Se encontraron coeficientes y se verificaron",
+              "El sistema correspondiente tiene infinitas soluciones"
+            ],
+            "correctIndexes": [
+              0,
+              3,
+              4
+            ],
+            "explain": "La existencia de coeficientes basta, sean únicos o no. Coincidir en cantidad de coordenadas no alcanza y 0=1 impide pertenecer.",
+            "id": "ms-49-2"
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "front": "¿Qué es el espacio generado por un conjunto de vectores?",
+          "back": "El conjunto de todas sus combinaciones lineales posibles.",
+          "id": "fc-49-1"
+        },
+        {
+          "front": "¿Cómo comprobás si w pertenece al generado de los vectores dados?",
+          "back": "Planteás una combinación igual a w y verificás si el sistema de coeficientes tiene solución.",
+          "id": "fc-49-2"
+        },
+        {
+          "front": "¿Qué significa una contradicción en el sistema de pertenencia?",
+          "back": "Que no existen coeficientes que produzcan el vector objetivo: no pertenece.",
+          "id": "fc-49-3"
+        },
+        {
+          "front": "¿El vector cero pertenece siempre al generado?",
+          "back": "Sí, porque se obtiene tomando todos los coeficientes iguales a cero.",
+          "id": "fc-49-4"
+        },
+        {
+          "front": "¿Qué generan dos vectores no nulos paralelos?",
+          "back": "La recta por el origen determinada por cualquiera de ellos.",
+          "id": "fc-49-5"
+        },
+        {
+          "front": "¿Qué condición describe $\\operatorname{gen}\\{(1,0,2),(0,1,-1)\\}$?",
+          "back": "$z=2x-y$. Es un plano que pasa por el origen.",
+          "id": "fc-49-6"
+        }
+      ]
+    },
+    {
+      "id": "50",
+      "unit": "8",
+      "title": "Conjuntos generadores y cómo comprobarlos",
+      "criollo": "Una cosa es armar algunos vectores y otra es llegar a todos los del espacio. Para decir que un conjunto genera, necesitás una receta para cualquiera o alcanzar un conjunto que ya sabés que genera.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Decir que $S$ genera a $V$ significa que cada vector de $V$ se puede obtener como combinación lineal de los vectores de $S$. En símbolos, $\\operatorname{gen}(S)=V$. Siempre se debe indicar cuál es el espacio objetivo."
+        },
+        {
+          "type": "h3",
+          "text": "Generado y conjunto generador",
+          "criollo": "El generado dice hasta dónde llegás; generar V dice que llegás a todo V."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Expresión",
+            "Qué afirma"
+          ],
+          "rows": [
+            [
+              "$H=\\operatorname{gen}(S)$",
+              "H reúne todas las combinaciones de S"
+            ],
+            [
+              "$S$ genera a $V$",
+              "Todo vector de V aparece entre esas combinaciones"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Por ejemplo, $\\{(1,0)\\}$ genera el eje horizontal, pero no genera $\\mathbb R^2$: ninguna de sus combinaciones tiene segunda coordenada distinta de cero."
+        },
+        {
+          "type": "h3",
+          "text": "Método 1: un vector cualquiera",
+          "criollo": "Trabajá con letras para demostrar que no dejás casos afuera."
+        },
+        {
+          "type": "p",
+          "text": "Tomá $u=(1,1)$ y $v=(1,-1)$. Para un objetivo arbitrario $(x,y)$, resolvé $au+bv=(x,y)$."
+        },
+        {
+          "type": "math",
+          "latex": "a+b=x,\\qquad a-b=y\\quad\\Longrightarrow\\quad a=\\frac{x+y}{2},\\quad b=\\frac{x-y}{2}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Estas fórmulas sirven para cualquier par real $(x,y)$. Por eso $\\{u,v\\}$ genera $\\mathbb R^2$."
+        },
+        {
+          "type": "math",
+          "latex": "(x,y)=\\frac{x+y}{2}(1,1)+\\frac{x-y}{2}(1,-1).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Chequeo propio: para $(4,-2)$, los coeficientes son $a=1$ y $b=3$, y $(1,1)+3(1,-1)=(4,-2)$."
+        },
+        {
+          "type": "h3",
+          "text": "Método 2: alcanzar generadores conocidos",
+          "criollo": "Si podés fabricar los vectores canónicos, después podés fabricar cualquier vector."
+        },
+        {
+          "type": "p",
+          "text": "En $\\mathbb R^2$, alcanza con escribir $(1,0)$ y $(0,1)$ como combinaciones del conjunto candidato. En $\\mathbb R^3$, podés hacer lo mismo con los tres vectores canónicos."
+        },
+        {
+          "type": "math",
+          "latex": "(1,0)=\\frac12u+\\frac12v,\\qquad (0,1)=\\frac12u-\\frac12v.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Como $(x,y)=x(1,0)+y(0,1)$, reemplazar esas dos expresiones produce una combinación de $u$ y $v$ para cualquier $(x,y)$. Esa es la justificación del método."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Encontrar algunos vectores que sí se pueden representar no demuestra que se genere todo el espacio. En cambio, encontrar uno que no se pueda representar alcanza para descartar al conjunto."
+        },
+        {
+          "type": "h3",
+          "text": "Cómo refutar y cómo ampliar",
+          "criollo": "Un contraejemplo alcanza para descartar; sumar recursos no te hace perder lo que ya podías armar."
+        },
+        {
+          "type": "p",
+          "text": "El conjunto $\\{(1,2),(2,4)\\}$ no genera $\\mathbb R^2$. Toda combinación cumple $y=2x$, así que no puede producir $(1,0)$."
+        },
+        {
+          "type": "p",
+          "text": "Si $S$ ya genera a $V$ y agregás vectores que también pertenecen a $V$, el conjunto ampliado sigue generando a $V$. Para recuperar cualquier combinación anterior, poné coeficiente cero en los vectores nuevos."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "La condición “agregados dentro de $V$” importa. Por ejemplo, agregar $(0,0,1)$ a vectores del plano $z=0$ en $\\mathbb R^3$ puede ampliar el generado fuera de ese plano."
+        },
+        {
+          "type": "h3",
+          "text": "Corrección puntual del material de la cátedra",
+          "criollo": "Siempre reemplazá los coeficientes al final; el chequeo te descubre erratas."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "En el ejemplo 8.6 (p. 4), para $v_1=(1,2)$ y $v_2=(3,4)$, la expresión de $j=(0,1)$ debe usar coeficientes $(3/2,-1/2)$. El $5/2$ impreso es una errata: produciría $(1,3)$."
+        },
+        {
+          "type": "math",
+          "latex": "\\frac32(1,2)-\\frac12(3,4)=(0,1).",
+          "display": true
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Nombrá el espacio que querés generar",
+            "Elegí un vector arbitrario o un conjunto generador ya conocido",
+            "Planteá y resolvé los sistemas de coeficientes",
+            "Justificá que se alcanza todo el espacio, o exhibí un vector imposible",
+            "Reemplazá los coeficientes para revisar cuentas y signos"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo, “Combinaciones entre vectores”, páginas 3–4; la definición y los generadores canónicos se presentan en 1–2. Archivo de la cátedra: 0006_APU_CombinacionesEntreVectores_v1-3.pdf. Explicaciones, ejemplos y preguntas de elaboración original; las correcciones señaladas se verificaron por sustitución."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "q": "Para probar que un conjunto genera V, alcanza con representar un único ejemplo numérico de V.",
+            "a": false,
+            "explain": "Representar un ejemplo concreto no prueba que se pueda representar a todos.",
+            "id": "tf-50-1"
+          },
+          {
+            "q": "Si un conjunto en V genera V, agregarle otro vector de V conserva esa propiedad.",
+            "a": true,
+            "explain": "Podés asignarle coeficiente cero al vector agregado y conservar todas las combinaciones anteriores.",
+            "id": "tf-50-2"
+          },
+          {
+            "q": "Un vector de V que no se puede representar alcanza para demostrar que el conjunto no genera V.",
+            "a": true,
+            "explain": "Generar exige alcanzar a todos; un contraejemplo refuta esa afirmación.",
+            "id": "tf-50-3"
+          },
+          {
+            "q": "Si dos vectores generan un plano de tres coordenadas, necesariamente generan todo el espacio de tres coordenadas.",
+            "a": false,
+            "explain": "Generar ese plano no permite obtener vectores que estén fuera de él.",
+            "id": "tf-50-4"
+          }
+        ],
+        "mc": [
+          {
+            "q": "¿Cuál conjunto genera $\\mathbb R^2$?",
+            "options": [
+              "$\\{(1,1),(1,-1)\\}$",
+              "$\\{(1,2),(2,4)\\}$",
+              "$\\{(1,0),(2,0)\\}$",
+              "$\\{(0,0),(0,1)\\}$"
+            ],
+            "correctIndex": 0,
+            "explain": "Con (1,1) y (1,−1) se puede representar (x,y) usando (x+y)/2 y (x−y)/2. Los otros quedan en rectas.",
+            "id": "mc-50-1"
+          },
+          {
+            "q": "Para $u=(1,1)$ y $v=(1,-1)$, ¿qué coeficientes dan $(4,-2)$?",
+            "options": [
+              "$(a,b)=(3,1)$",
+              "$(a,b)=(1,3)$",
+              "$(a,b)=(2,-4)$",
+              "$(a,b)=(4,-2)$"
+            ],
+            "correctIndex": 1,
+            "explain": "a+b=4 y a−b=−2; al sumar, 2a=2, de modo que a=1 y b=3.",
+            "id": "mc-50-2"
+          },
+          {
+            "q": "¿Qué comprobación alcanza para demostrar que vectores de $\\mathbb R^2$ generan $\\mathbb R^2$?",
+            "options": [
+              "Representar únicamente el vector (0,0)",
+              "Representar únicamente el vector (1,1)",
+              "Representar tanto (1,0) como (0,1)",
+              "Representar dos vectores iguales a (1,0)"
+            ],
+            "correctIndex": 2,
+            "explain": "Los dos vectores canónicos generan todo el plano; si ambos están al alcance, cualquier combinación de ellos también.",
+            "id": "mc-50-3"
+          },
+          {
+            "q": "¿Qué vector muestra que $\\{(1,2),(2,4)\\}$ no genera $\\mathbb R^2$?",
+            "options": [
+              "$(0,0)$",
+              "$(1,2)$",
+              "$(-1,-2)$",
+              "$(1,0)$"
+            ],
+            "correctIndex": 3,
+            "explain": "Toda combinación cumple y=2x. (1,0) no cumple esa condición; los otros tres sí.",
+            "id": "mc-50-4"
+          }
+        ],
+        "ms": [
+          {
+            "q": "Si $S\\subseteq V$ genera a $V$, ¿qué modificaciones garantizan que se siga generando $V$?",
+            "options": [
+              "Agregar el vector cero",
+              "Agregar otro vector que pertenezca a V",
+              "Reemplazar S por el conjunto vacío",
+              "Agregar un vector que ya pertenezca a S",
+              "Eliminar todos los vectores no nulos"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              3
+            ],
+            "explain": "Agregar vectores de V conserva lo generado; repetir uno ni siquiera cambia el conjunto. Quitar todos los recursos no garantiza generar V.",
+            "id": "ms-50-1"
+          },
+          {
+            "q": "¿Qué igualdades son correctas para $u=(1,1)$ y $v=(1,-1)$?",
+            "options": [
+              "$(1,0)=\\frac12u+\\frac12v$",
+              "$(0,1)=\\frac12u-\\frac12v$",
+              "$(1,0)=u-v$",
+              "$(0,1)=u+v$",
+              "$(2,0)=u+v$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              4
+            ],
+            "explain": "Sumar u y v da (2,0), y restarlos da (0,2). Las mitades producen los vectores canónicos.",
+            "id": "ms-50-2"
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "front": "¿Qué significa que S genera a V?",
+          "back": "Que todo vector de V es una combinación lineal de los vectores de S; equivalentemente, gen(S)=V.",
+          "id": "fc-50-1"
+        },
+        {
+          "front": "¿Por qué hay que nombrar el espacio objetivo?",
+          "back": "Un conjunto puede generar una recta sin generar todo el plano o todo el espacio que la contiene.",
+          "id": "fc-50-2"
+        },
+        {
+          "front": "¿Cómo se prueba generación con un vector arbitrario?",
+          "back": "Se resuelve la combinación para coordenadas genéricas y se muestra que siempre existen coeficientes.",
+          "id": "fc-50-3"
+        },
+        {
+          "front": "¿Por qué alcanza con representar todos los vectores canónicos?",
+          "back": "Porque cualquier vector del espacio es una combinación de ellos; reemplazarlos produce una combinación del conjunto candidato.",
+          "id": "fc-50-4"
+        },
+        {
+          "front": "¿Cómo refutás que un conjunto genera V?",
+          "back": "Mostrás un vector de V que no puede escribirse como combinación de ese conjunto.",
+          "id": "fc-50-5"
+        },
+        {
+          "front": "¿Por qué agregar un vector de V a un generador no hace perder vectores?",
+          "back": "Podés ponerle coeficiente cero y recuperar cada combinación anterior.",
+          "id": "fc-50-6"
+        }
+      ]
+    },
+    {
+      "id": "51",
+      "unit": "8",
+      "title": "Dependencia e independencia lineal: definición y pares",
+      "criollo": "Buscá una forma de que los vectores se cancelen sin poner todos los coeficientes en cero. Si existe, hay dependencia.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "La pregunta de independencia lineal es esta: ¿podés combinar los vectores para obtener el vector cero usando algún coeficiente distinto de cero? Si podés, hay dependencia. Si la única posibilidad es apagar todos los coeficientes, hay independencia."
+        },
+        {
+          "type": "h3",
+          "text": "La ecuación que decide",
+          "criollo": "El resultado tiene que ser el vector cero; el dato clave está en los coeficientes."
+        },
+        {
+          "type": "math",
+          "latex": "c_1v_1+c_2v_2+\\cdots+c_kv_k=\\mathbf0.",
+          "display": true
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Resultado de la búsqueda",
+            "Conclusión"
+          ],
+          "rows": [
+            [
+              "Existe una solución con al menos un $c_i\\ne0$",
+              "Los vectores son linealmente dependientes (LD)"
+            ],
+            [
+              "La única solución es $c_1=\\cdots=c_k=0$",
+              "Los vectores son linealmente independientes (LI)"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "La elección de todos los coeficientes iguales a cero siempre funciona. Por eso, encontrar esa solución no alcanza para afirmar independencia: tenés que justificar que no hay otra. “No todos cero” permite que algunos coeficientes sean cero."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo original: un par dependiente",
+          "criollo": "Si uno repite al otro con otra escala, podés hacer que se cancelen."
+        },
+        {
+          "type": "p",
+          "text": "Tomá $u=(2,-1,3)$ y $v=(-4,2,-6)$. Como $v=-2u$, sale una relación no trivial enseguida:"
+        },
+        {
+          "type": "math",
+          "latex": "2u+v=2(2,-1,3)+(-4,2,-6)=(0,0,0).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Los coeficientes son $2$ y $1$: no son ambos cero. Esa sola relación ya demuestra que el par es LD; no hace falta buscar todas las relaciones posibles."
+        },
+        {
+          "type": "h3",
+          "text": "Para dos vectores: comparar múltiplos",
+          "criollo": "Probá si un único número transforma todas las coordenadas a la vez."
+        },
+        {
+          "type": "math",
+          "latex": "\\{u,v\\}\\text{ es LD}\\quad\\Longleftrightarrow\\quad u=\\lambda v\\text{ o }v=\\lambda u\\text{ para algún }\\lambda\\in\\mathbb R.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Si $v=\\lambda u$, entonces $\\lambda u-v=\\mathbf0$ es una relación no trivial porque el coeficiente de $v$ es $-1$. Esto también vale para $\\lambda=0$. En sentido contrario, si $au+bv=\\mathbf0$ y alguno de los coeficientes no es cero, despejá el vector que tiene ese coeficiente."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo original: un par independiente",
+          "criollo": "Una coordenada propone el escalar; las demás tienen que confirmarlo."
+        },
+        {
+          "type": "p",
+          "text": "Para $u=(1,2,-1)$ y $v=(3,5,4)$, la igualdad $v=\\lambda u$ obligaría a que $\\lambda=3$ por la primera coordenada. Pero la segunda pediría $5=2\\cdot3=6$, imposible. Como ninguno es cero y no son múltiplos, el par es LI."
+        },
+        {
+          "type": "callout",
+          "tone": "criollo",
+          "text": "No compares cada coordenada con un número distinto. Para que haya un múltiplo escalar, el mismo $\\lambda$ tiene que servir en todo el vector."
+        },
+        {
+          "type": "h3",
+          "text": "Ceros y repeticiones",
+          "criollo": "El cero o una copia de otro vector ya te dan una relación no trivial."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Si una familia contiene $\\mathbf0$, es LD: poné coeficiente $1$ en ese vector y $0$ en los demás",
+            "Si aparecen dos vectores iguales, usá coeficientes $1$ y $-1$ en esas posiciones",
+            "Un solo vector no nulo es LI: $cv=\\mathbf0$ obliga a $c=0$",
+            "El vector cero, considerado solo, es LD: $1\\mathbf0=\\mathbf0$"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Cuando hay tres o más vectores, que ninguno sea múltiplo de otro no alcanza para asegurar independencia del conjunto. Uno podría ser una suma de los demás. El criterio de múltiplos resuelve el caso de un par."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Dos erratas de la página 5: al terminar la prueba del teorema 8.3, la igualdad correcta es $v_2=\\mathbf0=0v_1$; no se deduce que $v_1=\\mathbf0$. En el ejemplo 8.8, mantené $-3$ en la tercera componente del segundo vector."
+        },
+        {
+          "type": "h3",
+          "text": "Chequeo rápido antes de dar el resultado",
+          "criollo": "Si decís LD, mostrás una relación; si decís LI, descartás todas las no triviales."
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Buscá primero un vector cero, una repetición o un múltiplo evidente",
+            "Para un par no nulo, probá un mismo escalar en todas las coordenadas",
+            "Para justificar LD, escribí una combinación que dé cero con coeficientes no todos cero",
+            "Para justificar LI, explicá por qué la ecuación solo admite coeficientes nulos"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo, “Combinaciones entre vectores”, páginas 4–5. Explicación, ejemplos y práctica de elaboración original, a partir de los conceptos del apunte."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "id": "tf-51-1",
+            "q": "Para demostrar dependencia, alcanza con una combinación que dé $\\mathbf0$ y tenga al menos un coeficiente no nulo.",
+            "a": true,
+            "explain": "Esa es exactamente una relación no trivial; no hace falta que todos los coeficientes sean distintos de cero."
+          },
+          {
+            "id": "tf-51-2",
+            "q": "La solución con todos los coeficientes cero demuestra, por sí sola, que los vectores son LI.",
+            "a": false,
+            "explain": "La solución trivial existe para cualquier familia. Para afirmar LI, debe ser la única."
+          },
+          {
+            "id": "tf-51-3",
+            "q": "Si una familia contiene el vector cero, es LD.",
+            "a": true,
+            "explain": "El coeficiente 1 para $\\mathbf0$ y 0 para el resto da una relación no trivial."
+          },
+          {
+            "id": "tf-51-4",
+            "q": "En un par dependiente, el múltiplo escalar que relaciona sus vectores tiene que ser distinto de cero.",
+            "a": false,
+            "explain": "Si uno de los vectores es cero, puede ser cero veces el otro. El par sigue siendo dependiente."
+          }
+        ],
+        "mc": [
+          {
+            "id": "mc-51-1",
+            "q": "Para $u=(2,-1,3)$ y $v=(-4,2,-6)$, ¿qué coeficientes $(a,b)$ prueban $au+bv=\\mathbf0$ de forma no trivial?",
+            "options": [
+              "$(1,2)$",
+              "$(2,-1)$",
+              "$(2,1)$",
+              "$(0,0)$"
+            ],
+            "correctIndex": 2,
+            "explain": "Como $v=-2u$, se verifica $2u+v=\\mathbf0$. La pareja (0,0) no prueba dependencia."
+          },
+          {
+            "id": "mc-51-2",
+            "q": "¿Cuál de estos pares es LI?",
+            "options": [
+              "$(1,0)$ y $(0,1)$",
+              "$(1,2)$ y $(2,4)$",
+              "$(0,0)$ y $(2,1)$",
+              "$(3,-1)$ y $(-6,2)$"
+            ],
+            "correctIndex": 0,
+            "explain": "Solo el primer par tiene dos vectores no nulos que no son múltiplos. Los otros tienen un múltiplo o el vector cero."
+          },
+          {
+            "id": "mc-51-3",
+            "q": "Si $au+bv=\\mathbf0$ y $b\\ne0$, ¿qué despeje es correcto?",
+            "options": [
+              "$v=\\frac{a}{b}u$",
+              "$u=-\\frac{a}{b}v$",
+              "$v=-\\frac{b}{a}u$",
+              "$v=-\\frac{a}{b}u$"
+            ],
+            "correctIndex": 3,
+            "explain": "Pasá $au$ al otro lado y dividí por $b$. No se puede dividir por $a$ sin saber que es no nulo."
+          },
+          {
+            "id": "mc-51-4",
+            "q": "¿Qué describe correctamente a $u=(1,2,-1)$ y $v=(3,5,4)$?",
+            "options": [
+              "Son LD porque ambos tienen tres coordenadas",
+              "Son LI porque no existe un escalar común que transforme u en v",
+              "Son LD porque la primera coordenada de v es triple",
+              "Son LI solamente si todos sus componentes son positivos"
+            ],
+            "correctIndex": 1,
+            "explain": "La primera coordenada exigiría un escalar 3, pero la segunda pasaría de 2 a 6 y no a 5."
+          }
+        ],
+        "ms": [
+          {
+            "id": "ms-51-1",
+            "q": "Marcá todos los pares linealmente dependientes.",
+            "options": [
+              "$(1,-2)$ y $(3,-6)$",
+              "$(0,0)$ y $(4,1)$",
+              "$(1,0)$ y $(1,1)$",
+              "$(2,3)$ y $(2,3)$",
+              "$(0,1)$ y $(2,0)$"
+            ],
+            "correctIndexes": [
+              0,
+              1,
+              3
+            ],
+            "explain": "Los pares primero y cuarto contienen múltiplos; el segundo contiene el cero. Los otros dos pares no tienen vectores proporcionales."
+          },
+          {
+            "id": "ms-51-2",
+            "q": "Marcá las afirmaciones correctas sobre una relación de dependencia.",
+            "options": [
+              "Todos sus coeficientes deben ser distintos de cero",
+              "Puede tener algún coeficiente cero",
+              "El vector resultante debe ser no nulo",
+              "Al menos un coeficiente debe ser no nulo",
+              "El vector resultante es el vector cero"
+            ],
+            "correctIndexes": [
+              1,
+              3,
+              4
+            ],
+            "explain": "La relación da el vector cero y sus coeficientes no son todos cero; algunos pueden serlo."
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "id": "fc-51-1",
+          "front": "¿Qué es una relación no trivial?",
+          "back": "Una igualdad $c_1v_1+\\cdots+c_kv_k=\\mathbf0$ con al menos un coeficiente no nulo."
+        },
+        {
+          "id": "fc-51-2",
+          "front": "¿Cómo probás independencia?",
+          "back": "Demostrando que $c_1v_1+\\cdots+c_kv_k=\\mathbf0$ solo admite $c_1=\\cdots=c_k=0$."
+        },
+        {
+          "id": "fc-51-3",
+          "front": "Criterio para un par de vectores",
+          "back": "Es LD si y solo si uno es múltiplo escalar del otro, incluido el caso de un vector cero."
+        },
+        {
+          "id": "fc-51-4",
+          "front": "¿Qué hace un vector cero dentro de una familia?",
+          "back": "La vuelve LD: elegí coeficiente 1 para ese vector y 0 para los demás."
+        },
+        {
+          "id": "fc-51-5",
+          "front": "¿Cómo tratás un único vector no nulo?",
+          "back": "Es LI: si $cv=\\mathbf0$ y $v\\ne\\mathbf0$, necesariamente $c=0$."
+        },
+        {
+          "id": "fc-51-6",
+          "front": "Error típico al comparar proporciones",
+          "back": "Usar un escalar distinto por coordenada. Un múltiplo exige el mismo escalar en todas."
+        }
+      ]
+    },
+    {
+      "id": "52",
+      "unit": "8",
+      "title": "Sistemas homogéneos y lectura geométrica de la dependencia",
+      "criollo": "Armá una columna por vector y buscá qué coeficientes dan cero. Si queda uno libre, ya tenés una pista concreta de dependencia.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Para una familia que no se resuelve a simple vista, convertí la ecuación de dependencia en un sistema homogéneo. Las incógnitas son los coeficientes de la combinación, no las coordenadas de los vectores dados."
+        },
+        {
+          "type": "h3",
+          "text": "Armar el sistema sin cambiar el orden",
+          "criollo": "Cada vector dado ocupa una columna; cada coordenada produce una ecuación."
+        },
+        {
+          "type": "math",
+          "latex": "A=\\begin{pmatrix}|&|&&|\\\\v_1&v_2&\\cdots&v_k\\\\|&|&&|\\end{pmatrix},\\qquad c=\\begin{pmatrix}c_1\\\\c_2\\\\\\vdots\\\\c_k\\end{pmatrix},\\qquad Ac=\\mathbf0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Si los vectores pertenecen a $\\mathbb R^m$, la matriz tiene $m$ filas. Si hay $k$ vectores, tiene $k$ columnas y el sistema tiene $k$ incógnitas. La columna aumentada es toda cero."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Al resolver el sistema homogéneo",
+            "Lectura sobre los vectores"
+          ],
+          "rows": [
+            [
+              "Solo aparece la solución trivial",
+              "Son LI"
+            ],
+            [
+              "Existe alguna solución no trivial",
+              "Son LD"
+            ],
+            [
+              "Queda una variable libre",
+              "Podés elegirla para construir una solución no trivial; son LD"
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "criollo",
+          "text": "Un sistema homogéneo nunca queda sin solución: siempre acepta $c=\\mathbf0$. Acá distinguís entre “solo esa” y “también otras”."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo original: independencia por eliminación",
+          "criollo": "Hacé que las ecuaciones te obliguen a poner todos los coeficientes en cero."
+        },
+        {
+          "type": "p",
+          "text": "Tomá $u=(1,0,1)$, $v=(0,1,1)$ y $w=(1,1,0)$. Al plantear $au+bv+cw=\\mathbf0$, obtenés:"
+        },
+        {
+          "type": "math",
+          "latex": "\\begin{cases}a+c=0\\\\b+c=0\\\\a+b=0\\end{cases}\\qquad\\Longleftrightarrow\\qquad\\left[\\begin{array}{ccc|c}1&0&1&0\\\\0&1&1&0\\\\1&1&0&0\\end{array}\\right].",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Restá la primera fila a la tercera; después restá la segunda fila a esa nueva tercera fila. Las primeras dos filas quedan iguales y la última pasa a expresar $-2c=0$:"
+        },
+        {
+          "type": "math",
+          "latex": "\\left[\\begin{array}{ccc|c}1&0&1&0\\\\0&1&1&0\\\\0&0&-2&0\\end{array}\\right]\\quad\\Longrightarrow\\quad c=0,\\ b=0,\\ a=0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "La única solución es la trivial, por lo tanto los tres vectores son LI."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo original: dependencia con un parámetro",
+          "criollo": "Si te queda un coeficiente libre, elegí un valor no nulo y mostrale al cero cómo llegaste."
+        },
+        {
+          "type": "p",
+          "text": "Ahora usá $u=(1,1,0)$, $v=(0,1,1)$ y $w=(2,1,-1)$. La ecuación $au+bv+cw=\\mathbf0$ da:"
+        },
+        {
+          "type": "math",
+          "latex": "\\left[\\begin{array}{ccc|c}1&0&2&0\\\\1&1&1&0\\\\0&1&-1&0\\end{array}\\right]\\longrightarrow\\left[\\begin{array}{ccc|c}1&0&2&0\\\\0&1&-1&0\\\\0&0&0&0\\end{array}\\right].",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Primero hacé $F_2\\leftarrow F_2-F_1$; después $F_3\\leftarrow F_3-F_2$, usando la nueva segunda fila. Las ecuaciones que quedan son $a+2c=0$ y $b-c=0$."
+        },
+        {
+          "type": "math",
+          "latex": "c=t,\\qquad a=-2t,\\qquad b=t,\\qquad (a,b,c)=t(-2,1,1).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Con $t=1$ obtenés una relación no trivial. Verificá el resultado con los vectores originales:"
+        },
+        {
+          "type": "math",
+          "latex": "-2u+v+w=-2(1,1,0)+(0,1,1)+(2,1,-1)=(0,0,0).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Equivalentemente, $w=2u-v$. El tercer vector se puede construir con los dos primeros y no agrega nuevas combinaciones al espacio que ellos generan."
+        },
+        {
+          "type": "h3",
+          "text": "Lectura geométrica en tres dimensiones",
+          "criollo": "Ubicá todos los vectores con el mismo origen antes de hablar del plano."
+        },
+        {
+          "type": "p",
+          "text": "Tres vectores de $\\mathbb R^3$ son LD si y solo si están contenidos en un mismo plano que pasa por el origen. Ese plano puede contener una familia que en realidad ocupa solo una recta o incluso únicamente el origen. Ser coplanares no obliga a generar un plano completo."
+        },
+        {
+          "type": "p",
+          "text": "En el ejemplo dependiente, $u$ y $v$ no son múltiplos, así que generan un plano. Como $w=2u-v$, también pertenece a ese plano. Con el producto vectorial ya estudiado podés obtener una normal:"
+        },
+        {
+          "type": "math",
+          "latex": "n=u\\times v=(1,-1,1),\\qquad n\\cdot(x,y,z)=0\\quad\\Longleftrightarrow\\quad x-y+z=0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Los tres vectores satisfacen esa ecuación: $1-1+0=0$, $0-1+1=0$ y $2-1-1=0$. Ningún par es proporcional, pero los tres juntos son LD. Esa es la diferencia entre revisar pares y revisar la familia completa."
+        },
+        {
+          "type": "h3",
+          "text": "Despejar un vector conserva los signos",
+          "criollo": "Si lo pasás al otro lado, los coeficientes cambian de signo."
+        },
+        {
+          "type": "math",
+          "latex": "c_1u+c_2v+c_3w=\\mathbf0,\\quad c_3\\ne0\\quad\\Longrightarrow\\quad w=-\\frac{c_1}{c_3}u-\\frac{c_2}{c_3}v.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Si llamás $\\alpha=-c_1/c_3$ y $\\beta=-c_2/c_3$, entonces $w=\\alpha u+\\beta v$. Cuando $u\\times v\\ne\\mathbf0$, la distributividad del producto escalar confirma que $w$ queda en el mismo plano:"
+        },
+        {
+          "type": "math",
+          "latex": "w\\cdot(u\\times v)=\\alpha\\,[u\\cdot(u\\times v)]+\\beta\\,[v\\cdot(u\\times v)]=0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Si $u\\times v=\\mathbf0$, los dos primeros no determinan una normal no nula. Con el despeje anterior, $w$ sigue siendo combinación de ellos y la familia queda contenida en una recta o en el origen, que a su vez están contenidos en planos por el origen."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "En la página 8 hay dos erratas de escritura: los coeficientes del despeje llevan los signos menos, y dentro del producto escalar corresponde $\\alpha u+\\beta v$, no un producto vectorial entre esos términos."
+        },
+        {
+          "type": "ol",
+          "items": [
+            "Ordená los vectores en columnas y armá el sistema con término independiente cero",
+            "Reducí filas o resolvé las ecuaciones, conservando el orden de las incógnitas",
+            "Si solo sale la solución trivial, concluí LI",
+            "Si aparece un parámetro libre, elegí un valor no nulo y comprobá una relación LD con los vectores originales"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo, “Combinaciones entre vectores”, páginas 6–8. Explicación, ejemplos y práctica de elaboración original, a partir de los conceptos del apunte."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "id": "tf-52-1",
+            "q": "Para estudiar dependencia, las incógnitas del sistema son los coeficientes de la combinación lineal.",
+            "a": true,
+            "explain": "Las coordenadas de los vectores dados son los coeficientes numéricos del sistema."
+          },
+          {
+            "id": "tf-52-2",
+            "q": "El sistema homogéneo $Ac=\\mathbf0$ puede ser incompatible.",
+            "a": false,
+            "explain": "El vector $c=\\mathbf0$ siempre es solución. Puede haber solo esa solución o infinitas."
+          },
+          {
+            "id": "tf-52-3",
+            "q": "Tres vectores coplanares con origen común en $\\mathbb R^3$ son LD.",
+            "a": true,
+            "explain": "Quedan contenidos en un plano por el origen, que es la lectura geométrica de la dependencia de tres vectores en este espacio."
+          },
+          {
+            "id": "tf-52-4",
+            "q": "Si ningún par entre tres vectores es proporcional, los tres necesariamente son LI.",
+            "a": false,
+            "explain": "El tercero puede ser una combinación de los primeros dos sin ser múltiplo de ninguno por separado."
+          }
+        ],
+        "mc": [
+          {
+            "id": "mc-52-1",
+            "q": "¿Cuál es la matriz de columnas $u=(1,1,0)$, $v=(0,1,1)$ y $w=(2,1,-1)$, en ese orden?",
+            "options": [
+              "$\\begin{pmatrix}1&1&0\\\\0&1&1\\\\2&1&-1\\end{pmatrix}$",
+              "$\\begin{pmatrix}1&0&2\\\\1&1&-1\\\\0&1&1\\end{pmatrix}$",
+              "$\\begin{pmatrix}1&0&2\\\\1&1&1\\\\0&1&-1\\end{pmatrix}$",
+              "$\\begin{pmatrix}1&2&0\\\\1&1&1\\\\0&-1&1\\end{pmatrix}$"
+            ],
+            "correctIndex": 2,
+            "explain": "Cada columna debe reproducir un vector completo de arriba hacia abajo, sin intercambiar coordenadas ni orden."
+          },
+          {
+            "id": "mc-52-2",
+            "q": "El sistema reducido es $a+2c=0$, $b-c=0$. ¿Cuál es su solución general?",
+            "options": [
+              "$(a,b,c)=(-2t,t,t)$",
+              "$(a,b,c)=(2t,t,t)$",
+              "$(a,b,c)=(-2t,-t,t)$",
+              "$(a,b,c)=(t,t,-2t)$"
+            ],
+            "correctIndex": 0,
+            "explain": "Elegí $c=t$; al despejar quedan $a=-2t$ y $b=t$."
+          },
+          {
+            "id": "mc-52-3",
+            "q": "Un sistema homogéneo de tres incógnitas se reduce a $a=0$, $b=0$, $c=0$. ¿Qué podés concluir sobre sus vectores columna?",
+            "options": [
+              "Son LD porque el término independiente es cero",
+              "Son LD porque existe una solución",
+              "No se puede decidir sin elegir otro término independiente",
+              "Son LI porque no hay solución no trivial"
+            ],
+            "correctIndex": 3,
+            "explain": "La independencia se caracteriza por que la solución trivial sea la única."
+          },
+          {
+            "id": "mc-52-4",
+            "q": "¿Qué plano contiene $u=(1,1,0)$, $v=(0,1,1)$ y $w=(2,1,-1)$?",
+            "options": [
+              "$x+y+z=0$",
+              "$x-y+z=0$",
+              "$x-y-z=0$",
+              "$x+y-z=0$"
+            ],
+            "correctIndex": 1,
+            "explain": "Sustituir las tres ternas da cero en x−y+z. La normal (1,−1,1) coincide con u×v."
+          }
+        ],
+        "ms": [
+          {
+            "id": "ms-52-1",
+            "q": "Para el sistema $a+2c=0$, $b-c=0$, marcá todas las soluciones.",
+            "options": [
+              "$(0,0,0)$",
+              "$(2,1,1)$",
+              "$(-2,1,1)$",
+              "$(-2,-1,1)$",
+              "$(4,-2,-2)$"
+            ],
+            "correctIndexes": [
+              0,
+              2,
+              4
+            ],
+            "explain": "Todas las soluciones son t(−2,1,1). Las seleccionadas corresponden a t=0, 1 y −2."
+          },
+          {
+            "id": "ms-52-2",
+            "q": "Marcá las afirmaciones correctas sobre tres vectores en R³.",
+            "options": [
+              "Si son LD, siempre generan un plano completo",
+              "Si son LI, no están contenidos en un plano por el origen",
+              "Si uno es combinación de los otros dos, son LD",
+              "Si ninguno es cero, son LI",
+              "Pueden ser LD aunque ninguno sea múltiplo de otro"
+            ],
+            "correctIndexes": [
+              1,
+              2,
+              4
+            ],
+            "explain": "Una familia LD puede generar un plano, una recta o solo el origen. Ser no nulos o no proporcionales de a pares no basta para independencia de los tres."
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "id": "fc-52-1",
+          "front": "¿Dónde colocás los vectores al armar el sistema?",
+          "back": "Como columnas de A. Las incógnitas son sus coeficientes en la combinación lineal."
+        },
+        {
+          "id": "fc-52-2",
+          "front": "¿Por qué $Ac=\\mathbf0$ siempre tiene solución?",
+          "back": "Porque $c=\\mathbf0$ siempre satisface todas las ecuaciones."
+        },
+        {
+          "id": "fc-52-3",
+          "front": "¿Qué demuestra una variable libre en el homogéneo?",
+          "back": "Permite obtener una solución no trivial, por lo tanto las columnas son LD."
+        },
+        {
+          "id": "fc-52-4",
+          "front": "¿Cómo convertís una solución no trivial en una prueba?",
+          "back": "Usá sus componentes como coeficientes y verificá que la combinación de los vectores originales da cero."
+        },
+        {
+          "id": "fc-52-5",
+          "front": "Tres vectores LD en R³: lectura geométrica",
+          "back": "Están contenidos en un plano que pasa por el origen, aunque puedan ocupar solo una recta o el origen."
+        },
+        {
+          "id": "fc-52-6",
+          "front": "Despeje de $w$ si $c_1u+c_2v+c_3w=\\mathbf0$ y $c_3\\ne0$",
+          "back": "$w=-(c_1/c_3)u-(c_2/c_3)v$. Conservá ambos signos menos."
+        }
+      ]
+    },
+    {
+      "id": "53",
+      "unit": "8",
+      "title": "Cantidad de vectores, determinantes y generación de Rⁿ",
+      "criollo": "Contá antes de calcular. Si hay demasiados vectores, son dependientes; si la matriz es cuadrada, un determinante te puede resolver el resto.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "La cantidad de vectores a veces permite decidir dependencia sin hacer cuentas. Si además tenés exactamente tantos vectores como coordenadas, podés usar una matriz cuadrada y conectar independencia, determinante y generación de todo el espacio."
+        },
+        {
+          "type": "h3",
+          "text": "Más vectores que coordenadas",
+          "criollo": "Si sobran columnas respecto de las filas, no pueden ser todos independientes."
+        },
+        {
+          "type": "math",
+          "latex": "v_1,\\ldots,v_k\\in\\mathbb R^m,\\qquad k>m\\quad\\Longrightarrow\\quad\\{v_1,\\ldots,v_k\\}\\text{ es LD}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "El sistema homogéneo tiene $m$ ecuaciones y $k$ incógnitas. Con más incógnitas que ecuaciones, queda alguna variable libre y aparecen soluciones no triviales. Por eso, una familia LI en $\\mathbb R^m$ contiene como máximo $m$ vectores."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Cantidad de vectores en Rᵐ",
+            "Qué podés decidir por la cantidad"
+          ],
+          "rows": [
+            [
+              "$k>m$",
+              "Son LD"
+            ],
+            [
+              "$k=m$",
+              "Pueden ser LI o LD: hay que comprobarlo"
+            ],
+            [
+              "$k<m$",
+              "Pueden ser LI o LD: la cantidad tampoco decide la independencia"
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "criollo",
+          "text": "La regla va en una dirección: “más de $m$” asegura dependencia. Tener $m$ o menos no te regala independencia."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo original: dependientes y aun así generadores",
+          "criollo": "Tener un vector de más no impide que puedas construir todo el espacio."
+        },
+        {
+          "type": "p",
+          "text": "En $\\mathbb R^2$, considerá $u=(1,0)$, $v=(0,1)$ y $w=(2,-3)$. Son tres vectores de dos coordenadas: son LD. Además, podés mostrarlo de forma explícita:"
+        },
+        {
+          "type": "math",
+          "latex": "w=2u-3v,\\qquad -2u+3v+w=\\mathbf0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "La familia genera $\\mathbb R^2$, porque cualquier $(x,y)$ se obtiene como $xu+yv+0w$. Dependencia y generación responden preguntas diferentes: puede haber vectores redundantes en un conjunto generador."
+        },
+        {
+          "type": "h3",
+          "text": "Caso cuadrado: usar el determinante",
+          "criollo": "Primero contá: el determinante solo se aplica a una matriz cuadrada."
+        },
+        {
+          "type": "p",
+          "text": "Si tenés exactamente $n$ vectores en $\\mathbb R^n$, colocados como columnas de una matriz $A$ de $n\\times n$, los criterios del apunte se conectan así:"
+        },
+        {
+          "type": "math",
+          "latex": "\\det(A)\\ne0\\quad\\Longleftrightarrow\\quad Ac=\\mathbf0\\text{ solo tiene }c=\\mathbf0\\quad\\Longleftrightarrow\\quad\\text{las columnas son LI}.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "En este caso de exactamente $n$ vectores de $\\mathbb R^n$, la independencia garantiza que generan todo $\\mathbb R^n$. Si el determinante es cero, las columnas son LD y no generan todo ese espacio."
+        },
+        {
+          "type": "callout",
+          "tone": "warning",
+          "text": "Una matriz de $3\\times2$ no tiene determinante. Dos vectores de $\\mathbb R^3$ se estudian por múltiplos o mediante su sistema homogéneo; no agregues una columna inventada para aplicar el criterio."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo original: tres vectores que generan R³",
+          "criollo": "Un determinante no nulo resuelve independencia y generación a la vez."
+        },
+        {
+          "type": "p",
+          "text": "Tomá $u=(1,1,0)$, $v=(0,1,1)$ y $w=(1,0,2)$. La matriz y el cálculo por la primera fila son:"
+        },
+        {
+          "type": "math",
+          "latex": "A=\\begin{pmatrix}1&0&1\\\\1&1&0\\\\0&1&2\\end{pmatrix},\\qquad\\det(A)=1(1\\cdot2-0\\cdot1)+1(1\\cdot1-1\\cdot0)=3.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Como $3\\ne0$, la terna es LI y genera $\\mathbb R^3$. Para comprobar una combinación concreta, buscá el vector $b=(4,1,3)$:"
+        },
+        {
+          "type": "math",
+          "latex": "2u-v+2w=(2,2,0)+(0,-1,-1)+(2,0,4)=(4,1,3).",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "Esa comprobación sirve para el vector elegido. La afirmación de que se genera todo $\\mathbb R^3$ viene del criterio general, no de haber encontrado una sola combinación."
+        },
+        {
+          "type": "h3",
+          "text": "Un cambio que vuelve dependiente a la terna",
+          "criollo": "Si el tercero sale de los otros dos, el determinante se anula."
+        },
+        {
+          "type": "p",
+          "text": "Mantené $u=(1,1,0)$ y $v=(0,1,1)$, pero reemplazá el tercero por $w=(1,2,1)=u+v$."
+        },
+        {
+          "type": "math",
+          "latex": "\\det\\begin{pmatrix}1&0&1\\\\1&1&2\\\\0&1&1\\end{pmatrix}=1(1-2)+1(1-0)=0,\\qquad u+v-w=\\mathbf0.",
+          "display": true
+        },
+        {
+          "type": "p",
+          "text": "La nueva terna es LD. Sus combinaciones permanecen en el plano $x-y+z=0$, por lo que no generan $\\mathbb R^3$."
+        },
+        {
+          "type": "h3",
+          "text": "No mezclar independencia con generación",
+          "criollo": "Preguntá siempre qué espacio querés generar y cuántos vectores tenés."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "$(1,0,0)$ y $(0,1,0)$ son LI, pero sus combinaciones tienen $z=0$: no generan $\\mathbb R^3$",
+            "$(1,0)$, $(0,1)$ y $(2,-3)$ son LD y sí generan $\\mathbb R^2$",
+            "Exactamente $n$ vectores LI de $\\mathbb R^n$ sí generan todo $\\mathbb R^n$",
+            "Si a esos $n$ vectores LI agregás otro de $\\mathbb R^n$, la familia ampliada sigue generando, pero pasa a ser LD"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Una aplicación sencilla a señales",
+          "criollo": "Una señal también se puede sumar con otra y multiplicar por un número."
+        },
+        {
+          "type": "p",
+          "text": "El cierre del apunte relaciona espacios vectoriales con señales de entrada y salida representadas por funciones. Como ejemplo propio, si $f(t)=t$ y $g(t)=1$, la combinación $h(t)=2f(t)-3g(t)$ vale $2t-3$: multiplicás y sumás los valores para cada $t$. Es la misma idea operativa de combinación lineal, aplicada a funciones."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Esta unidad trabaja los criterios de combinaciones, dependencia e independencia del material disponible. La mención a señales ilustra suma y multiplicación por escalares; no reemplaza el desarrollo de la unidad de Espacios Vectoriales."
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "text": "Fuente temática: Universidad de Palermo, “Combinaciones entre vectores”, páginas 8–9. Explicación, ejemplos y práctica de elaboración original, a partir de los conceptos del apunte."
+        }
+      ],
+      "quiz": {
+        "tf": [
+          {
+            "id": "tf-53-1",
+            "q": "Cinco vectores de $\\mathbb R^4$ son necesariamente LD.",
+            "a": true,
+            "explain": "Hay más vectores que coordenadas, así que el sistema homogéneo tiene más incógnitas que ecuaciones."
+          },
+          {
+            "id": "tf-53-2",
+            "q": "Tres vectores de $\\mathbb R^3$ son necesariamente LI por tener la cantidad justa.",
+            "a": false,
+            "explain": "La cantidad permite que sean LI, pero también pueden ser dependientes. Hay que comprobarlos."
+          },
+          {
+            "id": "tf-53-3",
+            "q": "Un conjunto generador puede incluir vectores redundantes y ser LD.",
+            "a": true,
+            "explain": "Por ejemplo, agregar un tercer vector a los dos canónicos de R² mantiene la generación pero produce dependencia."
+          },
+          {
+            "id": "tf-53-4",
+            "q": "Para dos vectores de $\\mathbb R^3$, el determinante de su matriz de columnas decide la independencia.",
+            "a": false,
+            "explain": "La matriz tiene tamaño 3×2 y no tiene determinante. Se usa el sistema homogéneo o el criterio de múltiplos."
+          }
+        ],
+        "mc": [
+          {
+            "id": "mc-53-1",
+            "q": "¿Cuál es el máximo de vectores que puede contener una familia LI en $\\mathbb R^5$?",
+            "options": [
+              "3 vectores",
+              "4 vectores",
+              "5 vectores",
+              "6 vectores"
+            ],
+            "correctIndex": 2,
+            "explain": "El máximo coincide con la cantidad de coordenadas: 5. Esto no significa que cualquier grupo de cinco sea LI."
+          },
+          {
+            "id": "mc-53-2",
+            "q": "Una matriz $3\\times3$ de vectores columna tiene determinante $-7$. ¿Qué concluís?",
+            "options": [
+              "Las columnas son LI y generan R³",
+              "Las columnas son LD y generan R³",
+              "Las columnas son LI y no generan R³",
+              "Las columnas son LD y no generan R³"
+            ],
+            "correctIndex": 0,
+            "explain": "Lo importante es que −7 no es cero. Con tres vectores LI de R³, también se genera R³."
+          },
+          {
+            "id": "mc-53-3",
+            "q": "¿Cuánto vale el determinante de $\\begin{pmatrix}1&0&1\\\\1&1&0\\\\0&1&2\\end{pmatrix}$?",
+            "options": [
+              "$0$",
+              "$1$",
+              "$2$",
+              "$3$"
+            ],
+            "correctIndex": 3,
+            "explain": "Expandiendo por la primera fila: 1(2−0)+1(1−0)=3."
+          },
+          {
+            "id": "mc-53-4",
+            "q": "¿Qué describe a $(1,0,0)$ y $(0,1,0)$ respecto de $\\mathbb R^3$?",
+            "options": [
+              "Son LD y generan R³",
+              "Son LI y no generan R³",
+              "Son LD y no generan R³",
+              "Son LI y generan R³"
+            ],
+            "correctIndex": 1,
+            "explain": "No son múltiplos, por lo tanto son LI. Sus combinaciones tienen z=0 y no alcanzan todo R³."
+          }
+        ],
+        "ms": [
+          {
+            "id": "ms-53-1",
+            "q": "Marcá todas las afirmaciones que son siempre verdaderas.",
+            "options": [
+              "Cuatro vectores de R³ son LD",
+              "Dos vectores de R³ son LI",
+              "Una familia LI en R⁴ tiene como máximo cuatro vectores",
+              "Tres vectores LI de R³ generan R³",
+              "Una familia LD nunca genera el espacio completo"
+            ],
+            "correctIndexes": [
+              0,
+              2,
+              3
+            ],
+            "explain": "La cantidad excesiva asegura LD; la independencia limita la cantidad y, con la cantidad exacta, garantiza generación. Los otros enunciados confunden cantidad o redundancia con independencia."
+          },
+          {
+            "id": "ms-53-2",
+            "q": "Para $u=(1,0)$, $v=(0,1)$ y $w=(2,-3)$, marcá las afirmaciones correctas.",
+            "options": [
+              "La familia es LI",
+              "La familia genera $\\mathbb R^2$",
+              "$w=2u-3v$",
+              "La matriz de columnas tiene determinante no nulo",
+              "$-2u+3v+w=\\mathbf0$"
+            ],
+            "correctIndexes": [
+              1,
+              2,
+              4
+            ],
+            "explain": "Los primeros dos vectores ya generan R² y el tercero combina a ambos. La matriz tiene tamaño 2×3, por lo que no tiene determinante."
+          }
+        ]
+      },
+      "flashcards": [
+        {
+          "id": "fc-53-1",
+          "front": "¿Qué ocurre con k vectores de Rᵐ si k>m?",
+          "back": "Son LD: el sistema homogéneo tiene más incógnitas que ecuaciones."
+        },
+        {
+          "id": "fc-53-2",
+          "front": "Máximo tamaño de una familia LI en Rⁿ",
+          "back": "Como máximo n vectores. Tener n o menos no garantiza que sean LI."
+        },
+        {
+          "id": "fc-53-3",
+          "front": "¿Cuándo aplicás el determinante a vectores?",
+          "back": "Cuando su matriz es cuadrada: exactamente n vectores en Rⁿ."
+        },
+        {
+          "id": "fc-53-4",
+          "front": "¿Qué indica $\\det(A)\\ne0$ para n columnas de Rⁿ?",
+          "back": "Son LI, el homogéneo solo tiene la solución trivial y generan Rⁿ."
+        },
+        {
+          "id": "fc-53-5",
+          "front": "¿Puede una familia LD generar el espacio completo?",
+          "back": "Sí. Puede tener vectores de más, como tres vectores de R² que incluyan los dos canónicos."
+        },
+        {
+          "id": "fc-53-6",
+          "front": "¿Qué operaciones del tema se aplican a funciones o señales?",
+          "back": "La suma y la multiplicación por escalares, realizadas para cada valor de la variable."
         }
       ]
     },
