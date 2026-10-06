@@ -3119,4 +3119,1166 @@ export default {
       { id: 'fc2-49-6', front: 'Proyección de la actividad', back: 'La librería se pensó para reutilizarse en el proyecto final, donde habrá muchas pantallas con muchos campos a validar.' },
     ],
   },
+  "50": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-50-1",
+          "q": "Una variable declarada Connection puede referirse a una clase concreta del driver.",
+          "a": true,
+          "explain": "Es el uso de una interfaz como tipo de referencia."
+        },
+        {
+          "id": "tf2-50-2",
+          "q": "El compilador comprueba que todo nombre escrito dentro de Class.forName exista al ejecutar.",
+          "a": false,
+          "explain": "Que el String compile no garantiza la presencia de la clase en el classpath."
+        },
+        {
+          "id": "tf2-50-3",
+          "q": "El formato de la URL de conexión se consulta en la documentación del driver.",
+          "a": true,
+          "explain": "Es parte de la configuración específica del proveedor."
+        },
+        {
+          "id": "tf2-50-4",
+          "q": "JDBC evita que una diferencia de dialecto SQL afecte a una consulta.",
+          "a": false,
+          "explain": "Desacopla contratos Java; no vuelve idénticas las sintaxis SQL de todos los motores."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-50-1",
+          "q": "Tu aplicación compila, pero no encuentra org.h2.Driver al iniciar. ¿Qué revisarías primero?",
+          "options": [
+            "La disponibilidad del JAR en el classpath",
+            "La posición del cursor en el ResultSet",
+            "La cantidad de filas del último update",
+            "La confirmación de la última transacción"
+          ],
+          "correctIndex": 0,
+          "explain": "El síntoma corresponde a localizar la clase del driver."
+        },
+        {
+          "id": "mc2-50-2",
+          "q": "Se reemplaza una implementación manteniendo el tipo Connection. ¿Qué concepto aparece?",
+          "options": [
+            "Sobrecarga mediante otro parámetro",
+            "Polimorfismo mediante una interfaz",
+            "Recursión mediante la misma llamada",
+            "Conversión mediante un tipo primitivo"
+          ],
+          "correctIndex": 1,
+          "explain": "El tipo de referencia se mantiene y cambia el objeto concreto."
+        },
+        {
+          "id": "mc2-50-3",
+          "q": "¿Qué par reúne configuración propia del acceso al motor?",
+          "options": [
+            "Nombre de la interfaz y bytecode",
+            "Nombre de la variable y comentario",
+            "URL de conexión y credenciales",
+            "Índice de columna y valor booleano"
+          ],
+          "correctIndex": 2,
+          "explain": "La conexión requiere identificar el destino y los datos de acceso pertinentes."
+        },
+        {
+          "id": "mc2-50-4",
+          "q": "¿Qué responsabilidad corresponde a DriverManager?",
+          "options": [
+            "Convertir las filas en entidades del dominio",
+            "Decidir qué alerta muestra cada pantalla",
+            "Definir los campos de cada tabla nueva",
+            "Obtener una conexión con un driver adecuado"
+          ],
+          "correctIndex": 3,
+          "explain": "DriverManager administra drivers y atiende solicitudes de conexión."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-50-1",
+          "q": "¿Qué conclusiones son compatibles con programar contra Connection?",
+          "options": [
+            "La variable no exige la clase concreta de H2",
+            "El objeto real lo proporciona el driver",
+            "El código queda libre de revisar dialectos SQL",
+            "La URL puede variar entre proveedores",
+            "Los datos se vuelven persistentes sin consultas"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            3
+          ],
+          "explain": "El contrato desacopla implementaciones; las consultas y la configuración siguen importando."
+        },
+        {
+          "id": "ms2-50-2",
+          "q": "¿Qué acciones, por sí solas, confirman una transacción?",
+          "options": [
+            "Importar java.sql.Connection",
+            "Agregar el driver al classpath",
+            "Declarar una variable Connection",
+            "Consultar el nombre del driver",
+            "Escribir la URL en una variable"
+          ],
+          "correctIndexes": [],
+          "explain": "Estas acciones preparan tipos o configuración; ninguna confirma operaciones de una transacción."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-50-1",
+        "front": "¿Contrato o implementación?",
+        "back": "Connection es el contrato; el objeto devuelto pertenece a una implementación del driver."
+      },
+      {
+        "id": "fc2-50-2",
+        "front": "Driver disponible pero sin sesión abierta",
+        "back": "El JAR permite cargar clases; todavía hay que solicitar la conexión."
+      },
+      {
+        "id": "fc2-50-3",
+        "front": "String correcto y clase ausente",
+        "back": "El código puede compilar y fallar luego con ClassNotFoundException."
+      },
+      {
+        "id": "fc2-50-4",
+        "front": "Por qué el tipo de referencia puede mantenerse",
+        "back": "Las implementaciones de distintos drivers cumplen la misma interfaz."
+      },
+      {
+        "id": "fc2-50-5",
+        "front": "Qué revisar al cambiar de motor",
+        "back": "Driver y configuración, además de posibles diferencias del SQL utilizado."
+      },
+      {
+        "id": "fc2-50-6",
+        "front": "Carga explícita en el material",
+        "back": "Es el recorrido didáctico con Class.forName; no una obligación universal de todos los drivers actuales."
+      }
+    ]
+  },
+  "51": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-51-1",
+          "q": "El booleano de execute permite decidir si su primer resultado es tabular.",
+          "a": true,
+          "explain": "Ese es el significado del retorno según Statement."
+        },
+        {
+          "id": "tf2-51-2",
+          "q": "executeQuery es el método que devuelve directamente la cantidad de filas modificadas.",
+          "a": false,
+          "explain": "Su retorno es ResultSet; el conteo corresponde a executeUpdate."
+        },
+        {
+          "id": "tf2-51-3",
+          "q": "createStatement y executeQuery cumplen pasos distintos del recorrido.",
+          "a": true,
+          "explain": "El primero prepara el objeto Statement y el segundo ejecuta una consulta."
+        },
+        {
+          "id": "tf2-51-4",
+          "q": "Recibir true de execute demuestra que ya se cerró la conexión.",
+          "a": false,
+          "explain": "El retorno no informa del cierre ni del estado de la transacción."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-51-1",
+          "q": "Una búsqueda necesita leer títulos y autores. ¿Qué retorno encaja con esa necesidad?",
+          "options": [
+            "Integer para contar actualizaciones",
+            "ResultSet para recorrer los registros",
+            "Connection para configurar el motor",
+            "Boolean para indicar el cierre final"
+          ],
+          "correctIndex": 1,
+          "explain": "Los datos de una consulta se leen a través de ResultSet."
+        },
+        {
+          "id": "mc2-51-2",
+          "q": "Una operación válida no afectó registros. ¿Qué resultado es coherente?",
+          "options": [
+            "executeQuery devuelve una Connection",
+            "execute devuelve siempre una excepción",
+            "executeUpdate devuelve el entero 0",
+            "createStatement devuelve un conteo"
+          ],
+          "correctIndex": 2,
+          "explain": "El conteo cero no demuestra un error."
+        },
+        {
+          "id": "mc2-51-3",
+          "q": "¿Qué lectura corresponde a execute(sql) == false?",
+          "options": [
+            "El driver no está dentro del classpath",
+            "La consulta dejó la conexión cerrada",
+            "La transacción fue revertida por Java",
+            "El primer resultado no es un ResultSet"
+          ],
+          "correctIndex": 3,
+          "explain": "La API describe el tipo de resultado, no esos estados ajenos al booleano."
+        },
+        {
+          "id": "mc2-51-4",
+          "q": "¿Qué mecanismo informa un error de acceso al ejecutar SQL?",
+          "options": [
+            "Una SQLException que debe manejarse",
+            "Un false que reemplaza las excepciones",
+            "Un índice que siempre comienza en cero",
+            "Un null que reemplaza el tipo Statement"
+          ],
+          "correctIndex": 0,
+          "explain": "El contrato de los métodos incluye SQLException para errores de acceso."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-51-1",
+          "q": "¿Qué observaciones son compatibles con el contrato de Statement?",
+          "options": [
+            "Una consulta puede producir ResultSet",
+            "Un UPDATE puede informar filas afectadas",
+            "execute distingue la forma del primer resultado",
+            "Un false permite omitir el manejo de errores",
+            "createStatement confirma cambios anteriores"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2
+          ],
+          "explain": "Los tres primeros describen resultados; las otras dos confunden responsabilidades."
+        },
+        {
+          "id": "ms2-51-2",
+          "q": "¿Qué garantías aporta por sí solo el valor true devuelto por execute?",
+          "options": [
+            "Que todas las filas fueron modificadas",
+            "Que la conexión quedó cerrada",
+            "Que la transacción quedó confirmada",
+            "Que el driver se descargó del classpath",
+            "Que el último resultado fue el único"
+          ],
+          "correctIndexes": [],
+          "explain": "True solo informa que el primer resultado es un ResultSet."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-51-1",
+        "front": "Consulta que necesita leer columnas",
+        "back": "Se usa executeQuery y después se recorre su ResultSet."
+      },
+      {
+        "id": "fc2-51-2",
+        "front": "Cambio que necesita contar filas",
+        "back": "executeUpdate entrega un int con el conteo correspondiente."
+      },
+      {
+        "id": "fc2-51-3",
+        "front": "Por qué false no equivale a error",
+        "back": "execute usa el booleano para distinguir la forma del primer resultado."
+      },
+      {
+        "id": "fc2-51-4",
+        "front": "Sentencia preparada para ejecutar",
+        "back": "createStatement crea el Statement; todavía no significa que se ejecutó SQL."
+      },
+      {
+        "id": "fc2-51-5",
+        "front": "Errores frente a retornos",
+        "back": "Una SQLException señala un problema; el tipo de retorno cumple otro propósito."
+      },
+      {
+        "id": "fc2-51-6",
+        "front": "DDL y executeUpdate",
+        "back": "La API admite sentencias sin resultado de filas; su retorno es cero."
+      }
+    ]
+  },
+  "52": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-52-1",
+          "q": "Si la consulta no devuelve filas, el primer next devuelve false.",
+          "a": true,
+          "explain": "El cuerpo del while no se ejecuta porque no hay una fila actual para procesar."
+        },
+        {
+          "id": "tf2-52-2",
+          "q": "Llamar a getString mueve el cursor a la siguiente fila.",
+          "a": false,
+          "explain": "El avance lo hace next; el getter lee la fila actual."
+        },
+        {
+          "id": "tf2-52-3",
+          "q": "Una etiqueta de columna puede ser el alias definido por la consulta.",
+          "a": true,
+          "explain": "El alias identifica esa columna del resultado al pedir su valor."
+        },
+        {
+          "id": "tf2-52-4",
+          "q": "El código numérico de error puede interpretarse sin considerar el proveedor.",
+          "a": false,
+          "explain": "getErrorCode es específico del proveedor y debe contrastarse con su documentación."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-52-1",
+          "q": "El while(resultado.next()) no entra ni una vez. ¿Qué explicación encaja?",
+          "options": [
+            "La primera columna empieza en cero",
+            "El getter consumió toda la conexión",
+            "La consulta devolvió cero filas",
+            "El código confirmó cada objeto creado"
+          ],
+          "correctIndex": 2,
+          "explain": "Con un resultado vacío, next es false desde el primer intento."
+        },
+        {
+          "id": "mc2-52-2",
+          "q": "¿Qué operación necesita una fila actual antes de leer su contenido?",
+          "options": [
+            "DriverManager.getConnection(url)",
+            "Class.forName(\"org.h2.Driver\")",
+            "conexion.createStatement()",
+            "resultado.getString(\"titulo\")"
+          ],
+          "correctIndex": 3,
+          "explain": "El getter lee el valor de una columna de la fila en la que está el cursor."
+        },
+        {
+          "id": "mc2-52-3",
+          "q": "¿Qué evita extender el manejo de ResultSet por otras partes del programa?",
+          "options": [
+            "Armar objetos y reunirlos en una colección",
+            "Armar más URLs dentro de cada pantalla",
+            "Guardar el driver dentro de cada entidad",
+            "Cambiar los nombres de todas las columnas"
+          ],
+          "correctIndex": 0,
+          "explain": "Transformar filas en objetos permite separar el recorrido JDBC del uso de los datos."
+        },
+        {
+          "id": "mc2-52-4",
+          "q": "¿Qué par distingue correctamente las dos consultas de error?",
+          "options": [
+            "Cantidad de filas y nombre de cada tabla",
+            "Código del proveedor y estado SQL textual",
+            "Posición del cursor y tipo de cada columna",
+            "Estado de la ventana y título del mensaje"
+          ],
+          "correctIndex": 1,
+          "explain": "getErrorCode y getSQLState aportan datos del error, con propósitos y tipos distintos."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-52-1",
+          "q": "¿Qué es válido al leer columnas de un ResultSet?",
+          "options": [
+            "Usar el nombre o la etiqueta de columna",
+            "Usar índices numéricos desde uno",
+            "Elegir un getter acorde con el tipo esperado",
+            "Usar next para avanzar entre filas",
+            "Usar el getter para confirmar la transacción"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explain": "Leer datos y avanzar el cursor no confirma transacciones."
+        },
+        {
+          "id": "ms2-52-2",
+          "q": "¿Qué efectos tienen por sí solos getErrorCode y getSQLState?",
+          "options": [
+            "Reintentar la sentencia que falló",
+            "Deshacer los cambios pendientes",
+            "Mover el cursor al primer registro",
+            "Cerrar el Statement de la consulta",
+            "Traducir todo error a una excepción propia"
+          ],
+          "correctIndexes": [],
+          "explain": "Solo consultan información; cualquiera de esas acciones requiere lógica adicional."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-52-1",
+        "front": "ResultSet vacío",
+        "back": "El primer next devuelve false y el bucle no procesa filas."
+      },
+      {
+        "id": "fc2-52-2",
+        "front": "Avanzar frente a leer",
+        "back": "next cambia la posición; los getters leen campos de la fila actual."
+      },
+      {
+        "id": "fc2-52-3",
+        "front": "Alias SQL",
+        "back": "Puede usarse como etiqueta para acceder a la columna del resultado."
+      },
+      {
+        "id": "fc2-52-4",
+        "front": "De filas a objetos",
+        "back": "El recorrido puede construir entidades y reunirlas en una lista."
+      },
+      {
+        "id": "fc2-52-5",
+        "front": "Código de error específico",
+        "back": "Su significado se consulta en la documentación del proveedor de la base."
+      },
+      {
+        "id": "fc2-52-6",
+        "front": "Inspeccionar no resuelve",
+        "back": "Leer getErrorCode o getSQLState no reintenta, revierte ni traduce el error por sí mismo."
+      }
+    ]
+  },
+  "53": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-53-1",
+          "q": "Auto-commit y control manual representan modos distintos de confirmar operaciones.",
+          "a": true,
+          "explain": "Con control manual se agrupan las operaciones antes de decidir commit o rollback."
+        },
+        {
+          "id": "tf2-53-2",
+          "q": "La existencia de un bloque finally garantiza que se ejecutó commit.",
+          "a": false,
+          "explain": "Finally es una estructura de control; depende de qué instrucciones se escriban dentro."
+        },
+        {
+          "id": "tf2-53-3",
+          "q": "Una falla en la segunda operación puede exigir revertir la primera si eran una unidad.",
+          "a": true,
+          "explain": "Dejar una mitad aplicada contradice la unidad de trabajo planteada."
+        },
+        {
+          "id": "tf2-53-4",
+          "q": "El cierre de la conexión elimina la necesidad de manejar SQLException.",
+          "a": false,
+          "explain": "Close también puede lanzar SQLException según el contrato JDBC."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-53-1",
+          "q": "Se guardó una reserva pero falló el cambio de disponibilidad dentro de la misma transacción. ¿Qué decisión evita dejar ese trabajo parcial?",
+          "options": [
+            "Confirmar los cambios pendientes del conjunto",
+            "Crear otra lista con las consultas previas",
+            "Renombrar la conexión usada en el conjunto",
+            "Revertir los cambios pendientes del conjunto"
+          ],
+          "correctIndex": 3,
+          "explain": "Si las dos operaciones debían ser una unidad, rollback permite deshacer la parte pendiente."
+        },
+        {
+          "id": "mc2-53-2",
+          "q": "Terminó correctamente la unidad bajo control manual. ¿Qué queda por decidir?",
+          "options": [
+            "Confirmar sus cambios con commit",
+            "Leer cada columna con next",
+            "Cargar de nuevo la clase del driver",
+            "Convertir el Statement en una entidad"
+          ],
+          "correctIndex": 0,
+          "explain": "El éxito de las sentencias no sustituye la confirmación explícita."
+        },
+        {
+          "id": "mc2-53-3",
+          "q": "¿Qué responsabilidad conserva el código después de confirmar?",
+          "options": [
+            "Cambiar la interfaz de toda la conexión",
+            "Liberar los recursos que ya no necesita",
+            "Recorrer nuevamente todas las columnas",
+            "Volver a ejecutar las sentencias previas"
+          ],
+          "correctIndex": 1,
+          "explain": "Commit decide sobre cambios, pero los recursos todavía tienen un ciclo de vida."
+        },
+        {
+          "id": "mc2-53-4",
+          "q": "Un fragmento llama setAutoCommit(false) y omite toda decisión posterior. ¿Qué le falta explicar?",
+          "options": [
+            "Cuándo contar las clases del paquete",
+            "Cuándo traducir los nombres de campos",
+            "Cuándo confirmar o revertir el trabajo",
+            "Cuándo renombrar las variables locales"
+          ],
+          "correctIndex": 2,
+          "explain": "El control manual exige explicar el camino de commit y el de rollback."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-53-1",
+          "q": "¿Qué decisiones corresponden al diseño de una transacción?",
+          "options": [
+            "Qué operaciones forman la unidad",
+            "Cuándo confirmar el trabajo completo",
+            "Cuándo revertir los cambios pendientes",
+            "Cómo liberar los recursos adquiridos",
+            "Qué color tendrá el icono del driver"
+          ],
+          "correctIndexes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "explain": "Las primeras cuatro decisiones definen el control y los recursos del flujo."
+        },
+        {
+          "id": "ms2-53-2",
+          "q": "¿Qué acciones confirman por sí solas una unidad configurada con auto-commit desactivado?",
+          "options": [
+            "Entrar en el bloque finally",
+            "Leer un código de SQLException",
+            "Cambiar el nombre de la variable",
+            "Crear un objeto con una fila",
+            "Agregar ese objeto a una lista"
+          ],
+          "correctIndexes": [],
+          "explain": "Ninguna reemplaza la llamada de confirmación de la transacción."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-53-1",
+        "front": "Error a mitad del trabajo",
+        "back": "Si las operaciones forman una unidad, hay que evaluar la reversión de sus cambios pendientes."
+      },
+      {
+        "id": "fc2-53-2",
+        "front": "Sentencias exitosas en modo manual",
+        "back": "Todavía hace falta la decisión de confirmar con commit."
+      },
+      {
+        "id": "fc2-53-3",
+        "front": "Después de commit",
+        "back": "La responsabilidad de liberar recursos continúa."
+      },
+      {
+        "id": "fc2-53-4",
+        "front": "Auto-commit por sentencia",
+        "back": "No equivale a agrupar varias sentencias en una decisión manual."
+      },
+      {
+        "id": "fc2-53-5",
+        "front": "Finally no decide el negocio",
+        "back": "Ejecuta el bloque de salida; no implica confirmación ni reversión automática."
+      },
+      {
+        "id": "fc2-53-6",
+        "front": "Fragmento incompleto del apunte",
+        "back": "Desactiva auto-commit pero no muestra la decisión commit/rollback en ese código inicial."
+      }
+    ]
+  },
+  "54": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-54-1",
+          "q": "Si cada pantalla contiene SQL propio de un motor, declarar además una interfaz DAO no alcanza para aislar esas pantallas de ese SQL.",
+          "a": true,
+          "explain": "La separación depende de dónde están las responsabilidades. El SQL que sigue en las pantallas continúa acoplándolas al motor."
+        },
+        {
+          "id": "tf2-54-2",
+          "q": "Cuando una implementación DAO usa archivos, el código cliente debe pasar a usar interfaces JDBC para llamarla.",
+          "a": false,
+          "explain": "El cliente puede conservar el contrato DAO. JDBC no es un requisito para una implementación basada en archivos."
+        },
+        {
+          "id": "tf2-54-3",
+          "q": "En una migración, el trabajo de adaptar el almacenamiento puede concentrarse detrás del contrato DAO.",
+          "a": true,
+          "explain": "Con el contrato y su comportamiento conservados, los cambios concretos pueden quedar en la implementación."
+        },
+        {
+          "id": "tf2-54-4",
+          "q": "La existencia de varias implementaciones DAO demuestra que cada una necesita un contrato público distinto.",
+          "a": false,
+          "explain": "El objetivo del intercambio es que distintas implementaciones puedan respetar un mismo contrato."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-54-1",
+          "q": "Una aplicación empieza a leer datos desde archivos en lugar de una base. ¿Qué diseño facilita conservar sus pedidos de consulta?",
+          "options": [
+            "Pasar el nombre del motor a cada pantalla del programa.",
+            "Escribir la lectura del archivo en cada pantalla afectada.",
+            "Quitar la interfaz y llamar directamente a cada archivo.",
+            "Mantener el contrato DAO con otra implementación compatible."
+          ],
+          "correctIndex": 3,
+          "explain": "El cliente conserva sus pedidos mediante el contrato mientras cambia la manera de resolverlos."
+        },
+        {
+          "id": "mc2-54-2",
+          "q": "Un equipo cambió el driver y la URL, pero todavía falla una consulta. ¿Qué debería revisar según la motivación del material?",
+          "options": [
+            "Si la entidad debe tener un método distinto para cada driver.",
+            "Si la consulta usa una variante SQL del motor anterior.",
+            "Si cada operación DAO debe repetirse en el código cliente.",
+            "Si cada motor necesita un nombre diferente para la interfaz."
+          ],
+          "correctIndex": 1,
+          "explain": "La sintaxis aceptada puede variar entre proveedores. Cambiar la conexión no corrige automáticamente esas diferencias."
+        },
+        {
+          "id": "mc2-54-3",
+          "q": "¿Cuál sería una señal concreta de que un DAO está separando responsabilidades?",
+          "options": [
+            "El cliente consulta entidades sin incluir detalles del almacenamiento.",
+            "El cliente recibe las consultas SQL y decide cuál corresponde al motor.",
+            "El cliente abre archivos antes de invocar cualquier operación del DAO.",
+            "El cliente cambia cada llamada cuando cambia la tecnología usada."
+          ],
+          "correctIndex": 0,
+          "explain": "La separación se ve cuando los pedidos sobre entidades no obligan al cliente a conocer pasos específicos del almacenamiento."
+        },
+        {
+          "id": "mc2-54-4",
+          "q": "Dos implementaciones usan medios diferentes pero ofrecen las mismas operaciones. ¿Qué representa esa diferencia?",
+          "options": [
+            "Una obligación de modificar el tipo de todas las entidades.",
+            "Una pérdida del contrato común entre ambas implementaciones.",
+            "Dos maneras de realizar las operaciones de persistencia.",
+            "Dos conjuntos de consultas SQL necesariamente idénticos."
+          ],
+          "correctIndex": 2,
+          "explain": "El contrato puede ser común aunque guardar y recuperar datos requiera pasos distintos."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-54-1",
+          "q": "Un cliente pide obtener todos los productos. ¿Qué decisiones corresponden a la implementación concreta del almacenamiento?",
+          "options": [
+            "Elegir los colores con los que se muestran los productos.",
+            "Preparar la consulta SQL si se trabaja con una base.",
+            "Leer los datos del archivo si ese es el medio elegido.",
+            "Definir qué botón abre la pantalla del catálogo.",
+            "Realizar los pasos de acceso para devolver los productos."
+          ],
+          "correctIndexes": [
+            1,
+            2,
+            4
+          ],
+          "explain": "El SQL, la lectura de archivos y los pasos para recuperar objetos son detalles de persistencia. Los colores y botones pertenecen a la presentación."
+        },
+        {
+          "id": "ms2-54-2",
+          "q": "¿Qué resultados quedan garantizados por el solo hecho de escribir una interfaz DAO? Puede no haber opciones correctas.",
+          "options": [
+            "Que el SQL funcione sin cambios en todos los motores.",
+            "Que ya exista código para guardar los objetos en archivos.",
+            "Que cada implementación futura cumpla el comportamiento esperado.",
+            "Que una migración convierta por sí sola los datos existentes.",
+            "Que el cliente deje de depender de cualquier detalle que ya usa."
+          ],
+          "correctIndexes": [],
+          "explain": "Una interfaz declara operaciones; no crea implementaciones, corrige SQL, migra datos ni elimina dependencias existentes por sí sola. Es necesario implementar y usar correctamente la separación."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-54-1",
+        "front": "Cambió el driver, pero falló el SQL. ¿Qué distinción te ayuda a explicarlo?",
+        "back": "La API común de JDBC no hace idéntico el lenguaje SQL que acepta cada motor."
+      },
+      {
+        "id": "fc2-54-2",
+        "front": "Una pantalla sigue escribiendo SQL específico aunque exista un DAO. ¿Qué revisarías?",
+        "back": "Si las operaciones de persistencia realmente quedaron en la implementación DAO o si siguen repartidas en el cliente."
+      },
+      {
+        "id": "fc2-54-3",
+        "front": "Dos DAOs recuperan el mismo tipo de objeto, uno desde archivo y otro desde base. ¿Qué comparten?",
+        "back": "Pueden compartir el contrato de operaciones, aunque sus pasos internos de acceso sean distintos."
+      },
+      {
+        "id": "fc2-54-4",
+        "front": "¿Por qué puede seguir habiendo trabajo técnico al reemplazar un DAO?",
+        "back": "Porque hay que desarrollar o adaptar una implementación que cumpla el contrato con el nuevo almacenamiento."
+      },
+      {
+        "id": "fc2-54-5",
+        "front": "¿Qué pregunta identifica el nivel del contrato: “qué pido” o “cómo se guarda”?",
+        "back": "El contrato responde qué operaciones se pueden pedir. La implementación resuelve cómo se guardan o recuperan los datos."
+      },
+      {
+        "id": "fc2-54-6",
+        "front": "¿Qué ventaja buscás al mantener estable el contrato durante una migración?",
+        "back": "Evitar que el código que pide operaciones de persistencia tenga que cambiar por cada detalle del nuevo almacenamiento."
+      }
+    ]
+  },
+  "55": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-55-1",
+          "q": "Cambiar el objeto recibido por Catalogo exige renombrar buscar, aunque ambos objetos cumplan ProductoDAO.",
+          "a": false,
+          "explain": "Si se mantiene el contrato usado y su comportamiento, Catalogo puede conservar buscar y la llamada a consultar."
+        },
+        {
+          "id": "tf2-55-2",
+          "q": "Una interfaz con operaciones declaradas todavía necesita clases concretas para resolver el acceso al almacenamiento.",
+          "a": true,
+          "explain": "Las declaraciones fijan qué se puede pedir; la implementación aporta los pasos para hacerlo."
+        },
+        {
+          "id": "tf2-55-3",
+          "q": "ProductoDAO dao declara por sí solo un objeto concreto capaz de acceder a una base de datos.",
+          "a": false,
+          "explain": "La declaración establece el tipo de una referencia. No crea una implementación ni una conexión."
+        },
+        {
+          "id": "tf2-55-4",
+          "q": "Si el cliente solo necesita consultar, puede usar esa operación del contrato sin conocer cómo están implementadas las otras.",
+          "a": true,
+          "explain": "Usar el contrato no requiere que el cliente conozca los pasos internos de todas sus operaciones."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-55-1",
+          "q": "Un alumno usa una referencia ProductoDAO y llama dao.insertar(producto), pero el contrato solo declara crear. ¿Qué cambio conserva ese contrato?",
+          "options": [
+            "Agregar insertar solamente en una implementación concreta.",
+            "Cambiar el almacenamiento pero conservar aquella llamada.",
+            "Llamar a crear pasando el mismo objeto de tipo Producto.",
+            "Dejar la llamada igual porque crear e insertar son sinónimos."
+          ],
+          "correctIndex": 2,
+          "explain": "El contrato declara crear(Producto); insertar no aparece. Cambiar la llamada resuelve ese desajuste concreto sin inventar otra operación."
+        },
+        {
+          "id": "mc2-55-2",
+          "q": "En Catalogo, ¿qué permite escribir dao.consultar(codigo)?",
+          "options": [
+            "Que consultar esté declarado en el tipo ProductoDAO.",
+            "Que Catalogo contenga todos los métodos de la implementación.",
+            "Que todas las implementaciones usen el mismo almacenamiento.",
+            "Que consultar exista solamente en alguna clase concreta."
+          ],
+          "correctIndex": 0,
+          "explain": "La referencia tiene tipo ProductoDAO y ese contrato declara consultar(int). La forma de almacenamiento no habilita ni reemplaza esa declaración."
+        },
+        {
+          "id": "mc2-55-3",
+          "q": "Una implementación de archivo y otra de base reciben el mismo pedido de consulta. ¿Qué puede variar entre ellas?",
+          "options": [
+            "El nombre que el cliente debe usar para esa operación.",
+            "La necesidad de declarar el retorno en la interfaz.",
+            "El tipo del contrato que el cliente ya está usando.",
+            "Los pasos internos con los que obtienen el producto."
+          ],
+          "correctIndex": 3,
+          "explain": "Para el mismo contrato, las firmas se conservan mientras cada clase realiza los pasos adecuados a su almacenamiento."
+        },
+        {
+          "id": "mc2-55-4",
+          "q": "¿Qué conclusión permite sacar solamente la declaración Producto consultar(int codigo)?",
+          "options": [
+            "Que devuelve una lista con todos los productos guardados.",
+            "Que recibe un entero y tiene como retorno un Producto.",
+            "Que abre un archivo cuyo nombre coincide con el código.",
+            "Que usa un motor de base de datos ya predeterminado."
+          ],
+          "correctIndex": 1,
+          "explain": "La firma establece parámetros y retorno. No revela la tecnología elegida ni todos los detalles del comportamiento."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-55-1",
+          "q": "Un equipo mantiene ProductoDAO y cambia su almacenamiento. ¿Qué revisiones son pertinentes?",
+          "options": [
+            "Que las llamadas de Catalogo existan en el contrato.",
+            "Que ambas implementaciones tengan idéntico código interno.",
+            "Que los parámetros y retornos respeten la interfaz.",
+            "Que el cliente invoque métodos privados del almacenamiento.",
+            "Que las operaciones conserven su significado acordado."
+          ],
+          "correctIndexes": [
+            0,
+            2,
+            4
+          ],
+          "explain": "Lo importante es cumplir el contrato que usa Catalogo, tanto en las declaraciones como en el comportamiento. No hace falta que las implementaciones tengan el mismo código."
+        },
+        {
+          "id": "ms2-55-2",
+          "q": "¿Qué observaciones se desprenden del ejemplo original de esta sección?",
+          "options": [
+            "Catalogo declara una consulta SQL para buscar el producto.",
+            "Producto contiene el código y el nombre de la entidad.",
+            "ProductoDAO ya incluye una clase que escribe archivos.",
+            "Catalogo recibe una referencia del tipo ProductoDAO.",
+            "El contrato declara una operación para listar productos."
+          ],
+          "correctIndexes": [
+            1,
+            3,
+            4
+          ],
+          "explain": "La entidad tiene esos datos, el cliente recibe el contrato y listar forma parte de la interfaz. El ejemplo no incluye SQL ni escritura de archivos."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-55-1",
+        "front": "Declaraste una referencia ProductoDAO. ¿Ya elegiste y creaste una implementación?",
+        "back": "No. El tipo de referencia indica qué contrato vas a usar; todavía hace falta un objeto concreto que lo implemente."
+      },
+      {
+        "id": "fc2-55-2",
+        "front": "Una clase agrega exportar, pero ProductoDAO no lo declara. ¿El cliente puede pedirlo mediante ese contrato?",
+        "back": "No como operación del contrato mostrado. Depender de ese método exclusivo cambia la relación del cliente con la implementación."
+      },
+      {
+        "id": "fc2-55-3",
+        "front": "¿Qué revisás si una llamada usa un nombre distinto del declarado en la interfaz?",
+        "back": "Que el nombre y los parámetros correspondan a una operación disponible; Java no considera sinónimos dos nombres diferentes."
+      },
+      {
+        "id": "fc2-55-4",
+        "front": "¿Necesitan el mismo código interno dos clases que cumplen ProductoDAO?",
+        "back": "No. Deben respetar el contrato, pero pueden usar pasos distintos para una base de datos o un archivo."
+      },
+      {
+        "id": "fc2-55-5",
+        "front": "¿Qué hace que buscar pueda seguir igual cuando cambia el almacenamiento?",
+        "back": "Que usa consultar a través del mismo contrato y recibe una implementación que cumple el comportamiento esperado."
+      },
+      {
+        "id": "fc2-55-6",
+        "front": "¿La firma consultar(int codigo) determina qué pasa si ese código no existe?",
+        "back": "No por sí sola. Ese caso requiere una decisión de comportamiento; no debe darse por resuelto solamente por declarar el método."
+      }
+    ]
+  },
+  "56": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-56-1",
+          "q": "Si una clase de datos abre ventanas, cambiarla de paquete basta para que sea reutilizable sin interfaz gráfica.",
+          "a": false,
+          "explain": "Moverla no elimina su dependencia de las ventanas. La tarea visual tendría que quedar en presentación."
+        },
+        {
+          "id": "tf2-56-2",
+          "q": "Una pantalla nueva podría aprovechar el mismo servicio si necesita una operación que este ya ofrece.",
+          "a": true,
+          "explain": "Separar la operación de su forma de presentación favorece que otras pantallas la reutilicen mediante el mismo contrato."
+        },
+        {
+          "id": "tf2-56-3",
+          "q": "Los nombres de las capas determinan por sí solos cuántas tablas debe tener la base.",
+          "a": false,
+          "explain": "Las capas agrupan responsabilidades del software; no establecen una cantidad de tablas."
+        },
+        {
+          "id": "tf2-56-4",
+          "q": "Aunque la firma de un método se conserve, cambiar el significado de su resultado puede afectar a sus consumidores.",
+          "a": true,
+          "explain": "La compatibilidad no se limita a que el código compile: también importa el comportamiento que el consumidor espera."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-56-1",
+          "q": "Una pantalla arma sentencias SQL y muestra libros. ¿Qué ajuste acerca el diseño al esquema del curso?",
+          "options": [
+            "Pasar el armado de SQL al DAO y pedir la búsqueda mediante el servicio.",
+            "Pasar el armado de SQL al servicio y dejar al DAO la creación de ventanas.",
+            "Pasar la creación de ventanas al DAO y mantener SQL en la pantalla.",
+            "Pasar los libros al DAO como componentes gráficos ya construidos."
+          ],
+          "correctIndex": 0,
+          "explain": "El acceso al soporte queda en datos. La pantalla solicita una operación a servicios y se encarga de presentar su resultado."
+        },
+        {
+          "id": "mc2-56-2",
+          "q": "Dos pantallas necesitan aplicar la misma regla de una operación. ¿Dónde ubicarías ese procesamiento en el modelo estudiado?",
+          "options": [
+            "En cada botón que inicia la operación.",
+            "En el componente que dibuja los resultados.",
+            "En el servicio que ofrece la operación.",
+            "En la rutina del DAO que abre diálogos."
+          ],
+          "correctIndex": 2,
+          "explain": "La operación compartida pertenece a servicios. Duplicarla en controles gráficos mezcla procesamiento e interacción."
+        },
+        {
+          "id": "mc2-56-3",
+          "q": "Un DAO construye una colección de libros, pero cada Libro exige usar un ResultSet para leer su título. ¿Qué diagnóstico corresponde?",
+          "options": [
+            "La separación está garantizada por el nombre de la colección.",
+            "La dependencia de JDBC sigue llegando al consumidor del resultado.",
+            "La separación depende de que cada libro venga de una tabla distinta.",
+            "La dependencia se elimina si el servicio devuelve la misma colección."
+          ],
+          "correctIndex": 1,
+          "explain": "No alcanza con envolver un objeto técnico en una colección: los datos ofrecidos deben poder usarse sin depender del mecanismo de consulta."
+        },
+        {
+          "id": "mc2-56-4",
+          "q": "Cambió la consulta interna del DAO, pero la operación, los parámetros y el significado del resultado se mantienen. ¿Qué expectativa es razonable?",
+          "options": [
+            "Que toda pantalla deba incorporar la consulta nueva.",
+            "Que el servicio deba cambiar sus parámetros por los internos del DAO.",
+            "Que el resultado deba mostrar qué consulta produjo cada objeto.",
+            "Que sus consumidores puedan seguir usando el mismo contrato."
+          ],
+          "correctIndex": 3,
+          "explain": "Una implementación puede cambiar sin forzar cambios en sus consumidores cuando mantiene el contrato que estos utilizan."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-56-1",
+          "q": "En una revisión, ¿qué hallazgos merecen corregirse para respetar las responsabilidades del esquema?",
+          "options": [
+            "El servicio entrega a presentación los libros obtenidos.",
+            "Una ventana contiene la consulta SQL de búsqueda.",
+            "Un DAO decide el tamaño y el texto de un diálogo.",
+            "El DAO construye una colección de entidades.",
+            "Dos botones duplican las reglas de la misma operación."
+          ],
+          "correctIndexes": [
+            1,
+            2,
+            4
+          ],
+          "explain": "SQL en presentación, diálogos en datos y reglas de aplicación duplicadas en botones mezclan responsabilidades. Construir entidades y devolver resultados por servicios sí encaja."
+        },
+        {
+          "id": "ms2-56-2",
+          "q": "Un equipo evalúa reemplazar la base por archivos. ¿Qué preguntas sirven para revisar el desacoplamiento?",
+          "options": [
+            "¿El servicio recibe tipos propios del motor actual?",
+            "¿Las capas tienen exactamente la misma cantidad de clases?",
+            "¿El DAO de archivos puede respetar las operaciones esperadas?",
+            "¿La pantalla conoce cómo se guardan físicamente los datos?",
+            "¿Todos los nombres de variables internas permanecen iguales?"
+          ],
+          "correctIndexes": [
+            0,
+            2,
+            3
+          ],
+          "explain": "Importan las dependencias que cruzan límites y la compatibilidad del contrato. La cantidad de clases y los nombres de variables internas no determinan ese desacoplamiento."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-56-1",
+        "front": "Tenés varias clases DAO, cada una para una entidad. ¿Necesitás una capa por entidad?",
+        "back": "No. Pueden compartir la capa de datos porque su responsabilidad común es la persistencia."
+      },
+      {
+        "id": "fc2-56-2",
+        "front": "Una clase llamada Servicio ejecuta la búsqueda y abre una ventana. ¿El nombre prueba que separaste bien?",
+        "back": "No. Hay que revisar sus tareas: abrir y presentar la ventana corresponde a presentación en este esquema."
+      },
+      {
+        "id": "fc2-56-3",
+        "front": "¿Qué revisarías antes de reutilizar una operación desde otra pantalla?",
+        "back": "Que esté ofrecida por un servicio y no dependa de componentes particulares de la pantalla anterior."
+      },
+      {
+        "id": "fc2-56-4",
+        "front": "¿Una colección que contiene ResultSet elimina la dependencia de JDBC?",
+        "back": "No. El consumidor todavía debe conocer ese tipo técnico; el contenido ofrecido también importa."
+      },
+      {
+        "id": "fc2-56-5",
+        "front": "Una consulta cambia por dentro y devuelve el mismo resultado esperado. ¿Qué protege a la pantalla?",
+        "back": "La combinación de contratos estables y la separación entre presentación, servicios y datos."
+      },
+      {
+        "id": "fc2-56-6",
+        "front": "¿Qué diferencia hay entre dividir archivos y dividir responsabilidades?",
+        "back": "Dividir archivos cambia la organización física; dividir responsabilidades determina qué hace cada parte y qué necesita conocer de las demás."
+      }
+    ]
+  },
+  "57": {
+    "quiz2": {
+      "tf": [
+        {
+          "id": "tf2-57-1",
+          "q": "Agregar un catch vacío en el DAO puede impedir que servicios se entere de que la operación falló.",
+          "a": true,
+          "explain": "Capturar sin informar ni resolver el problema puede ocultarlo y producir una apariencia de éxito."
+        },
+        {
+          "id": "tf2-57-2",
+          "q": "Conservar SQLException como causa obliga a que la firma pública del servicio declare SQLException.",
+          "a": false,
+          "explain": "La firma puede ofrecer ServicioException y conservar una cadena de causas internas sin exigir a presentación manejar SQLException."
+        },
+        {
+          "id": "tf2-57-3",
+          "q": "Si un DAO basado en archivos mantiene DAOException como error público, el servicio puede conservar ese contrato de manejo.",
+          "a": true,
+          "explain": "El error técnico interno puede cambiar sin cambiar el tipo de falla que el DAO ofrece a sus consumidores."
+        },
+        {
+          "id": "tf2-57-4",
+          "q": "El nombre ClaveDuplicadaException es incorrecto en cualquier sistema, aunque exprese una regla del dominio independiente del soporte.",
+          "a": false,
+          "explain": "La objeción del apunte se interpreta dentro de su convención. Un concepto de unicidad propio del dominio no depende necesariamente de una base de datos."
+        }
+      ],
+      "mc": [
+        {
+          "id": "mc2-57-1",
+          "q": "Después de una falla de lectura, el DAO devuelve una lista vacía. ¿Qué riesgo introduce?",
+          "options": [
+            "Que una búsqueda válida sin coincidencias se transforme en una excepción.",
+            "Que el servicio reciba de forma obligatoria la excepción técnica de JDBC.",
+            "Que el consumidor interprete la falla como una búsqueda sin coincidencias.",
+            "Que presentación pueda recuperar la causa original desde la lista vacía."
+          ],
+          "correctIndex": 2,
+          "explain": "Si se usa la misma respuesta para ambos casos, no se distingue entre una búsqueda válida sin resultados y una que no se pudo ejecutar."
+        },
+        {
+          "id": "mc2-57-2",
+          "q": "La interfaz muestra el error, pero el DAO decide el texto final y qué diálogo abrir. ¿Qué responsabilidad sigue mal ubicada?",
+          "options": [
+            "La traducción de SQLException a DAOException.",
+            "La consulta del soporte de almacenamiento.",
+            "La construcción de objetos del dominio.",
+            "La decisión sobre la comunicación visual al usuario."
+          ],
+          "correctIndex": 3,
+          "explain": "Esa decisión pertenece a presentación; no basta con ejecutar finalmente la ventana en otra clase si datos sigue gobernando la interfaz."
+        },
+        {
+          "id": "mc2-57-3",
+          "q": "Se reemplaza la base por archivos y cambia la falla técnica interna. ¿Qué decisión preserva el límite estudiado?",
+          "options": [
+            "Cambiar todas las pantallas para que capturen el nuevo error del archivo.",
+            "Traducir la nueva falla técnica al contrato DAOException del DAO.",
+            "Agregar el nuevo error técnico al tipo de resultado que muestra la pantalla.",
+            "Mover la lectura del archivo al bloque que dibuja los resultados."
+          ],
+          "correctIndex": 1,
+          "explain": "La implementación se adapta al soporte y sigue ofreciendo la abstracción de error que el servicio ya conoce."
+        },
+        {
+          "id": "mc2-57-4",
+          "q": "El servicio crea ServicioException sin conservar la DAOException recibida. ¿Qué se pierde respecto del ejemplo?",
+          "options": [
+            "El vínculo causal con la falla informada por datos.",
+            "La posibilidad de que exista una capa de presentación.",
+            "La obligación de mantener todas las reglas en el DAO.",
+            "La capacidad de representar una colección sin elementos."
+          ],
+          "correctIndex": 0,
+          "explain": "Envolver conservando la causa permite seguir el origen del error. Sin ella, el nuevo error ya no mantiene esa referencia al anterior."
+        }
+      ],
+      "ms": [
+        {
+          "id": "ms2-57-1",
+          "q": "En la cadena de causas propuesta, ¿qué afirmaciones describen correctamente la falla?",
+          "options": [
+            "El error externo del servicio es ServicioException.",
+            "El DAO debe reemplazar la falla por una confirmación de éxito.",
+            "El detalle JDBC puede quedar dentro de la cadena de causas.",
+            "La pantalla debe construir el SQL para entender el mensaje.",
+            "El usuario puede recibir un mensaje sin ver el detalle técnico."
+          ],
+          "correctIndexes": [
+            0,
+            2,
+            4
+          ],
+          "explain": "El tipo público del servicio representa su límite. Preservar el origen técnico no obliga a mostrarlo completo ni a que la pantalla conozca SQL."
+        },
+        {
+          "id": "ms2-57-2",
+          "q": "Marcá las decisiones que mantienen el esquema del apunte en estos casos. Puede no haber ninguna correcta.",
+          "options": [
+            "El DAO evita propagar la falla abriendo una alerta propia.",
+            "El servicio obliga a la pantalla a capturar SQLException.",
+            "El DAO devuelve una colección vacía para disimular una falla.",
+            "La pantalla captura DAOException porque omite el servicio.",
+            "El DAO exige al usuario interpretar el error técnico antes de continuar."
+          ],
+          "correctIndexes": [],
+          "explain": "Ninguna mantiene el recorrido propuesto: datos informa DAOException, servicios informa ServicioException y presentación comunica el problema. Las alternativas mezclan tareas, filtran la tecnología o encubren una falla."
+        }
+      ]
+    },
+    "flashcards2": [
+      {
+        "id": "fc2-57-1",
+        "front": "Una firma devuelve Libro pero declara SQLException. ¿Terminó de ocultar JDBC?",
+        "back": "No. El contrato de errores todavía obliga al consumidor a conocer un tipo de JDBC."
+      },
+      {
+        "id": "fc2-57-2",
+        "front": "¿Cómo distinguirías cero coincidencias de una consulta que falló?",
+        "back": "Con una colección vacía para el resultado válido sin coincidencias y el contrato de excepción para la falla, según el esquema estudiado."
+      },
+      {
+        "id": "fc2-57-3",
+        "front": "La falla técnica cambia al migrar a archivos. ¿Tiene que cambiar el error público del DAO?",
+        "back": "No necesariamente. Puede traducir el nuevo problema interno a DAOException y mantener el límite que consume el servicio."
+      },
+      {
+        "id": "fc2-57-4",
+        "front": "¿Puede mantenerse la causa técnica sin mostrarla a la persona?",
+        "back": "Sí. La causa conserva el origen de la falla y presentación decide el mensaje adecuado para el usuario."
+      },
+      {
+        "id": "fc2-57-5",
+        "front": "¿Qué revisarías si un catch termina normalmente sin resolver el problema?",
+        "back": "Si está ocultando una falla y haciendo que otras capas interpreten la operación como exitosa."
+      },
+      {
+        "id": "fc2-57-6",
+        "front": "¿Cómo evaluás una excepción con nombre de regla de negocio?",
+        "back": "Preguntando si expresa un concepto del dominio o filtra un detalle del soporte, y respetando la convención pedida para el ejercicio del curso."
+      }
+    ]
+  },
 };
