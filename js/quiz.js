@@ -1,4 +1,5 @@
 import { renderNav } from './nav.js';
+import { renderMath } from './katex-init.js';
 import { getCurrentSubject, getSection, getNextSectionWith, getAggregateSection } from './content.js';
 import {
   saveQuizScore,
@@ -28,7 +29,12 @@ let correct = 0;
 let lastMilestone = -1;
 let wrongAnswers = [];
 
-main();
+// Los módulos y los scripts defer de KaTeX terminan antes de DOMContentLoaded.
+if (document.readyState === 'complete') {
+  main();
+} else {
+  document.addEventListener('DOMContentLoaded', main, { once: true });
+}
 
 function main() {
   const params = new URLSearchParams(location.search);
@@ -99,6 +105,8 @@ function main() {
       </div>
     </div>
   `;
+
+  renderMath(document.getElementById('quiz-header'));
 
   progressKey = ['__all__', quizFeature, typeFilter].filter(Boolean).join('::');
 
@@ -192,7 +200,7 @@ function renderQuestion() {
     : q.options.map((text, i) => ({ text, value: i }));
 
   const helpText = q.kind === 'ms'
-    ? `<p class="meta" style="margin:0.4rem 0 1rem;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;">Marcá <strong>una o más</strong> opciones · 5 posibles</p>`
+    ? `<p class="meta" style="margin:0.4rem 0 1rem;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;">Marcá las opciones correctas; <strong>puede no haber ninguna</strong> · 5 posibles</p>`
     : '';
 
   document.getElementById('quiz-body').innerHTML = `
@@ -214,6 +222,7 @@ function renderQuestion() {
   } else {
     renderSingleSelect(optsContainer, opts, q);
   }
+  renderMath(document.getElementById('quiz-body'));
 }
 
 function renderSingleSelect(optsContainer, opts, q) {
@@ -285,6 +294,7 @@ function handleAnswer(btn, opts, q) {
     </span>
     <p>${q.explain}</p>
   `;
+  renderMath(exp);
   exp.classList.remove('hidden');
 
   const nextBtn = document.getElementById('next-btn');
@@ -333,6 +343,7 @@ function handleMultiAnswer(optsContainer, opts, q) {
     <p style="margin-bottom:0.55em;"><strong>Correctas:</strong> ${correctText}</p>
     <p>${q.explain}</p>
   `;
+  renderMath(exp);
   exp.classList.remove('hidden');
 
   const checkBtn = document.getElementById('check-btn');
@@ -446,6 +457,7 @@ function renderMilestone() {
   document.getElementById('quiz-bottom').innerHTML = `
     <button id="milestone-continue" class="btn btn-accent touch-target">Seguir · pregunta ${current + 1}</button>
   `;
+  renderMath(document.getElementById('quiz-body'));
   document.getElementById('milestone-continue').addEventListener('click', renderQuestion);
 }
 
@@ -539,4 +551,5 @@ function renderSummary() {
       <a href="${seccionLink}" class="btn-ghost touch-target md:flex-1">${isAggregate ? 'Volver' : 'Volver a la sección'}</a>
     </div>
   `;
+  renderMath(summary);
 }

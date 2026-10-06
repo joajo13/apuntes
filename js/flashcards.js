@@ -1,4 +1,5 @@
 import { renderNav } from './nav.js';
+import { renderMath } from './katex-init.js';
 import { getCurrentSubject, getSection, getNextSectionWith, getAggregateSection } from './content.js';
 import { markFlashcard } from './storage.js';
 
@@ -16,7 +17,12 @@ let total = 0;
 let knownThisSession = 0;
 let flipped = false;
 
-main();
+// Los módulos y los scripts defer de KaTeX terminan antes de DOMContentLoaded.
+if (document.readyState === 'complete') {
+  main();
+} else {
+  document.addEventListener('DOMContentLoaded', main, { once: true });
+}
 
 function main() {
   const params = new URLSearchParams(location.search);
@@ -72,6 +78,8 @@ function main() {
     </div>
   `;
 
+  renderMath(document.getElementById('fc-header'));
+
   queue = [...cards];
   total = queue.length;
 
@@ -122,6 +130,7 @@ function renderCard() {
       </p>
     </div>
   `;
+  renderMath(document.getElementById('fc-stage'));
   document.getElementById('flashcard').addEventListener('click', flipCurrent);
 }
 
@@ -177,4 +186,5 @@ function renderSummary() {
       <a href="${seccionLink}" class="btn-ghost touch-target md:flex-1">${isAggregate ? 'Volver' : 'Volver a la sección'}</a>
     </div>
   `;
+  renderMath(s);
 }
